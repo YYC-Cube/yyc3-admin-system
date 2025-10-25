@@ -1,0 +1,6 @@
+{
+  "minKPI": 70,
+  "maxAbsenceDays": 3,
+  "requiredFeedbackScore": 4.2,
+  "evaluationCycleDays": 90
+}

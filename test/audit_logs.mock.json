@@ -1,0 +1,18 @@
+[
+  {
+    "timestamp": "2025-10-18T09:00:00Z",
+    "user": "admin",
+    "action": "修改员工薪资",
+    "ip": "192.168.1.10",
+    "ua": "Mozilla/5.0",
+    "signature": "abc123"
+  },
+  {
+    "timestamp": "2025-10-18T10:15:00Z",
+    "user": "hr_manager",
+    "action": "审批晋升申请",
+    "ip": "192.168.1.11",
+    "ua": "Mozilla/5.0",
+    "signature": "def456"
+  }
+]

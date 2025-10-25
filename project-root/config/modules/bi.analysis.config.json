@@ -1,0 +1,59 @@
+{
+  "module": "bi_analysis",
+  "description": "商业智能分析模块配置",
+  "env": ".env.local",
+  "datasource": {
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "user": "bi_user",
+    "password": "bi_password",
+    "database": "yyc3_yy"
+  },
+  "bi": {
+    "tool": "metabase",
+    "host": "http://localhost:3001",
+    "api_key": "your_bi_api_key"
+  },
+  "olap": {
+    "engine": "clickhouse",
+    "host": "http://localhost:8123",
+    "user": "olap_user",
+    "password": "olap_password",
+    "database": "analytics_cube",
+    "cubes": [
+      {
+        "name": "sales_cube",
+        "dimensions": ["store_id", "month"],
+        "measures": ["total_sales", "total_orders"]
+      }
+    ]
+  },
+  "visualization": {
+    "engine": "echarts",
+    "theme": "dark",
+    "charts": [
+      {
+        "type": "line",
+        "x": "date",
+        "y": "total_sales",
+        "source": "sales_summary"
+      }
+    ]
+  },
+  "reporting": {
+    "cron": "0 8 * * *",
+    "notify_email": "ops@yourdomain.com",
+    "share_url": "https://bi.yourdomain.com/share"
+  },
+  "alerts": {
+    "threshold_sales_drop": 20,
+    "email": "alerts@yourdomain.com"
+  },
+  "status": {
+    "badge": "bi-analysis-in-progress",
+    "timestamp": "2025-10-18 CST",
+    "moved_from": "root",
+    "moved_to": "config/modules/bi.analysis.config.json"
+  }
+}

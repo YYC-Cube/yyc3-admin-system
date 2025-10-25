@@ -1,0 +1,137 @@
+export const env = {
+  NODE_ENV: process.env.NODE_ENV!,
+  DEPLOYMENT_STAGE: process.env.DEPLOYMENT_STAGE!,
+  SYSTEM_VERSION: process.env.SYSTEM_VERSION!,
+  SUBMISSION_TAG: process.env.SUBMISSION_TAG!,
+
+  MODULE_AI_OPS_ENABLED: process.env.MODULE_AI_OPS_ENABLED === "true",
+  MODULE_BIGDATA_ENABLED: process.env.MODULE_BIGDATA_ENABLED === "true",
+  MODULE_IOT_ENABLED: process.env.MODULE_IOT_ENABLED === "true",
+  MODULE_HR_ENABLED: process.env.MODULE_HR_ENABLED === "true",
+  MODULE_AUDIT_ENABLED: process.env.MODULE_AUDIT_ENABLED === "true",
+  ENABLE_AUDIT_LOGS: process.env.ENABLE_AUDIT_LOGS === "true",
+  ENABLE_ALERTS: process.env.ENABLE_ALERTS === "true",
+
+  NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME!,
+  NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION!,
+  NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL!,
+  API_TIMEOUT: Number(process.env.API_TIMEOUT!),
+
+  YYC3_YY_DB_HOST: process.env.YYC3_YY_DB_HOST!,
+  YYC3_YY_DB_PORT: Number(process.env.YYC3_YY_DB_PORT!),
+  YYC3_YY_DB_USER: process.env.YYC3_YY_DB_USER!,
+  YYC3_YY_DB_PASSWORD: process.env.YYC3_YY_DB_PASSWORD!,
+  YYC3_YY_DB_NAME: process.env.YYC3_YY_DB_NAME!,
+
+  REDIS_URL: process.env.REDIS_URL!,
+
+  JWT_SECRET: process.env.JWT_SECRET!,
+  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN!,
+
+  WECHAT_PAY_APP_ID: process.env.WECHAT_PAY_APP_ID!,
+  WECHAT_PAY_MCH_ID: process.env.WECHAT_PAY_MCH_ID!,
+  WECHAT_PAY_API_KEY: process.env.WECHAT_PAY_API_KEY!,
+  WECHAT_PAY_NOTIFY_URL: process.env.WECHAT_PAY_NOTIFY_URL!,
+
+  ALIPAY_APP_ID: process.env.ALIPAY_APP_ID!,
+  ALIPAY_PRIVATE_KEY: process.env.ALIPAY_PRIVATE_KEY!,
+  ALIPAY_PUBLIC_KEY: process.env.ALIPAY_PUBLIC_KEY!,
+  ALIPAY_NOTIFY_URL: process.env.ALIPAY_NOTIFY_URL!,
+
+  ANALYTICS_KEY: process.env.ANALYTICS_KEY!,
+  SENTRY_DSN: process.env.SENTRY_DSN!,
+
+  NEXT_PUBLIC_ENABLE_DARK_MODE: process.env.NEXT_PUBLIC_ENABLE_DARK_MODE === "true",
+  NEXT_PUBLIC_ENABLE_PWA: process.env.NEXT_PUBLIC_ENABLE_PWA === "true",
+  NEXT_PUBLIC_ENABLE_I18N: process.env.NEXT_PUBLIC_ENABLE_I18N === "true",
+
+  CACHE_TTL: Number(process.env.CACHE_TTL!),
+  MAX_FILE_SIZE: Number(process.env.MAX_FILE_SIZE!),
+  ALLOWED_FILE_TYPES: process.env.ALLOWED_FILE_TYPES!,
+
+  DEFAULT_PAGE_SIZE: Number(process.env.DEFAULT_PAGE_SIZE!),
+  MAX_PAGE_SIZE: Number(process.env.MAX_PAGE_SIZE!),
+
+  LOG_LEVEL: process.env.LOG_LEVEL!,
+  LOG_FORMAT: process.env.LOG_FORMAT!,
+
+  EMAIL_HOST: process.env.EMAIL_HOST!,
+  EMAIL_PORT: Number(process.env.EMAIL_PORT!),
+  EMAIL_USER: process.env.EMAIL_USER!,
+  EMAIL_PASSWORD: process.env.EMAIL_PASSWORD!,
+  EMAIL_FROM: process.env.EMAIL_FROM!,
+
+  CSRF_SECRET: process.env.CSRF_SECRET!,
+  ENCRYPTION_KEY: process.env.ENCRYPTION_KEY!,
+
+  DEV_PORT: Number(process.env.DEV_PORT!),
+  DEV_HOST: process.env.DEV_HOST!,
+
+  WEBRTC_SIGNALING_URL: process.env.WEBRTC_SIGNALING_URL!,
+  WEBRTC_TURN_URL: process.env.WEBRTC_TURN_URL!,
+  WEBRTC_TURN_USERNAME: process.env.WEBRTC_TURN_USERNAME!,
+  WEBRTC_TURN_PASSWORD: process.env.WEBRTC_TURN_PASSWORD!,
+  WEBRTC_CODEC: process.env.WEBRTC_CODEC!,
+  WEBRTC_BITRATE_MIN: Number(process.env.WEBRTC_BITRATE_MIN!),
+  WEBRTC_BITRATE_MAX: Number(process.env.WEBRTC_BITRATE_MAX!),
+  WEBRTC_LATENCY_TARGET_MS: Number(process.env.WEBRTC_LATENCY_TARGET_MS!),
+
+  MEDIA_SERVER_TYPE: process.env.MEDIA_SERVER_TYPE!,
+  MEDIA_SERVER_URL: process.env.MEDIA_SERVER_URL!,
+  MEDIA_SERVER_API_KEY: process.env.MEDIA_SERVER_API_KEY!,
+
+  VIDEO_EFFECTS_PATH: process.env.VIDEO_EFFECTS_PATH!,
+  DEFAULT_VIDEO_EFFECT: process.env.DEFAULT_VIDEO_EFFECT!,
+  ENABLE_VIDEO_EFFECTS: process.env.ENABLE_VIDEO_EFFECTS === "true",
+
+  AR_ENGINE: process.env.AR_ENGINE!,
+  VR_ENGINE: process.env.VR_ENGINE!,
+  AR_RESOURCES_PATH: process.env.AR_RESOURCES_PATH!,
+  VR_RESOURCES_PATH: process.env.VR_RESOURCES_PATH!,
+  ENABLE_AR_CONCERT: process.env.ENABLE_AR_CONCERT === "true",
+  ENABLE_VR_ROOM: process.env.ENABLE_VR_ROOM === "true",
+
+  ENABLE_METRICS: process.env.ENABLE_METRICS === "true",
+  METRICS_INTERVAL_MS: Number(process.env.METRICS_INTERVAL_MS!),
+  METRICS_EXPORT_URL: process.env.METRICS_EXPORT_URL!,
+
+  LOG_RETENTION_DAYS: Number(process.env.LOG_RETENTION_DAYS!),
+  LOG_REMOTE_URL: process.env.LOG_REMOTE_URL!,
+
+  BI_TOOL: process.env.BI_TOOL!,
+  BI_HOST: process.env.BI_HOST!,
+  BI_API_KEY: process.env.BI_API_KEY!,
+
+  OLAP_ENGINE: process.env.OLAP_ENGINE!,
+  OLAP_HOST: process.env.OLAP_HOST!,
+  OLAP_USER: process.env.OLAP_USER!,
+  OLAP_PASSWORD: process.env.OLAP_PASSWORD!,
+  OLAP_DB: process.env.OLAP_DB!,
+
+  VISUALIZATION_ENGINE: process.env.VISUALIZATION_ENGINE!,
+  VISUALIZATION_THEME: process.env.VISUALIZATION_THEME!,
+
+  DATASOURCE_HOST: process.env.DATASOURCE_HOST!,
+  DATASOURCE_PORT: Number(process.env.DATASOURCE_PORT!),
+  DATASOURCE_USER: process.env.DATASOURCE_USER!,
+  DATASOURCE_PASSWORD: process.env.DATASOURCE_PASSWORD!,
+  DATASOURCE_DB: process.env.DATASOURCE_DB!,
+
+  REPORT_CRON: process.env.REPORT_CRON!,
+  REPORT_NOTIFY_EMAIL: process.env.REPORT_NOTIFY_EMAIL!,
+  REPORT_SHARE_URL: process.env.REPORT_SHARE_URL!,
+
+  ALERT_THRESHOLD_SALES_DROP: Number(process.env.ALERT_THRESHOLD_SALES_DROP!),
+  ALERT_EMAIL: process.env.ALERT_EMAIL!,
+
+  HR_API_KEY: process.env.HR_API_KEY!,
+  HR_DB_HOST: process.env.HR_DB_HOST!,
+  HR_DB_NAME: process.env.HR_DB_NAME!,
+  HR_DB_USER: process.env.HR_DB_USER!,
+  HR_DB_PASSWORD: process.env.HR_DB_PASSWORD!,
+
+  AUDIT_LOG_PATH: process.env.AUDIT_LOG_PATH!,
+  AUDIT_DB_NAME: process.env.AUDIT_DB_NAME!,
+  AUDIT_DB_USER: process.env.AUDIT_DB_USER!,
+  AUDIT_DB_PASSWORD: process.env.AUDIT_DB_PASSWORD!,
+}

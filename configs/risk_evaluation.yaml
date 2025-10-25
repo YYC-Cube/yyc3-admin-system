@@ -1,0 +1,5 @@
+riskEvaluation:
+  failedLoginWeight: 2
+  auditViolationWeight: 5
+  encryptionBonus: 1.5
+  maxScore: 100

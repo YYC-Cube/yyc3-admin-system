@@ -1,0 +1,18 @@
+[
+  {
+    "id": "E001",
+    "name": "张三",
+    "position": "前台接待",
+    "kpiScore": 82,
+    "absenceDays": 1,
+    "feedbackScore": 4.5
+  },
+  {
+    "id": "E002",
+    "name": "李四",
+    "position": "音响师",
+    "kpiScore": 76,
+    "absenceDays": 0,
+    "feedbackScore": 4.8
+  }
+]

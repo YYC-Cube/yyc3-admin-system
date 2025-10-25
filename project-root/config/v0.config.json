@@ -1,0 +1,80 @@
+{
+  "module": "sales_dashboard",
+  "description": "销售数据分析与可视化配置",
+  "env": ".env.production",
+  "deployment": {
+    "stage": "production",
+    "system_version": "1.0.0",
+    "submission_tag": "ktv-v0-final"
+  },
+  "datasource": {
+    "type": "mysql",
+    "host": "db.ktv.yourdomain.com",
+    "port": 3306,
+    "user": "bi_prod",
+    "password": "bi_prod_pass",
+    "database": "yyc3_yy"
+  },
+  "bi": {
+    "tool": "metabase",
+    "host": "https://bi.ktv.yourdomain.com",
+    "api_key": "prod_bi_key"
+  },
+  "olap": {
+    "engine": "clickhouse",
+    "host": "https://olap.ktv.yourdomain.com",
+    "user": "prod_olap",
+    "password": "prod_olap_pass",
+    "database": "analytics_prod",
+    "cubes": [
+      {
+        "name": "sales_cube",
+        "dimensions": ["store_id", "month"],
+        "measures": ["total_sales", "total_orders"]
+      }
+    ]
+  },
+  "visualization": {
+    "engine": "echarts",
+    "theme": "dark",
+    "charts": [
+      {
+        "type": "line",
+        "x": "month",
+        "y": ["total_sales", "total_orders"],
+        "source": "sales_summary"
+      }
+    ]
+  },
+  "reporting": {
+    "cron": "0 8 * * *",
+    "notify_email": "ops@ktv.yourdomain.com",
+    "share_url": "https://bi.ktv.yourdomain.com/share",
+    "mirror": "https://sales_dashboard.prod.b.yourdomain.com"
+  },
+  "alerts": {
+    "threshold_sales_drop": 20,
+    "email": "alerts@ktv.yourdomain.com"
+  },
+  "modules": {
+    "ai_ops": true,
+    "big_data": true,
+    "iot": true,
+    "hr": true,
+    "audit": true
+  },
+  "features": {
+    "enable_audit_logs": true,
+    "enable_alerts": true,
+    "enable_metrics": true,
+    "enable_video_effects": true,
+    "enable_ar_concert": true,
+    "enable_vr_room": true
+  },
+  "status": {
+    "badge": "bi-analysis-in-progress",
+    "timestamp": "2025-10-21T08:00:00+08:00",
+    "moved_from": "root",
+    "moved_to": "config/v0.config.json"
+  }
+}

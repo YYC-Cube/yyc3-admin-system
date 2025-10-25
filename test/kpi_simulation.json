@@ -1,0 +1,12 @@
+{
+  "trend": [
+    { "month": "2025-07", "roi": 1.2 },
+    { "month": "2025-08", "roi": 1.4 },
+    { "month": "2025-09", "roi": 1.6 },
+    { "month": "2025-10", "roi": 1.5 }
+  ],
+  "projection": {
+    "nextQuarter": 1.7,
+    "confidence": 0.92
+  }
+}

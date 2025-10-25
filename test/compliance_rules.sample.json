@@ -1,0 +1,32 @@
+{
+  "rules": [
+    {
+      "field": "idCardNumber",
+      "pattern": "^[0-9]{18}$",
+      "description": "身份证号必须为18位数字"
+    },
+    {
+      "field": "salary",
+      "min": 3000,
+      "max": 100000,
+      "description": "薪资必须在合理范围内"
+    },
+    {
+      "field": "auditContent",
+      "required": true,
+      "description": "审计内容不能为空"
+    }
+  ],
+  "sampleData": [
+    {
+      "idCardNumber": "110101199003071234",
+      "salary": 8500,
+      "auditContent": "员工晋升审批"
+    },
+    {
+      "idCardNumber": "ABC123456789000000",
+      "salary": 120000,
+      "auditContent": ""
+    }
+  ]
+}

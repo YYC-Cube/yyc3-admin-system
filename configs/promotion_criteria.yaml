@@ -1,0 +1,20 @@
+{
+  "rules": [
+    {
+      "field": "idCardNumber",
+      "pattern": "^[0-9]{18}$",
+      "description": "身份证号必须为18位数字"
+    },
+    {
+      "field": "salary",
+      "min": 3000,
+      "max": 100000,
+      "description": "薪资必须在合理范围内"
+    },
+    {
+      "field": "auditContent",
+      "required": true,
+      "description": "审计内容不能为空"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+promotion:
+  minTenureMonths: 12
+  minKPI: 80
+  requiredTrainingCompleted: true
+  peerReviewScore: 4.5
