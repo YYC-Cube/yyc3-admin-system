@@ -127,8 +127,10 @@ export class SmartInventorySystem {
     private username?: string,
     private password?: string,
   ) {
-    this.connect()
-    this.startMonitoring()
+    if (typeof window !== "undefined" || process.env.NODE_ENV === "production") {
+      this.connect()
+      this.startMonitoring()
+    }
   }
 
   /**
@@ -558,5 +560,18 @@ export class SmartInventorySystem {
   }
 }
 
-// 导出单例实例
-export const smartInventorySystem = new SmartInventorySystem()
+let instance: SmartInventorySystem | null = null
+
+export function getSmartInventorySystem(): SmartInventorySystem {
+  if (!instance) {
+    instance = new SmartInventorySystem()
+  }
+  return instance
+}
+
+// 保留向后兼容的导出
+export const smartInventorySystem = new Proxy({} as SmartInventorySystem, {
+  get(target, prop) {
+    return getSmartInventorySystem()[prop as keyof SmartInventorySystem]
+  },
+})

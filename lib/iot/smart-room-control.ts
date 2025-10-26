@@ -83,7 +83,9 @@ export class SmartRoomControl {
     private username?: string,
     private password?: string,
   ) {
-    this.connect()
+    if (typeof window !== "undefined" || process.env.NODE_ENV === "production") {
+      this.connect()
+    }
   }
 
   /**
@@ -371,5 +373,18 @@ export class SmartRoomControl {
   }
 }
 
-// 导出单例实例
-export const smartRoomControl = new SmartRoomControl()
+let instance: SmartRoomControl | null = null
+
+export function getSmartRoomControl(): SmartRoomControl {
+  if (!instance) {
+    instance = new SmartRoomControl()
+  }
+  return instance
+}
+
+// 保留向后兼容的导出
+export const smartRoomControl = new Proxy({} as SmartRoomControl, {
+  get(target, prop) {
+    return getSmartRoomControl()[prop as keyof SmartRoomControl]
+  },
+})

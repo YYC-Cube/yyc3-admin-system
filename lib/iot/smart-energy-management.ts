@@ -119,8 +119,10 @@ export class SmartEnergyManagement {
     private username?: string,
     private password?: string,
   ) {
-    this.connect()
-    this.startMonitoring()
+    if (typeof window !== "undefined" || process.env.NODE_ENV === "production") {
+      this.connect()
+      this.startMonitoring()
+    }
   }
 
   /**
@@ -730,5 +732,18 @@ export class SmartEnergyManagement {
   }
 }
 
-// 导出单例实例
-export const smartEnergyManagement = new SmartEnergyManagement()
+let instance: SmartEnergyManagement | null = null
+
+export function getSmartEnergyManagement(): SmartEnergyManagement {
+  if (!instance) {
+    instance = new SmartEnergyManagement()
+  }
+  return instance
+}
+
+// 保留向后兼容的导出
+export const smartEnergyManagement = new Proxy({} as SmartEnergyManagement, {
+  get(target, prop) {
+    return getSmartEnergyManagement()[prop as keyof SmartEnergyManagement]
+  },
+})
