@@ -348,9 +348,28 @@ export class FinancialAuditChain {
   }
 }
 
-// 导出单例实例
-export const financialAuditChain = new FinancialAuditChain(
-  process.env.BLOCKCHAIN_PROVIDER_URL || "https://polygon-mumbai.g.alchemy.com/v2/demo",
-  process.env.FINANCIAL_AUDIT_CONTRACT_ADDRESS || "0x0000000000000000000000000000000000000000",
-  process.env.BLOCKCHAIN_PRIVATE_KEY || "0x0000000000000000000000000000000000000000000000000000000000000000",
-)
+let _financialAuditChainInstance: FinancialAuditChain | null = null
+
+/**
+ * 获取财务审计链单例实例
+ * 使用懒加载模式，只在实际需要时创建实例
+ */
+export function getFinancialAuditChain(): FinancialAuditChain {
+  if (!_financialAuditChainInstance) {
+    const providerUrl = process.env.BLOCKCHAIN_PROVIDER_URL || "https://polygon-mumbai.g.alchemy.com/v2/demo"
+    const contractAddress = process.env.FINANCIAL_AUDIT_CONTRACT_ADDRESS || "0x0000000000000000000000000000000000000000"
+    const privateKey = process.env.BLOCKCHAIN_PRIVATE_KEY
+
+    if (!privateKey || privateKey === "0x0000000000000000000000000000000000000000000000000000000000000000") {
+      throw new Error("BLOCKCHAIN_PRIVATE_KEY environment variable is not configured. Please set a valid private key.")
+    }
+
+    _financialAuditChainInstance = new FinancialAuditChain(providerUrl, contractAddress, privateKey)
+  }
+
+  return _financialAuditChainInstance
+}
+
+export const financialAuditChain = {
+  getInstance: getFinancialAuditChain,
+}

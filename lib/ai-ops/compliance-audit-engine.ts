@@ -1,4 +1,5 @@
-import { financialAuditChain, type BlockchainRecord } from "@/lib/blockchain/financial-audit-chain"
+import type { BlockchainRecord } from "@/lib/blockchain/financial-audit-chain"
+import { getFinancialAuditChain } from "@/lib/blockchain/financial-audit-chain"
 
 // 操作类型定义
 export enum OperationType {
@@ -368,7 +369,7 @@ export class ComplianceAuditEngine {
     message: string
   }> {
     try {
-      // 调用区块链审计链验证数据完整性
+      const financialAuditChain = getFinancialAuditChain()
       const result = await financialAuditChain.verifyDataIntegrity(data.id)
 
       return {

@@ -403,18 +403,28 @@ export class LoyaltyBlockchainSystem implements BlockchainLoyaltySystem {
   }
 }
 
+let _loyaltyBlockchainInstance: LoyaltyBlockchainSystem | null = null
+
 /**
  * 创建区块链积分系统实例
+ * 使用懒加载模式，只在实际需要时创建实例
  */
 export function createLoyaltyBlockchainSystem(): BlockchainLoyaltySystem {
-  // 从环境变量读取配置
-  const providerUrl = process.env.BLOCKCHAIN_PROVIDER_URL || "https://polygon-mumbai.g.alchemy.com/v2/your-api-key"
-  const contractAddress = process.env.LOYALTY_CONTRACT_ADDRESS || "0x0000000000000000000000000000000000000000"
-  const privateKey =
-    process.env.BLOCKCHAIN_PRIVATE_KEY || "0x0000000000000000000000000000000000000000000000000000000000000000"
+  if (!_loyaltyBlockchainInstance) {
+    const providerUrl = process.env.BLOCKCHAIN_PROVIDER_URL || "https://polygon-mumbai.g.alchemy.com/v2/your-api-key"
+    const contractAddress = process.env.LOYALTY_CONTRACT_ADDRESS || "0x0000000000000000000000000000000000000000"
+    const privateKey = process.env.BLOCKCHAIN_PRIVATE_KEY
 
-  return new LoyaltyBlockchainSystem(providerUrl, contractAddress, privateKey)
+    if (!privateKey || privateKey === "0x0000000000000000000000000000000000000000000000000000000000000000") {
+      throw new Error("BLOCKCHAIN_PRIVATE_KEY environment variable is not configured. Please set a valid private key.")
+    }
+
+    _loyaltyBlockchainInstance = new LoyaltyBlockchainSystem(providerUrl, contractAddress, privateKey)
+  }
+
+  return _loyaltyBlockchainInstance
 }
 
-// 导出单例实例
-export const loyaltyBlockchain = createLoyaltyBlockchainSystem()
+export const loyaltyBlockchain = {
+  getInstance: createLoyaltyBlockchainSystem,
+}
