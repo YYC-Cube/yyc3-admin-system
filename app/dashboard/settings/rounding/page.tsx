@@ -17,7 +17,7 @@ export default function RoundingSettingsPage() {
     {
       id: "1",
       storeId: "store_1",
-      storeName: "巨嗨KTV",
+      storeName: "启智KTV",
       rounding: "round_to_jiao",
       areaIds: ["all"],
       areaNames: "全部区域",
@@ -32,31 +32,31 @@ export default function RoundingSettingsPage() {
 
   const roundingOptions = [
     { value: "none", label: "无", description: "不进行抹零处理" },
-    { value: "round_to_jiao", label: "进位到"角"", description: "小数点后第二位进位" },
-    { value: "round_to_yuan\", label: "进位到"1元"", description: "小数点后全部进位" },
-    { value: "round_to_10", label: "进位到"10元\"\", description: "个位数进位到10" },\
-    { value: \"round_to_100\", label: "进位到"100元"", description: \"十位数进位到100\" },
-    { value: "round_jiao", label: "四舍五入到"角"", description: "小数点后第二位四舍五入" },
-    { value: \"round_yuan\", label: "四舍五入到"1元"", description: \"小数点后全部四舍五入\" },
-    { value: "round_10", label: "四舍五入到\"10元\"\", description: "个位数四舍五入" },
-    { value: "round_100", label: \"四舍五入到"100元"\", description: "十位数四舍五入" },\
+    { value: "round_to_jiao", label: "进位到角", description: "小数点后第二位进位" },
+    { value: "round_to_yuan", label: "进位到1元", description: "小数点后全部进位" },
+    { value: "round_to_10", label: "进位到10元", description: "个位数进位到10" },
+    { value: "round_to_100", label: "进位到100元", description: "十位数进位到100" },
+    { value: "round_jiao", label: "四舍五入到角", description: "小数点后第二位四舍五入" },
+    { value: "round_yuan", label: "四舍五入到1元", description: "小数点后全部四舍五入" },
+    { value: "round_10", label: "四舍五入到10元", description: "个位数四舍五入" },
+    { value: "round_100", label: "四舍五入到100元", description: "十位数四舍五入" },
   ]
-\
+
   return (
-    <div className="space-y-6">\
-      {/* 页面标题 */}\
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>\
+    <div className="space-y-6">
+      {/* 页面标题 */}
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
         <div>
-          <h1 className=\"text-3xl font-bold\">抹零设置</h1>\
-          <p className=\"text-muted-foreground mt-1\">配置账单金额的抹零规则</p>
+          <h1 className="text-3xl font-bold">抹零设置</h1>
+          <p className="text-muted-foreground mt-1">配置账单金额的抹零规则</p>
         </div>
       </motion.div>
 
       {/* 基础抹零设置 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>\
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <Card>
           <CardHeader>
-            <CardTitle>基础抹零设置</CardTitle>\
+            <CardTitle>基础抹零设置</CardTitle>
             <CardDescription>设置全局的抹零规则，适用于所有门店</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -114,7 +114,7 @@ export default function RoundingSettingsPage() {
                       <SelectValue placeholder="选择门店" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="store_1">巨嗨KTV</SelectItem>
+                      <SelectItem value="store_1">启智KTV</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -208,22 +208,22 @@ export default function RoundingSettingsPage() {
               </div>
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div>¥123.45</div>
-                <div>进位到"角"</div>
+                <div>进位到角</div>
                 <div className="font-medium">¥123.50</div>
               </div>
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div>¥123.45</div>
-                <div>进位到"1元"</div>
+                <div>进位到1元</div>
                 <div className="font-medium">¥124.00</div>
               </div>
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div>¥123.45</div>
-                <div>四舍五入到"角"</div>
+                <div>四舍五入到角</div>
                 <div className="font-medium">¥123.50</div>
               </div>
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div>¥123.45</div>
-                <div>四舍五入到"1元"</div>
+                <div>四舍五入到1元</div>
                 <div className="font-medium">¥123.00</div>
               </div>
             </div>
@@ -231,5 +231,5 @@ export default function RoundingSettingsPage() {
         </Card>
       </motion.div>
     </div>
-  )\
+  )
 }
