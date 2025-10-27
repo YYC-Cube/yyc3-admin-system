@@ -269,5 +269,22 @@ export class TrafficPredictionSystem {
   }
 }
 
-// 全局客流预测系统实例
-export const trafficPredictionSystem = new TrafficPredictionSystem()
+let _trafficPredictionSystemInstance: TrafficPredictionSystem | null = null
+
+export function getTrafficPredictionSystem(): TrafficPredictionSystem {
+  if (!_trafficPredictionSystemInstance) {
+    _trafficPredictionSystemInstance = new TrafficPredictionSystem()
+  }
+  return _trafficPredictionSystemInstance
+}
+
+export const trafficPredictionSystem = new Proxy({} as TrafficPredictionSystem, {
+  get(target, prop) {
+    const instance = getTrafficPredictionSystem()
+    const value = instance[prop as keyof TrafficPredictionSystem]
+    if (typeof value === "function") {
+      return value.bind(instance)
+    }
+    return value
+  },
+})
