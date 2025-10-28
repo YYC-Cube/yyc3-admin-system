@@ -15,6 +15,11 @@ npx playwright install
 ### 运行测试
 
 \`\`\`bash
+# 运行完整测试套件（推荐）
+npm run test:all
+# 或
+npm run test:run
+
 # 开发模式下运行单元测试（监听文件变化）
 npm run test
 
@@ -35,10 +40,29 @@ npm run test:performance
 
 # 运行安全测试
 npm run test:security
-
-# 运行所有测试
-npm run test:all
 \`\`\`
+
+## 完整测试套件
+
+### 自动化测试运行
+
+使用 `npm run test:all` 命令会自动执行以下测试流程：
+
+1. 单元测试
+2. 集成测试
+3. 代码覆盖率分析
+4. 生成详细测试报告
+
+测试报告会自动保存在 `docs/TEST_REPORT.md` 文件中。
+
+### 测试报告内容
+
+测试报告包含以下信息：
+
+- 测试概览（总数、通过、失败、跳过）
+- 各测试套件详情
+- 代码覆盖率统计
+- 改进建议
 
 ## 测试类型详解
 

@@ -1,7 +1,8 @@
 // Service Worker for PWA
 
 const CACHE_NAME = "ktv-admin-v1"
-const urlsToCache = ["/", "/dashboard", "/manifest.json", "/icon-192.png", "/icon-512.png"]
+const RUNTIME_CACHE = "ktv-admin-runtime"
+const urlsToCache = ["/", "/dashboard", "/manifest.json", "/icon-192.png", "/icon-512.png", "/offline.html"]
 
 // 安装事件 - 缓存资源
 self.addEventListener("install", (event) => {
@@ -18,7 +19,7 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
+          if (cacheName !== CACHE_NAME && cacheName !== RUNTIME_CACHE) {
             return caches.delete(cacheName)
           }
         }),
@@ -29,21 +30,35 @@ self.addEventListener("activate", (event) => {
 
 // 拦截请求 - 缓存优先策略
 self.addEventListener("fetch", (event) => {
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        return caches.match("/offline.html")
+      }),
+    )
+    return
+  }
+
   event.respondWith(
     caches.match(event.request).then((response) => {
-      // 缓存命中则返回缓存，否则发起网络请求
       return (
         response ||
-        fetch(event.request).then((response) => {
-          // 只缓存GET请求
-          if (event.request.method === "GET") {
-            const responseToCache = response.clone()
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseToCache)
-            })
-          }
-          return response
-        })
+        fetch(event.request)
+          .then((response) => {
+            if (event.request.method === "GET") {
+              const responseToCache = response.clone()
+              caches.open(RUNTIME_CACHE).then((cache) => {
+                cache.put(event.request, responseToCache)
+              })
+            }
+            return response
+          })
+          .catch(() => {
+            // 返回离线页面或默认响应
+            if (event.request.destination === "document") {
+              return caches.match("/offline.html")
+            }
+          })
       )
     }),
   )
@@ -68,3 +83,24 @@ self.addEventListener("notificationclick", (event) => {
   event.notification.close()
   event.waitUntil(clients.openWindow(event.notification.data || "/"))
 })
+
+self.addEventListener("sync", (event) => {
+  if (event.tag === "sync-orders") {
+    event.waitUntil(syncOrders())
+  }
+})
+
+async function syncOrders() {
+  try {
+    const cache = await caches.open(RUNTIME_CACHE)
+    const requests = await cache.keys()
+    const pendingRequests = requests.filter((req) => req.url.includes("/api/orders"))
+
+    for (const request of pendingRequests) {
+      await fetch(request)
+      await cache.delete(request)
+    }
+  } catch (error) {
+    console.error("Sync failed:", error)
+  }
+}

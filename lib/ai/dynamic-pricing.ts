@@ -323,5 +323,23 @@ export class DynamicPricingEngine {
   }
 }
 
-// 全局定价引擎实例
-export const dynamicPricingEngine = new DynamicPricingEngine()
+let _dynamicPricingEngineInstance: DynamicPricingEngine | null = null
+
+function getDynamicPricingEngine(): DynamicPricingEngine {
+  if (!_dynamicPricingEngineInstance) {
+    _dynamicPricingEngineInstance = new DynamicPricingEngine()
+  }
+  return _dynamicPricingEngineInstance
+}
+
+// 使用Proxy保持向后兼容性
+export const dynamicPricingEngine = new Proxy({} as DynamicPricingEngine, {
+  get(_target, prop) {
+    const instance = getDynamicPricingEngine()
+    const value = instance[prop as keyof DynamicPricingEngine]
+    if (typeof value === "function") {
+      return value.bind(instance)
+    }
+    return value
+  },
+})
