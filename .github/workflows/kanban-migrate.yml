@@ -85,12 +85,7 @@ jobs:
           name: kanban-migrate-report-json
           path: kanban-report.json
 
-      - name: Gate: fail if any task incomplete
-        run: |
-          node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('kanban-report.json','utf8')); if ((r.summary.failedCount||0)>0) { console.error('Kanban structural check failed:', r.summary.failedTasks.map(t=>t.name).join(', ')); process.exit(1); } else { console.log('Kanban structural check passed'); }"
-
-      - name: Docs & KPI Structure Check (non-blocking)
-        continue-on-error: true
+      - name: Docs & KPI Structure Check (blocking)
         run: |
           node scripts/doc-kpi-check.mjs
 
@@ -100,6 +95,23 @@ jobs:
         with:
           name: docs-check-report
           path: docs-check-report.json
+
+      - name: Gate: fail if any task incomplete
+        run: |
+          node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('kanban-report.json','utf8')); if ((r.summary.failedCount||0)>0) { console.error('Kanban structural check failed:', (r.summary.failedTasks||[]).map(t=>t.name).join(', ')); process.exit(1); } else { console.log('Kanban structural check passed'); }"
+
+      - name: Unified Summary Gate (blocking)
+        env:
+          CI_DOCS_COVERAGE_THRESHOLD: 0.8
+        run: |
+          node scripts/ci-summary.mjs
+
+      - name: Upload Unified Summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-summary
+          path: summary.json
 
       - name: Commit Kanban Changes
         uses: stefanzweifel/git-auto-commit-action@v5
