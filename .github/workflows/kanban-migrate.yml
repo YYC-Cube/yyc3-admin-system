@@ -89,6 +89,18 @@ jobs:
         run: |
           node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('kanban-report.json','utf8')); if ((r.summary.failedCount||0)>0) { console.error('Kanban structural check failed:', r.summary.failedTasks.map(t=>t.name).join(', ')); process.exit(1); } else { console.log('Kanban structural check passed'); }"
 
+      - name: Docs & KPI Structure Check (non-blocking)
+        continue-on-error: true
+        run: |
+          node scripts/doc-kpi-check.mjs
+
+      - name: Upload Docs/KPI Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-check-report
+          path: docs-check-report.json
+
       - name: Commit Kanban Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
