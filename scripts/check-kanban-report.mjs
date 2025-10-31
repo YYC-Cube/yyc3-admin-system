@@ -25,11 +25,6 @@ const ALLOWED_STATUS = new Set([
 ]);
 
 /**
- * 时钟容差：允许 done 状态任务的结束时间略微超前当前时间（10分钟）
- */
-const CLOCK_TOLERANCE_MS = 10 * 60 * 1000;
-
-/**
  * @description 读取 JSON 工具，包含健壮的错误提示
  */
 function readJson(filePath) {
