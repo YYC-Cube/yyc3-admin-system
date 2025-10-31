@@ -1,0 +1,50 @@
+name: Kanban Auto-Migrate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate-and-migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: true
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build
+        run: pnpm build
+
+      - name: Unit Tests (CI)
+        run: pnpm test:ci
+
+      # 指标与文档校验可逐步增强，这里先做最小占位
+      - name: Metrics & Docs Check (placeholder)
+        run: |
+          node -e "console.log('metrics ok')"
+          test -f docs/ITERATION_BOARD_2W.md
+
+      - name: Kanban Migrate (Backlog → Doing)
+        env:
+          KANBAN_ASSIGNEE: yanyu
+        run: |
+          node scripts/kanban-migrate.mjs
+
+      - name: Commit Kanban Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: Kanban auto-migrate Backlog→Doing with assignee & dates"
+          file_pattern: docs/ITERATION_BOARD_2W.md
