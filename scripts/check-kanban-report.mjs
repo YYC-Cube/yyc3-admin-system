@@ -12,6 +12,12 @@ import fs from 'fs';
 import path from 'path';
 
 /**
+ * 时钟容差（毫秒）- 允许的时钟偏差范围，用于校验任务结束时间
+ * Time tolerance for clock skew checks (milliseconds)
+ */
+const CLOCK_TOLERANCE_MS = 5 * 60 * 1000; // 5 分钟 / 5 minutes
+
+/**
  * 允许的任务状态枚举
  */
 const ALLOWED_STATUS = new Set([
@@ -199,7 +205,7 @@ function main() {
     console.error('🚨 Kanban Gate 执行异常:', error.message);
     const gateOutput = { pass: false, reason: 'Script error', error: String(error.message || error) };
     try { fs.writeFileSync('kanban-schema-gate.json', JSON.stringify(gateOutput, null, 2)); } catch {
-      // Intentionally ignoring errors here — no action required.
+      // Intentionally ignoring file write errors here - script is already exiting with error
     }
     process.exit(1);
   }
