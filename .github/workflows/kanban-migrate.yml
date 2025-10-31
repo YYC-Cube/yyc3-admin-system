@@ -97,7 +97,7 @@ jobs:
 
       - name: Gate: fail if any task incomplete
         run: |
-          node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('kanban-report.json','utf8')); if ((r.summary.failedCount||0)>0) { console.error('Kanban structural check failed:', (r.summary.failedTasks||[]).map(t=>t.name).join(', ')); process.exit(1); } else { console.log('Kanban structural check passed'); }"
+          node scripts/check-kanban-report.mjs
 
       - name: Unified Summary Gate (blocking)
         env:
