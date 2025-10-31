@@ -48,10 +48,12 @@ jobs:
       - name: Kanban Migrate (Backlog → Doing)
         env:
           KANBAN_ASSIGNEE: yanyu
+          KANBAN_START_DATE: 2025-10-31
+          KANBAN_END_DATE: 2025-11-14
         run: |
           node scripts/kanban-migrate.mjs
 
-      - name: Verify Kanban Changes
+      - name: Verify Kanban Changes (grep quick check)
         continue-on-error: true
         run: |
           echo "Verifying Kanban changes..."
@@ -65,12 +67,27 @@ jobs:
           } > kanban-report.txt
           cat kanban-report.txt
 
-      - name: Upload Kanban Report
+      - name: Upload Kanban TXT Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: kanban-migrate-report
           path: kanban-report.txt
+
+      - name: Generate JSON Report (structural check)
+        run: |
+          node scripts/kanban-migrate.mjs --check-only
+
+      - name: Upload Kanban JSON Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kanban-migrate-report-json
+          path: kanban-report.json
+
+      - name: Gate: fail if any task incomplete
+        run: |
+          node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('kanban-report.json','utf8')); if ((r.summary.failedCount||0)>0) { console.error('Kanban structural check failed:', r.summary.failedTasks.map(t=>t.name).join(', ')); process.exit(1); } else { console.log('Kanban structural check passed'); }"
 
       - name: Commit Kanban Changes
         uses: stefanzweifel/git-auto-commit-action@v5
