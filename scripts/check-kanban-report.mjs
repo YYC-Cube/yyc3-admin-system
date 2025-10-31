@@ -25,6 +25,13 @@ const ALLOWED_STATUS = new Set([
 ]);
 
 /**
+ * 时钟容差（毫秒）
+ * @description 用于校验时间时允许的时钟偏移，避免因系统时间差异导致误判。
+ *              如项目中已有共享常量，可替换为 import 引用。
+ */
+const CLOCK_TOLERANCE_MS = 5 * 60 * 1000; // 5 分钟
+
+/**
  * @description 读取 JSON 工具，包含健壮的错误提示
  */
 function readJson(filePath) {
@@ -189,7 +196,9 @@ function main() {
   } catch (error) {
     console.error('🚨 Kanban Gate 执行异常:', error.message);
     const gateOutput = { pass: false, reason: 'Script error', error: String(error.message || error) };
-    try { fs.writeFileSync('kanban-schema-gate.json', JSON.stringify(gateOutput, null, 2)); } catch {}
+    try { fs.writeFileSync('kanban-schema-gate.json', JSON.stringify(gateOutput, null, 2)); } catch {
+      // Intentionally ignoring errors here — no action required.
+    }
     process.exit(1);
   }
 }
