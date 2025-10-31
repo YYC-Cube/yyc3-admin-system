@@ -31,10 +31,13 @@ const ALLOWED_STATUS = new Set([
 ]);
 
 /**
- * 时钟容差（毫秒）- 用于检查时钟偏差
- * Time tolerance for clock skew checks (milliseconds)
+ * 时钟容差（毫秒）
+ * Clock tolerance in milliseconds (5 minutes)
+ * @constant {number} CLOCK_TOLERANCE_MS
+ * @description 用于校验时间时允许的时钟偏移，避免因系统时间差异导致误判。
+ *              如项目中已有共享常量，可替换为 import 引用。
  */
-const CLOCK_TOLERANCE_MS = 5 * 60 * 1000; // 5 minutes
+const CLOCK_TOLERANCE_MS = 5 * 60 * 1000; // 5 分钟
 
 /**
  * @description 读取 JSON 工具，包含健壮的错误提示
