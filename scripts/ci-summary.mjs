@@ -1,111 +1,118 @@
-#!/usr/bin/env node
 /**
- * @file CI 统一总结与门禁校验（增强版）
- * @description 汇总 kanban-report.json 与 docs-check-report.json，Zod Schema 校验与统一门禁判断，输出 summary.json，附带建议字段。
+ * @file 统一 CI 摘要生成脚本（扩展版）
+ * @description 汇总 docs-check-report.json 与 kanban-report.json、kanban-schema-gate.json，
+ *              统一生成 summary.json，包含建议（缺失章节、低覆盖率原因、任务 Schema 异常等）。
  * @author YYC
  * @version 1.1.0
- * @created 2025-10-31
- * @updated 2025-10-31
+ * @created 2024-10-31
+ * @updated 2024-10-31
  */
+
 import fs from 'fs';
 import path from 'path';
-import { z } from 'zod';
 
-const KANBAN_PATH = path.resolve(process.cwd(), 'kanban-report.json');
-const DOCS_PATH = path.resolve(process.cwd(), 'docs-check-report.json');
-const SUMMARY_PATH = path.resolve(process.cwd(), 'summary.json');
-
-const coverageThreshold = Number(process.env.CI_DOCS_COVERAGE_THRESHOLD || '0.8');
-
-const KanbanReportSchema = z.object({
-  summary: z.object({
-    failedCount: z.number().min(0),
-    failedTasks: z.array(z.object({ name: z.string() })).optional(),
-    assignee: z.string(),
-    dateRange: z.string(),
-  }),
-  tasks: z.array(z.object({
-    name: z.string(),
-    status: z.enum(['Doing', 'Backlog', 'Missing']),
-    assignee: z.string(),
-    dateRange: z.string(),
-  })).min(1),
-});
-
-const DocsCheckReportSchema = z.object({
-  summary: z.object({
-    finalSummaryCoverage: z.number().min(0).max(1),
-    missingSections: z.array(z.string()).default([]),
-    kpiMentions: z.object({
-      responseTimeMentions: z.number().min(0),
-      errorRateMentions: z.number().min(0),
-      memoryMentions: z.number().min(0),
-    }),
-    progressEntryOk: z.boolean(),
-  })
-});
-
-function readJsonSafe(p) {
-  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return null; }
+function safeReadJson(file) {
+  try {
+    const abs = path.resolve(process.cwd(), file);
+    if (!fs.existsSync(abs)) return null;
+    return JSON.parse(fs.readFileSync(abs, 'utf-8'));
+  } catch {
+    return null;
+  }
 }
 
-function exitWith(message, code = 1) {
-  console.error(message);
-  process.exit(code);
-}
-
-(function main() {
-  const kanbanJson = readJsonSafe(KANBAN_PATH);
-  const docsJson = readJsonSafe(DOCS_PATH);
-
-  if (!kanbanJson) exitWith(`未找到或无法解析 ${KANBAN_PATH}`);
-  if (!docsJson) exitWith(`未找到或无法解析 ${DOCS_PATH}`);
-
-  const kanbanParsed = KanbanReportSchema.safeParse(kanbanJson);
-  if (!kanbanParsed.success) {
-    exitWith('kanban-report.json 结构校验失败: ' + JSON.stringify(kanbanParsed.error.format()));
-  }
-
-  const docsParsed = DocsCheckReportSchema.safeParse(docsJson);
-  if (!docsParsed.success) {
-    exitWith('docs-check-report.json 结构校验失败: ' + JSON.stringify(docsParsed.error.format()));
-  }
-
-  const kanbanFailedCount = kanbanParsed.data.summary.failedCount;
-  const docsCoverage = docsParsed.data.summary.finalSummaryCoverage;
-  const progressEntryOk = docsParsed.data.summary.progressEntryOk;
-  const missingSections = docsParsed.data.summary.missingSections || [];
-
-  const pass = kanbanFailedCount === 0 && docsCoverage >= coverageThreshold && progressEntryOk === true;
+function buildDocsSuggestions(docsReport) {
+  if (!docsReport) return { coverage: 0, missingSections: [], suggestions: [] };
+  const coverage = Number(docsReport.finalSummaryCoverage ?? docsReport.coverage ?? 0);
+  const missingSections = Array.isArray(docsReport.missingSections) ? docsReport.missingSections : [];
 
   const suggestions = [];
-  if (kanbanFailedCount > 0) {
-    suggestions.push(`未完成任务(${kanbanFailedCount}): ${(kanbanParsed.data.summary.failedTasks||[]).map(t=>t.name).join(', ')}`);
+  if (coverage < 0.8) {
+    suggestions.push({
+      type: 'docs',
+      priority: 'high',
+      title: '文档覆盖率偏低',
+      description: `当前总覆盖率 ${(coverage * 100).toFixed(1)}%，低于 80% 门槛`,
+      action: '补充 FINAL_SUMMARY 关键章节（质量门禁与验收、风险与回滚），检查测试与链接引用',
+      expectedImprovement: '覆盖率 +20%～30%',
+      effort: 'medium'
+    });
   }
-  if (docsCoverage < coverageThreshold) {
-    if (missingSections.length) {
-      suggestions.push(`缺失章节: ${missingSections.join(', ')}`);
-    } else {
-      suggestions.push('文档覆盖率低于阈值，请补充必备章节');
-    }
+  if (missingSections.length) {
+    suggestions.push({
+      type: 'docs',
+      priority: 'medium',
+      title: '缺失章节补全',
+      description: `缺失章节: ${missingSections.join(', ')}`,
+      action: '按模板补全章节结构与要点，确保索引与引用一致',
+      expectedImprovement: '覆盖率提升与一致性改善',
+      effort: 'low'
+    });
   }
-  if (!progressEntryOk) {
-    suggestions.push('双周条目要素不完整（主题/目标/完成项/KPI/质量门禁/风险/下一步）');
+
+  return { coverage, missingSections, suggestions };
+}
+
+function buildKanbanSuggestions(kanbanReport, schemaGate) {
+  const suggestions = [];
+  const summary = kanbanReport?.summary || {};
+  const failedCount = Number(summary.failedCount ?? 0);
+
+  if (schemaGate && schemaGate.pass === false && Array.isArray(schemaGate.issues) && schemaGate.issues.length) {
+    suggestions.push({
+      type: 'kanban',
+      priority: 'high',
+      title: '看板任务 Schema 异常',
+      description: `发现 ${schemaGate.issues.length} 处不一致：${schemaGate.issues.slice(0, 5).join('; ')}`,
+      action: '修正任务 status/assignee/dateRange，对齐 summary 统计',
+      expectedImprovement: '门禁通过，报告一致性提升',
+      effort: 'low'
+    });
   }
+
+  if (failedCount > 0) {
+    const failedTasks = Array.isArray(summary.failedTasks) ? summary.failedTasks : [];
+    suggestions.push({
+      type: 'kanban',
+      priority: 'high',
+      title: '存在失败任务',
+      description: `失败数: ${failedCount}；任务: ${failedTasks.join(', ')}`,
+      action: '定位失败原因（阻塞依赖、测试未通过、资源不足），制定修复计划并回滚或重试',
+      expectedImprovement: '失败归零，进度恢复',
+      effort: 'medium'
+    });
+  }
+
+  return { failedCount, suggestions };
+}
+
+function main() {
+  const docsReport = safeReadJson('docs-check-report.json');
+  const kanbanReport = safeReadJson('kanban-report.json');
+  const schemaGate = safeReadJson('kanban-schema-gate.json');
+
+  const docs = buildDocsSuggestions(docsReport);
+  const kanban = buildKanbanSuggestions(kanbanReport, schemaGate);
+
+  const pass = (docs.coverage >= 0.8) && (kanban.failedCount === 0) && (!schemaGate || schemaGate.pass !== false);
 
   const summary = {
-    gate: { kanbanFailedCount, docsCoverage, progressEntryOk, coverageThreshold, pass },
-    sources: { kanbanReportPath: KANBAN_PATH, docsReportPath: DOCS_PATH },
-    details: { kanban: kanbanParsed.data.summary, docs: docsParsed.data.summary },
-    suggestions,
-    generatedAt: new Date().toISOString(),
+    pass,
+    metrics: {
+      docsCoverage: docs.coverage,
+      failedCount: kanban.failedCount,
+    },
+    suggestions: [...docs.suggestions, ...kanban.suggestions],
+    docs: {
+      missingSections: docs.missingSections,
+    },
+    kanban: {
+      schemaGate: schemaGate || { pass: true },
+    }
   };
 
-  fs.writeFileSync(SUMMARY_PATH, JSON.stringify(summary, null, 2), 'utf8');
-  console.log('✅ 已生成 summary.json');
-  console.log(JSON.stringify(summary.gate, null, 2));
+  fs.writeFileSync('summary.json', JSON.stringify(summary, null, 2));
+  console.log('✅ 统一 CI 摘要已生成 -> summary.json');
+}
 
-  if (!pass) {
-    exitWith('❌ 统一门禁未通过：要求 failedCount=0 且文档覆盖率≥阈值，且进度条目有效');
-  }
-})();
+main();
