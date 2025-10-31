@@ -1,144 +1,60 @@
-name: Kanban Auto-Migrate
+#!/usr/bin/env node
+/**
+ * @file 看板报告门禁校验脚本
+ * @description 读取并校验 kanban-report.json 结构与失败任务计数，失败时输出明细并以非零码退出；用于替代 YAML 中的内联 node -e。
+ * @author YYC
+ * @version 1.0.0
+ */
+import fs from 'fs';
+import path from 'path';
+import { z } from 'zod';
 
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-  workflow_dispatch:
+const REPORT_PATH = path.resolve(process.cwd(), 'kanban-report.json');
 
-permissions:
-  contents: write
-  pull-requests: write
+const ReportSchema = z.object({
+  summary: z.object({
+    failedCount: z.number().min(0),
+    failedTasks: z.array(z.object({ name: z.string() })).default([]),
+    migratedCount: z.number().min(0).optional(),
+    assignee: z.string().optional(),
+    dateRange: z.string().optional(),
+  }),
+  tasks: z.array(z.object({
+    name: z.string(),
+    status: z.enum(['Doing', 'Backlog', 'Missing']).optional(),
+  })).optional(),
+});
 
-jobs:
-  validate-and-migrate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
+function exitWith(msg, code = 1) {
+  console.error(msg);
+  process.exit(code);
+}
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+(function main() {
+  let raw;
+  try {
+    raw = fs.readFileSync(REPORT_PATH, 'utf8');
+  } catch (e) {
+    exitWith(`未找到报告文件: ${REPORT_PATH}`);
+  }
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          run_install: true
+  let json;
+  try {
+    json = JSON.parse(raw);
+  } catch (e) {
+    exitWith('报告 JSON 解析失败: ' + String(e));
+  }
 
-      - name: Lint
-        run: pnpm lint
+  const parsed = ReportSchema.safeParse(json);
+  if (!parsed.success) {
+    exitWith('报告结构校验失败: ' + JSON.stringify(parsed.error.format()));
+  }
 
-      - name: Build
-        run: pnpm build
+  const { failedCount, failedTasks } = parsed.data.summary;
+  if ((failedCount || 0) > 0) {
+    const names = (failedTasks || []).map(t => t.name).join(', ');
+    exitWith(`Kanban structural check failed: ${names}`);
+  }
 
-      - name: Unit Tests (CI)
-        run: pnpm test:ci
-
-      - name: Metrics & Docs Check (placeholder)
-        run: |
-          node -e "console.log('metrics ok')"
-          test -f docs/ITERATION_BOARD_2W.md
-
-      - name: Kanban Migrate (Backlog → Doing)
-        env:
-          KANBAN_ASSIGNEE: yanyu
-          KANBAN_START_DATE: 2025-10-31
-          KANBAN_END_DATE: 2025-11-14
-        run: |
-          node scripts/kanban-migrate.mjs
-
-      - name: Verify Kanban Changes (grep quick check)
-        continue-on-error: true
-        run: |
-          echo "Verifying Kanban changes..."
-          OCC_ASSIGNEE=$(grep -c '执行人：yanyu' docs/ITERATION_BOARD_2W.md || true)
-          OCC_DATE=$(grep -c '起止：2025-10-31 → 2025-11-14' docs/ITERATION_BOARD_2W.md || true)
-          OCC_DOING=$(grep -c '\[Doing\]' docs/ITERATION_BOARD_2W.md || true)
-          {
-            echo "assignee_lines=$OCC_ASSIGNEE";
-            echo "date_lines=$OCC_DATE";
-            echo "doing_lines=$OCC_DOING";
-          } > kanban-report.txt
-          cat kanban-report.txt
-
-      - name: Upload Kanban TXT Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: kanban-migrate-report
-          path: kanban-report.txt
-
-      - name: Generate JSON Report (structural check)
-        run: |
-          node scripts/kanban-migrate.mjs --check-only
-
-      - name: Upload Kanban JSON Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: kanban-migrate-report-json
-          path: kanban-report.json
-
-      - name: Docs & KPI Structure Check (blocking)
-        run: |
-          node scripts/doc-kpi-check.mjs
-
-      - name: Upload Docs/KPI Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: docs-check-report
-          path: docs-check-report.json
-
-      - name: Gate: fail if any task incomplete
-        run: |
-          node scripts/check-kanban-report.mjs
-
-      - name: Unified Summary Gate (blocking)
-        env:
-          CI_DOCS_COVERAGE_THRESHOLD: 0.8
-        run: |
-          node scripts/ci-summary.mjs
-
-      - name: Upload Unified Summary
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ci-summary
-          path: summary.json
-
-      - name: Post Summary to PR (always)
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const summary = JSON.parse(fs.readFileSync('summary.json','utf8'));
-            const pass = summary.gate.pass;
-            const gate = summary.gate;
-            const suggestions = summary.suggestions || [];
-            const body = [
-              `**CI Unified Gate**`,
-              `- pass: ${pass}`,
-              `- kanbanFailedCount: ${gate.kanbanFailedCount}`,
-              `- docsCoverage: ${gate.docsCoverage} (threshold=${gate.coverageThreshold})`,
-              `- progressEntryOk: ${gate.progressEntryOk}`,
-              suggestions.length ? `**建议**: \n- ${suggestions.join('\n- ')}` : '',
-            ].filter(Boolean).join('\n');
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number,
-              body,
-            });
-
-      - name: Commit Kanban Changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "ci: Kanban auto-migrate Backlog→Doing with assignee & dates"
-          file_pattern: docs/ITERATION_BOARD_2W.md
+  console.log('Kanban structural check passed');
+})();
