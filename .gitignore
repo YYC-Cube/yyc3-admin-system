@@ -25,3 +25,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# CI generated reports
+kanban-report.json
+kanban-report.txt
+docs-check-report.json
+summary.json
