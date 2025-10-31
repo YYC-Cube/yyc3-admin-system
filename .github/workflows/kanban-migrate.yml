@@ -95,7 +95,7 @@ jobs:
           name: docs-check-report
           path: docs-check-report.json
 
-      - name: Gate: fail if any task incomplete
+      - name: "Gate: fail if any task incomplete"
         run: |
           node scripts/check-kanban-report.mjs
 
@@ -114,7 +114,9 @@ jobs:
           path: summary.json
 
       - name: Post Summary to PR (always)
-        if: always() && github.event_name == 'pull_request'
+
+        if: ${{ always() && github.event_name == 'pull_request' }}
+
         env:
           COVERAGE_THRESHOLD: 0.8
         uses: actions/github-script@v7
