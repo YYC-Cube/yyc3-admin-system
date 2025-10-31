@@ -25,6 +25,11 @@ const ALLOWED_STATUS = new Set([
 ]);
 
 /**
+ * 时钟容差：允许 done 状态任务的结束时间略微超前当前时间（10分钟）
+ */
+const CLOCK_TOLERANCE_MS = 10 * 60 * 1000;
+
+/**
  * @description 读取 JSON 工具，包含健壮的错误提示
  */
 function readJson(filePath) {
@@ -46,7 +51,7 @@ function readJson(filePath) {
 function isValidISODate(str) {
   if (typeof str !== 'string') return false;
   const d = new Date(str);
-  return !Number.isNaN(d.getTime()) && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z?/.test(str);
+  return !Number.isNaN(d.getTime()) && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?/.test(str);
 }
 
 /**
@@ -118,7 +123,7 @@ function validateTaskSchema(report, issues) {
       if (status === 'done' && isValidISODate(end)) {
         const now = Date.now();
         const e = new Date(end).getTime();
-        if (e - now > 1000 * 60 * 10) { // 允许 10 分钟误差
+        if (e - now > CLOCK_TOLERANCE_MS) {
           issues.add(`任务【${name}】状态为 done，但结束时间在未来（请检查时间或状态）`);
         }
       }
