@@ -51,6 +51,27 @@ jobs:
         run: |
           node scripts/kanban-migrate.mjs
 
+      - name: Verify Kanban Changes
+        continue-on-error: true
+        run: |
+          echo "Verifying Kanban changes..."
+          OCC_ASSIGNEE=$(grep -c '执行人：yanyu' docs/ITERATION_BOARD_2W.md || true)
+          OCC_DATE=$(grep -c '起止：2025-10-31 → 2025-11-14' docs/ITERATION_BOARD_2W.md || true)
+          OCC_DOING=$(grep -c '\[Doing\]' docs/ITERATION_BOARD_2W.md || true)
+          {
+            echo "assignee_lines=$OCC_ASSIGNEE";
+            echo "date_lines=$OCC_DATE";
+            echo "doing_lines=$OCC_DOING";
+          } > kanban-report.txt
+          cat kanban-report.txt
+
+      - name: Upload Kanban Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kanban-migrate-report
+          path: kanban-report.txt
+
       - name: Commit Kanban Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
