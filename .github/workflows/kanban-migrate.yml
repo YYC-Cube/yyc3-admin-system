@@ -39,7 +39,6 @@ jobs:
       - name: Unit Tests (CI)
         run: pnpm test:ci
 
-      # 指标与文档校验可逐步增强，这里先做最小占位
       - name: Metrics & Docs Check (placeholder)
         run: |
           node -e "console.log('metrics ok')"
@@ -112,6 +111,31 @@ jobs:
         with:
           name: ci-summary
           path: summary.json
+
+      - name: Post Summary to PR (always)
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = JSON.parse(fs.readFileSync('summary.json','utf8'));
+            const pass = summary.gate.pass;
+            const gate = summary.gate;
+            const suggestions = summary.suggestions || [];
+            const body = [
+              `**CI Unified Gate**`,
+              `- pass: ${pass}`,
+              `- kanbanFailedCount: ${gate.kanbanFailedCount}`,
+              `- docsCoverage: ${gate.docsCoverage} (threshold=${gate.coverageThreshold})`,
+              `- progressEntryOk: ${gate.progressEntryOk}`,
+              suggestions.length ? `**建议**: \n- ${suggestions.join('\n- ')}` : '',
+            ].filter(Boolean).join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body,
+            });
 
       - name: Commit Kanban Changes
         uses: stefanzweifel/git-auto-commit-action@v5

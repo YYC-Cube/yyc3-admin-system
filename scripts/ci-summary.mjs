@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * @file CI 统一总结与门禁校验
- * @description 汇总 kanban-report.json 与 docs-check-report.json，进行 Zod Schema 校验与统一门禁判断，输出 summary.json 并根据门槛退出非零。
+ * @file CI 统一总结与门禁校验（增强版）
+ * @description 汇总 kanban-report.json 与 docs-check-report.json，Zod Schema 校验与统一门禁判断，输出 summary.json，附带建议字段。
  * @author YYC
- * @version 1.0.0
+ * @version 1.1.0
  * @created 2025-10-31
  * @updated 2025-10-31
  */
@@ -11,25 +11,31 @@ import fs from 'fs';
 import path from 'path';
 import { z } from 'zod';
 
-// 输入/输出路径
 const KANBAN_PATH = path.resolve(process.cwd(), 'kanban-report.json');
 const DOCS_PATH = path.resolve(process.cwd(), 'docs-check-report.json');
 const SUMMARY_PATH = path.resolve(process.cwd(), 'summary.json');
 
-// 可配置文档覆盖率阈值（默认 0.8）
 const coverageThreshold = Number(process.env.CI_DOCS_COVERAGE_THRESHOLD || '0.8');
 
-// === Zod Schema 定义（最小结构约束，聚焦门禁所需字段） ===
 const KanbanReportSchema = z.object({
   summary: z.object({
     failedCount: z.number().min(0),
-    failedTasks: z.array(z.object({ name: z.string() })).optional()
-  })
+    failedTasks: z.array(z.object({ name: z.string() })).optional(),
+    assignee: z.string(),
+    dateRange: z.string(),
+  }),
+  tasks: z.array(z.object({
+    name: z.string(),
+    status: z.enum(['Doing', 'Backlog', 'Missing']),
+    assignee: z.string(),
+    dateRange: z.string(),
+  })).min(1),
 });
 
 const DocsCheckReportSchema = z.object({
   summary: z.object({
     finalSummaryCoverage: z.number().min(0).max(1),
+    missingSections: z.array(z.string()).default([]),
     kpiMentions: z.object({
       responseTimeMentions: z.number().min(0),
       errorRateMentions: z.number().min(0),
@@ -39,13 +45,8 @@ const DocsCheckReportSchema = z.object({
   })
 });
 
-// === 工具函数 ===
 function readJsonSafe(p) {
-  try {
-    return JSON.parse(fs.readFileSync(p, 'utf8'));
-  } catch (e) {
-    return null;
-  }
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return null; }
 }
 
 function exitWith(message, code = 1) {
@@ -53,7 +54,6 @@ function exitWith(message, code = 1) {
   process.exit(code);
 }
 
-// === 主流程 ===
 (function main() {
   const kanbanJson = readJsonSafe(KANBAN_PATH);
   const docsJson = readJsonSafe(DOCS_PATH);
@@ -74,25 +74,30 @@ function exitWith(message, code = 1) {
   const kanbanFailedCount = kanbanParsed.data.summary.failedCount;
   const docsCoverage = docsParsed.data.summary.finalSummaryCoverage;
   const progressEntryOk = docsParsed.data.summary.progressEntryOk;
+  const missingSections = docsParsed.data.summary.missingSections || [];
 
   const pass = kanbanFailedCount === 0 && docsCoverage >= coverageThreshold && progressEntryOk === true;
 
+  const suggestions = [];
+  if (kanbanFailedCount > 0) {
+    suggestions.push(`未完成任务(${kanbanFailedCount}): ${(kanbanParsed.data.summary.failedTasks||[]).map(t=>t.name).join(', ')}`);
+  }
+  if (docsCoverage < coverageThreshold) {
+    if (missingSections.length) {
+      suggestions.push(`缺失章节: ${missingSections.join(', ')}`);
+    } else {
+      suggestions.push('文档覆盖率低于阈值，请补充必备章节');
+    }
+  }
+  if (!progressEntryOk) {
+    suggestions.push('双周条目要素不完整（主题/目标/完成项/KPI/质量门禁/风险/下一步）');
+  }
+
   const summary = {
-    gate: {
-      kanbanFailedCount,
-      docsCoverage,
-      progressEntryOk,
-      coverageThreshold,
-      pass,
-    },
-    sources: {
-      kanbanReportPath: KANBAN_PATH,
-      docsReportPath: DOCS_PATH,
-    },
-    details: {
-      kanban: kanbanParsed.data.summary,
-      docs: docsParsed.data.summary,
-    },
+    gate: { kanbanFailedCount, docsCoverage, progressEntryOk, coverageThreshold, pass },
+    sources: { kanbanReportPath: KANBAN_PATH, docsReportPath: DOCS_PATH },
+    details: { kanban: kanbanParsed.data.summary, docs: docsParsed.data.summary },
+    suggestions,
     generatedAt: new Date().toISOString(),
   };
 
