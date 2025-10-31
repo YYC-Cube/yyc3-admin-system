@@ -1,0 +1,8 @@
+- [Backlog] [稳定性][sales-frontend] bills 表格水合一致性治理
+- [Backlog] [稳定性][products-frontend] 列表页水合一致性治理
+- [Backlog] [稳定性][sales-monitoring] 健康监控埋点与指标上报
+- [Backlog] [稳定性][products-monitoring] 健康监控埋点与指标上报
+- [Backlog] [稳定性][db-cache] 高频查询索引与缓存策略落地
+- [Backlog] [稳定性][release-rollback] 发布回滚演练与脚本化
+- [Backlog] [分化][销售-api] API 层 PoC 拆分与文档化
+- [Backlog] [分化][产品-api] API 层 PoC 拆分与文档化
