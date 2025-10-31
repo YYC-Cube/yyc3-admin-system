@@ -95,7 +95,7 @@ jobs:
           name: docs-check-report
           path: docs-check-report.json
 
-      - name: Gate: fail if any task incomplete
+      - name: "Gate: fail if any task incomplete"
         run: |
           node scripts/check-kanban-report.mjs
 
