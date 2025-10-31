@@ -1,0 +1,66 @@
+{
+  "finalSummary": {
+    "sections": [
+      {
+        "name": "概览",
+        "present": true
+      },
+      {
+        "name": "完成项",
+        "present": true
+      },
+      {
+        "name": "技术产出",
+        "present": true
+      },
+      {
+        "name": "文档更新",
+        "present": true
+      },
+      {
+        "name": "质量门禁与验收",
+        "present": true
+      },
+      {
+        "name": "风险与回滚",
+        "present": true
+      },
+      {
+        "name": "下一阶段",
+        "present": true
+      }
+    ],
+    "missingSections": [],
+    "kpi": {
+      "responseTimeMentions": 3,
+      "errorRateMentions": 2,
+      "memoryMentions": 3
+    },
+    "coverage": 1
+  },
+  "progressLog": {
+    "entries": [
+      {
+        "date": "2025-10-31",
+        "present": true,
+        "hasTheme": true,
+        "hasGoals": true,
+        "hasDeliverables": true,
+        "hasKpi": true,
+        "hasQuality": true,
+        "hasRisk": true,
+        "hasNext": true
+      }
+    ]
+  },
+  "summary": {
+    "finalSummaryCoverage": 1,
+    "missingSections": [],
+    "kpiMentions": {
+      "responseTimeMentions": 3,
+      "errorRateMentions": 2,
+      "memoryMentions": 3
+    },
+    "progressEntryOk": true
+  }
+}

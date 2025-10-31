@@ -1,0 +1,33 @@
+{
+  "gate": {
+    "kanbanFailedCount": 0,
+    "docsCoverage": 1,
+    "progressEntryOk": true,
+    "coverageThreshold": 0.8,
+    "pass": true
+  },
+  "sources": {
+    "kanbanReportPath": "/home/runner/work/yyc3-admin-system/yyc3-admin-system/kanban-report.json",
+    "docsReportPath": "/home/runner/work/yyc3-admin-system/yyc3-admin-system/docs-check-report.json"
+  },
+  "details": {
+    "kanban": {
+      "failedCount": 0,
+      "failedTasks": [],
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    },
+    "docs": {
+      "finalSummaryCoverage": 1,
+      "missingSections": [],
+      "kpiMentions": {
+        "responseTimeMentions": 3,
+        "errorRateMentions": 2,
+        "memoryMentions": 3
+      },
+      "progressEntryOk": true
+    }
+  },
+  "suggestions": [],
+  "generatedAt": "2025-10-31T08:17:12.062Z"
+}

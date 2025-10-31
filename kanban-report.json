@@ -1,0 +1,71 @@
+{
+  "tasks": [
+    {
+      "name": "CI: 增强门禁与报告输出",
+      "status": "Doing",
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    },
+    {
+      "name": "Docs: 迭代日志与健康指南完善",
+      "status": "Doing",
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    },
+    {
+      "name": "Scripts: 结构校验与统一 summary 集成",
+      "status": "Doing",
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    },
+    {
+      "name": "PR: 自动评论与可观测性提升",
+      "status": "Doing",
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    },
+    {
+      "name": "Kanban: Backlog→Doing 演示与校验",
+      "status": "Doing",
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    },
+    {
+      "name": "API: 健康指标采集占位",
+      "status": "Doing",
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    },
+    {
+      "name": "Workflow: permissions 与触发策略优化",
+      "status": "Doing",
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    },
+    {
+      "name": "Testing: 增强 CI 用例",
+      "status": "Doing",
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    },
+    {
+      "name": "Security: 权限策略审查",
+      "status": "Doing",
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    },
+    {
+      "name": "Performance: 指标阈值与建议优化",
+      "status": "Doing",
+      "assignee": "test",
+      "dateRange": "2025-10-31 → 2025-11-14"
+    }
+  ],
+  "summary": {
+    "migratedCount": 10,
+    "failedCount": 0,
+    "failedTasks": [],
+    "assignee": "test",
+    "dateRange": "2025-10-31 → 2025-11-14"
+  }
+}
