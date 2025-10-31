@@ -97,9 +97,10 @@ jobs:
 
       - name: Gate: fail if any task incomplete
         run: |
-          node -e "const fs=require('fs'); const r=JSON.parse(fs.readFileSync('kanban-report.json','utf8')); if ((r.summary.failedCount||0)>0) { console.error('Kanban structural check failed:', (r.summary.failedTasks||[]).map(t=>t.name).join(', ')); process.exit(1); } else { console.log('Kanban structural check passed'); }"
+          node scripts/check-kanban-report.mjs
 
       - name: Unified Summary Gate (blocking)
+        if: always()
         env:
           CI_DOCS_COVERAGE_THRESHOLD: 0.8
         run: |
@@ -113,22 +114,29 @@ jobs:
           path: summary.json
 
       - name: Post Summary to PR (always)
-        if: ${{ github.event_name == 'pull_request' }}
+        if: always() && github.event_name == 'pull_request'
+        env:
+          COVERAGE_THRESHOLD: 0.8
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
             const summary = JSON.parse(fs.readFileSync('summary.json','utf8'));
-            const pass = summary.gate.pass;
-            const gate = summary.gate;
-            const suggestions = summary.suggestions || [];
+            const pass = !!summary.pass;
+            const failedCount = summary?.metrics?.failedCount ?? 'N/A';
+            const docsCoverage = summary?.metrics?.docsCoverage ?? 'N/A';
+            const threshold = process.env.COVERAGE_THRESHOLD || '0.8';
+            const suggestions = Array.isArray(summary.suggestions) ? summary.suggestions : [];
+            const suggestLines = suggestions.slice(0, 8).map(s => {
+              const p = s.priority ? `(${s.priority})` : '';
+              return `- [${s.type}]${p} ${s.title} — ${s.action}`;
+            }).join('\n');
             const body = [
               `**CI Unified Gate**`,
               `- pass: ${pass}`,
-              `- kanbanFailedCount: ${gate.kanbanFailedCount}`,
-              `- docsCoverage: ${gate.docsCoverage} (threshold=${gate.coverageThreshold})`,
-              `- progressEntryOk: ${gate.progressEntryOk}`,
-              suggestions.length ? `**建议**: \n- ${suggestions.join('\n- ')}` : '',
+              `- kanbanFailedCount: ${failedCount}`,
+              `- docsCoverage: ${docsCoverage} (threshold=${threshold})`,
+              suggestLines ? `**建议**:\n${suggestLines}` : ''
             ].filter(Boolean).join('\n');
             await github.rest.issues.createComment({
               owner: context.repo.owner,
