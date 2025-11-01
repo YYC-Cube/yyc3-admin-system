@@ -1,0 +1,74 @@
+name: ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Get pnpm store path
+        id: pnpm-cache
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check (tsc)
+        run: pnpm type-check
+
+      - name: Lint (no warnings)
+        run: pnpm lint --max-warnings=0
+
+      - name: Unit tests (vitest)
+        env:
+          CI: true
+        run: pnpm test
+
+      - name: Build (capture output)
+        run: pnpm build | tee .next-build.log
+
+      - name: Check First Load JS size (threshold 180kB)
+        shell: bash
+        run: |
+          set -euo pipefail
+          FIRST_LOAD_KB=$(grep -E "First Load JS shared by all" .next-build.log | awk '{print $(NF-1)}')
+          echo "Detected First Load JS: ${FIRST_LOAD_KB} kB"
+          THRESHOLD=180
+          if [ -z "${FIRST_LOAD_KB}" ]; then
+            echo "Failed to parse First Load JS size" && exit 1
+          fi
+          if [ "${FIRST_LOAD_KB}" -gt "${THRESHOLD}" ]; then
+            echo "First Load JS ${FIRST_LOAD_KB}kB exceeds ${THRESHOLD}kB" && exit 1
+          fi
+
+      - name: Upload build log (PR only)
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build-log
+          path: .next-build.log
