@@ -9,6 +9,7 @@ on:
 jobs:
   e2e-basic:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -65,7 +66,7 @@ jobs:
           name: playwright-report-basic
           path: playwright-report
 
-      - name: Upload test results
+      - name: Upload test results (screenshots/videos/traces)
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -75,6 +76,10 @@ jobs:
   e2e-tools:
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -136,9 +141,53 @@ jobs:
           name: playwright-report-tools
           path: playwright-report
 
-      - name: Upload test results
+      - name: Upload test results (screenshots/videos/traces)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results-tools
           path: test-results/
+
+      - name: Comment PR with artifacts link
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}#artifacts`;
+            const body = [
+              '✅ E2E 测试已完成。',
+              '- 已上传 Playwright 报告与测试产物（视频/截图/trace）。',
+              `- 直达 Artifacts：${runUrl}`
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
+
+  publish-report:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: e2e-basic
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Download Playwright report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-basic
+          path: report
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: report
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
