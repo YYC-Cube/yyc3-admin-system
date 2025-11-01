@@ -1,0 +1,111 @@
+name: e2e
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build
+        run: pnpm build
+
+      - name: Start server
+        run: pnpm start &
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:3000
+
+      - name: Run e2e tests (基础错误路径，生产模式)
+        env:
+          BASE_URL: http://localhost:3000
+        run: pnpm test:e2e:prod
+
+  e2e-tools:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Install external tools (LibreOffice & Inkscape)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreoffice inkscape ghostscript
+      - name: Check tool versions
+        run: |
+          set -e
+          echo "LibreOffice version:" && libreoffice --version || soffice --version || true
+          echo "Inkscape version:" && inkscape --version || true
+          echo "Ghostscript version:" && gs --version || true
+      - name: Decide tools enabled
+        id: tools
+        run: |
+          if command -v libreoffice >/dev/null 2>&1 || command -v soffice >/dev/null 2>&1; then
+            echo "libreoffice_ok=true" >> $GITHUB_OUTPUT
+          else
+            echo "libreoffice_ok=false" >> $GITHUB_OUTPUT
+          fi
+          if command -v inkscape >/dev/null 2>&1; then
+            echo "inkscape_ok=true" >> $GITHUB_OUTPUT
+          else
+            echo "inkscape_ok=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Run e2e tests (启用工具的成功路径，生产模式)
+        env:
+          BASE_URL: http://localhost:3000
+          CI_TOOLS_ENABLED: ${{ steps.tools.outputs.libreoffice_ok == 'true' && steps.tools.outputs.inkscape_ok == 'true' && 'true' || 'false' }}
+        run: pnpm test:e2e:prod
+
+      - name: Build
+        run: pnpm build
+
+      - name: Start server
+        run: pnpm start &
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:3000
+
+      - name: Run e2e tests (启用工具的成功路径，生产模式)
+        env:
+          BASE_URL: http://localhost:3000
+          CI_TOOLS_ENABLED: 'true'
+        run: pnpm test:e2e:prod

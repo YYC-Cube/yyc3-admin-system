@@ -1,0 +1,111 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+    - generic [ref=e5]:
+        - img [ref=e7]
+        - heading "YYC³" [level=1] [ref=e9]
+        - paragraph [ref=e10]: 支持11种格式的高级表格转换编辑工具
+        - generic [ref=e11]:
+            - link "前往图片转换" [ref=e12] [cursor=pointer]:
+                - /url: /convert
+                - button "前往图片转换" [ref=e13]
+            - link "文档转换" [ref=e14] [cursor=pointer]:
+                - /url: /convert/doc
+                - button "文档转换" [ref=e15]
+            - link "矢量转换" [ref=e16] [cursor=pointer]:
+                - /url: /convert/vector
+                - button "矢量转换" [ref=e17]
+        - generic [ref=e18]:
+            - generic [ref=e19]:
+                - img [ref=e21]
+                - text: 支持11种格式
+                - button [ref=e23]:
+                    - img [ref=e24]
+            - generic [ref=e26]:
+                - img [ref=e28]
+                - text: 行列排序与重排
+                - button [ref=e31]:
+                    - img [ref=e32]
+            - generic [ref=e34]:
+                - img [ref=e36]
+                - text: 全文搜索与筛选
+                - button [ref=e39]:
+                    - img [ref=e40]
+    - generic [ref=e43]:
+        - generic [ref=e44]: 1粘贴表格/选择文件
+        - generic [ref=e45]: 2转换
+        - generic [ref=e46]: 3编辑/预览输出
+    - generic [ref=e47]:
+        - generic [ref=e48]:
+            - generic [ref=e50]:
+                - img [ref=e52]
+                - text: 输入与编辑
+            - generic [ref=e56]:
+                - tablist [ref=e57]:
+                    - tab "输入" [selected] [ref=e58]
+                    - tab "编辑/预览" [disabled] [ref=e59]
+                - tabpanel "输入" [ref=e60]:
+                    - generic [ref=e61]: sampleClicked:false inputLen:0
+                    - generic [ref=e62]:
+                        - generic [ref=e63]:
+                            - combobox [ref=e64]:
+                                - img [ref=e65]
+                            - combobox [ref=e67]
+                            - button "示例" [ref=e68]:
+                                - img [ref=e69]
+                                - text: 示例
+                            - button "选择文件" [ref=e71]:
+                                - img [ref=e72]
+                                - text: 选择文件
+                            - button "清空" [ref=e75]:
+                                - img [ref=e76]
+                                - text: 清空
+                        - button "Choose File" [ref=e79]
+                        - textbox "CSV格式的表格数据粘贴在此..." [ref=e80]
+        - generic [ref=e81]:
+            - generic [ref=e83]:
+                - img [ref=e85]
+                - text: 转换结果
+            - generic [ref=e88]:
+                - generic [ref=e89]: hasInput:false tableLen:0 enabled:false
+                - tablist [ref=e90]:
+                    - tab "📊CSV" [active] [selected] [ref=e91]
+                    - tab "📋TSV" [ref=e92]
+                    - tab "🌐HTML" [ref=e93]
+                    - tab "📈Excel" [ref=e94]
+                    - tab "📝Markdown" [ref=e95]
+                    - tab "📄LaTeX" [ref=e96]
+                    - tab "🗄️SQL" [ref=e97]
+                    - tab "🔧JSON" [ref=e98]
+                    - tab "⚙️YAML" [ref=e99]
+                    - tab "📰XML" [ref=e100]
+                    - tab "💻ASCII" [ref=e101]
+                - tabpanel "📊CSV" [ref=e102]:
+                    - generic [ref=e103]:
+                        - button "复制" [disabled] [ref=e104]:
+                            - img [ref=e105]
+                            - text: 复制
+                        - button "下载" [disabled] [ref=e108]:
+                            - img [ref=e109]
+                            - text: 下载
+                    - textbox "CSV格式的输出将显示在此..." [ref=e112]
+    - generic [ref=e113]:
+        - generic [ref=e115]: 使用说明
+        - generic [ref=e117]:
+            - generic [ref=e118]:
+                - generic [ref=e119]: '1'
+                - heading "输入数据" [level=3] [ref=e120]
+                - paragraph [ref=e121]: 粘贴11种支持格式(CSV、TSV、HTML、Excel、Markdown、LaTeX、SQL、JSON、YAML、XML、ASCII)的表格数据或上传文件
+            - generic [ref=e122]:
+                - generic [ref=e123]: '2'
+                - heading "编辑与预览" [level=3] [ref=e124]
+                - paragraph [ref=e125]: 使用编辑/预览标签页查看数据，选择和编辑单元格，添加/删除行和列，排序、筛选和调整表格大小
+            - generic [ref=e126]:
+                - generic [ref=e127]: '3'
+                - heading "转换与输出" [level=3] [ref=e128]
+                - paragraph [ref=e129]: 从右侧标签页选择所需格式并复制或下载转换结果。使用撤销/重做功能恢复操作
+    - generic [ref=e130]:
+        - generic [ref=e132]: 系统健康
+        - generic [ref=e134]: 正在加载健康数据…
+```
