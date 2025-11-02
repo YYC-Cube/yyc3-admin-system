@@ -10,67 +10,24 @@ export const StepBar = ({ currentStep }: StepBarProps) => {
   const { t } = useLanguage()
 
   return (
-    <div className="flex justify-center mb-12">
-      <div className="flex items-center gap-6 bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-xl border border-white/20">
-        <div
-          className={`flex items-center gap-4 px-6 py-4 rounded-xl transition-all duration-300 ${
-            currentStep >= 1
-              ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg scale-105"
-              : "bg-gray-100 text-gray-500"
-          }`}
+    <div className="flex items-center justify-between w-full px-6 py-3 rounded-full bg-card/90 border border-border/20 shadow-sm">
+      {steps.map((step, index) => (
+        <button
+          key={step.id}
+          onClick={() => onStepChange(index)}
+          className={cn(
+            "flex items-center gap-2 px-4 py-2 rounded-full transition-all",
+            currentStep === index
+              ? "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow"
+              : "bg-muted text-muted-foreground hover:bg-muted/80"
+          )}
         >
-          <span
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-              currentStep >= 1 ? "bg-white/20 text-white" : "bg-gray-300 text-gray-600"
-            }`}
-          >
-            1
+          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/20 text-primary-foreground text-xs font-semibold">
+            {index + 1}
           </span>
-          <span className="font-medium">{t("steps.step1")}</span>
-        </div>
-
-        <div
-          className={`w-12 h-1 rounded-full transition-all duration-500 ${currentStep >= 2 ? "bg-gradient-to-r from-blue-500 to-purple-500" : "bg-gray-300"}`}
-        />
-
-        <div
-          className={`flex items-center gap-4 px-6 py-4 rounded-xl transition-all duration-300 ${
-            currentStep >= 2
-              ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg scale-105"
-              : "bg-gray-100 text-gray-500"
-          }`}
-        >
-          <span
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-              currentStep >= 2 ? "bg-white/20 text-white" : "bg-gray-300 text-gray-600"
-            }`}
-          >
-            2
-          </span>
-          <span className="font-medium">{t("steps.step2")}</span>
-        </div>
-
-        <div
-          className={`w-12 h-1 rounded-full transition-all duration-500 ${currentStep >= 3 ? "bg-gradient-to-r from-purple-500 to-pink-500" : "bg-gray-300"}`}
-        />
-
-        <div
-          className={`flex items-center gap-4 px-6 py-4 rounded-xl transition-all duration-300 ${
-            currentStep >= 3
-              ? "bg-gradient-to-r from-pink-500 to-pink-600 text-white shadow-lg scale-105"
-              : "bg-gray-100 text-gray-500"
-          }`}
-        >
-          <span
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-              currentStep >= 3 ? "bg-white/20 text-white" : "bg-gray-300 text-gray-600"
-            }`}
-          >
-            3
-          </span>
-          <span className="font-medium">{t("steps.step3")}</span>
-        </div>
-      </div>
+          <span className="text-sm font-medium">{step.label}</span>
+        </button>
+      ))}
     </div>
-  )
+  );
 }

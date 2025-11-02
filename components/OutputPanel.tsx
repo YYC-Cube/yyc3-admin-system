@@ -97,7 +97,7 @@ export const OutputPanel = ({
       <div className="sr-only" data-slot="output-debug">
         hasInput:{String(hasInput || domHasInput)} tableLen:{tableData.length} enabled:{String(isActionEnabled)}
       </div>
-      <TabsList className="grid grid-cols-6 gap-1 h-auto p-2 bg-gray-100 rounded-xl">
+      <TabsList className="grid grid-cols-6 gap-1 h-auto p-2 bg-muted rounded-xl">
         {formats.map(format => (
           <TabsTrigger
             key={format.value}
@@ -150,10 +150,8 @@ export const OutputPanel = ({
             </div>
 
             <Textarea
-              value={tableData.length > 0 ? generateOutput(active.value, tableData) : ''}
-              readOnly
-              className="min-h-[450px] font-mono text-sm bg-gray-50 border-gray-200 rounded-xl resize-none"
-              placeholder={`${active.label}${t('placeholders.output')}`}
+              className="bg-muted border border-border focus:border-ring focus:ring-ring"
+              placeholder={t("placeholders.output")}
             />
           </TabsContent>
         )

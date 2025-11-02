@@ -104,8 +104,25 @@ export const PreviewPanel = ({
           </Button>
         </div>
 
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+          <Input
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            placeholder={t("placeholders.search")}
+            className="pl-9 bg-card border border-border focus:border-ring focus:ring-ring rounded-lg"
+          />
+        </div>
         <div className="flex items-center gap-3">
-          <div className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">{getSelectedCellsInfo()}</div>
+          <Button className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-0 hover:from-primary/90 hover:to-primary/90 shadow-lg hover:shadow-xl transition-all duration-200">
+            {t("actions.refresh")}
+          </Button>
+          <Button variant="secondary" className="bg-muted text-muted-foreground hover:bg-muted/80">
+            {t("actions.reset")}
+          </Button>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full">{getSelectedCellsInfo()}</div>
 
           <div className="flex gap-1">
             <Button

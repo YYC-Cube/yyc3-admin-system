@@ -88,7 +88,7 @@ export const HealthCard: React.FC = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         {!data && !error && (
-          <div className="text-sm text-gray-500">正在加载健康数据…</div>
+          <div className="text-sm text-muted-foreground">正在加载健康数据…</div>
         )}
         {error && (
           <div className="text-sm text-red-600">{error}</div>
@@ -97,7 +97,7 @@ export const HealthCard: React.FC = () => {
           <div className="space-y-3">
             {/* 健康分 */}
             <div>
-              <div className="flex items-center justify-between mb-2 text-sm text-gray-700">
+              <div className="flex items-center justify-between mb-2 text-sm text-foreground">
                 <span>健康分</span>
                 <span className="font-medium">{score} / 10</span>
               </div>
@@ -106,34 +106,43 @@ export const HealthCard: React.FC = () => {
 
             {/* 运行时内存 */}
             <div className="grid grid-cols-2 gap-3 text-sm">
-              <div className="rounded-lg bg-gray-50 p-3 border">
-                <div className="text-gray-600">内存使用</div>
+              <div className="rounded-lg bg-muted p-3 border border-border">
+                <div className="text-muted-foreground">内存使用</div>
                 <div className="mt-1 font-medium text-gray-800">{memRatio}%</div>
               </div>
-              <div className="rounded-lg bg-gray-50 p-3 border">
-                <div className="text-gray-600">事件循环滞后</div>
+              <div className="rounded-lg bg-muted p-3 border border-border">
+                <div className="text-muted-foreground">事件循环滞后</div>
                 <div className="mt-1 font-medium text-gray-800">{Math.round(data.metrics.eventLoop.lag)} ms</div>
               </div>
             </div>
 
             {/* API 指标 */}
             <div className="grid grid-cols-3 gap-3 text-sm">
-              <div className="rounded-lg bg-gray-50 p-3 border">
-                <div className="text-gray-600">平均响应</div>
+              <div className="rounded-xl bg-card/90 border border-border/30 shadow-sm p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-primary/80 flex items-center justify-center">
+                    <Heartbeat className="w-4 h-4 text-primary-foreground" />
+                  </div>
+                  <h4 className="text-foreground font-medium">{title}</h4>
+                </div>
+                <p className="text-muted-foreground text-sm">{desc}</p>
+              </div>
+              <div className="rounded-lg bg-muted p-3 border border-border">
+                <div className="text-muted-foreground">平均响应</div>
                 <div className="mt-1 font-medium text-gray-800">{Math.round(data.metrics.apiHealth.responseTime)} ms</div>
               </div>
-              <div className="rounded-lg bg-gray-50 p-3 border">
-                <div className="text-gray-600">错误率</div>
+              <div className="rounded-lg bg-muted p-3 border border-border">
+                <div className="text-muted-foreground">错误率</div>
                 <div className="mt-1 font-medium text-gray-800">{Math.round(data.metrics.apiHealth.errorRate * 100)}%</div>
               </div>
-              <div className="rounded-lg bg-gray-50 p-3 border">
-                <div className="text-gray-600">吞吐</div>
+              <div className="rounded-lg bg-muted p-3 border border-border">
+                <div className="text-muted-foreground">吞吐</div>
                 <div className="mt-1 font-medium text-gray-800">{data.metrics.apiHealth.throughput} req/min</div>
               </div>
             </div>
 
             {/* 时间戳 */}
-            <div className="text-xs text-gray-500">更新时间：{new Date(data.timestamp).toLocaleString()}</div>
+            <div className="text-xs text-muted-foreground">更新时间：{new Date(data.timestamp).toLocaleString()}</div>
           </div>
         )}
       </CardContent>

@@ -386,7 +386,7 @@ export default function TableConverter() {
                   isTableExpanded ? "h-[calc(100vh-2rem)]" : ""
                 }`}
               >
-                <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-100">
+                <CardHeader className="bg-gradient-to-r from-muted to-muted/60 border-b border-border">
                   <CardTitle className="flex items-center gap-3 text-xl font-bold text-gray-800">
                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
                       <FileText className="w-4 h-4 text-white" />
@@ -407,7 +407,7 @@ export default function TableConverter() {
                 </CardHeader>
                 <CardContent className={`p-6 ${isTableExpanded ? "h-[calc(100%-5rem)] overflow-hidden" : ""}`}>
                   <Tabs value={activeTab} onValueChange={handleTabChange}>
-                    <TabsList className="grid w-full grid-cols-2 bg-gray-100 p-1 rounded-xl">
+                    <TabsList className="grid w-full grid-cols-2 bg-muted p-1 rounded-xl">
                       <TabsTrigger
                         value="input"
                         className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md transition-all duration-200"

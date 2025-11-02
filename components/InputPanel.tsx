@@ -53,12 +53,12 @@ export const InputPanel = ({
     <div className="space-y-6">
       <div className="flex flex-wrap gap-3">
         <Select value={selectedFormat} onValueChange={setSelectedFormat}>
-          <SelectTrigger className="w-40 h-10 bg-white border-gray-200 hover:border-blue-300 transition-colors" data-slot="select-trigger">
+          <SelectTrigger className="w-40 h-10 bg-card border-border hover:border-ring transition-colors" data-slot="select-trigger">
             <SelectValue placeholder={t("buttons.format")} />
           </SelectTrigger>
-          <SelectContent className="bg-white border-gray-200 max-h-60">
+          <SelectContent className="bg-popover border-border max-h-60">
             {formats.map((format) => (
-              <SelectItem key={format.value} value={format.value} className="hover:bg-blue-50">
+              <SelectItem key={format.value} value={format.value} className="hover:bg-accent">
                 <span className="flex items-center gap-2">
                   <span>{format.icon}</span>
                   {format.label}
@@ -115,9 +115,20 @@ export const InputPanel = ({
         placeholder={placeholder}
         value={inputData}
         onChange={(e) => onInputChange(e.target.value)}
-        className="min-h-[350px] font-mono text-sm bg-gray-50 border-gray-200 focus:border-blue-400 focus:ring-blue-400 rounded-xl resize-none"
+        className="min-h-[350px] font-mono text-sm bg-muted border-border focus:border-ring focus:ring-ring rounded-xl resize-none"
         data-slot="input-textarea"
       />
+      <div className="flex items-center gap-3">
+        <Button className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/90">
+          {t("actions.parse")}
+        </Button>
+        <Button className="bg-gradient-to-r from-secondary to-secondary/80 text-secondary-foreground hover:from-secondary/90 hover:to-secondary/90">
+          {t("actions.clear")}
+        </Button>
+        <Button variant="destructive" className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+          {t("actions.reset")}
+        </Button>
+      </div>
     </div>
   )
 }

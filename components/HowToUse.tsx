@@ -12,30 +12,18 @@ export const HowToUse = () => {
         <CardTitle className="text-2xl font-bold text-center text-gray-800">{t("howToUse.title")}</CardTitle>
       </CardHeader>
       <CardContent className="p-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center group">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 transition-transform duration-300">
-              <span className="text-white font-bold text-2xl">1</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {steps.map((step, i) => (
+            <div key={i} className="rounded-xl bg-card border border-border p-6 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-primary/80 text-primary-foreground flex items-center justify-center text-sm font-semibold">
+                  {i + 1}
+                </span>
+                <h3 className="text-foreground font-medium">{step.title}</h3>
+              </div>
+              <p className="text-muted-foreground">{step.desc}</p>
             </div>
-            <h3 className="font-bold text-lg mb-3 text-gray-800">{t("howToUse.step1Title")}</h3>
-            <p className="text-gray-600 leading-relaxed">{t("howToUse.step1Desc")}</p>
-          </div>
-
-          <div className="text-center group">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 transition-transform duration-300">
-              <span className="text-white font-bold text-2xl">2</span>
-            </div>
-            <h3 className="font-bold text-lg mb-3 text-gray-800">{t("howToUse.step2Title")}</h3>
-            <p className="text-gray-600 leading-relaxed">{t("howToUse.step2Desc")}</p>
-          </div>
-
-          <div className="text-center group">
-            <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 transition-transform duration-300">
-              <span className="text-white font-bold text-2xl">3</span>
-            </div>
-            <h3 className="font-bold text-lg mb-3 text-gray-800">{t("howToUse.step3Title")}</h3>
-            <p className="text-gray-600 leading-relaxed">{t("howToUse.step3Desc")}</p>
-          </div>
+          ))}
         </div>
       </CardContent>
     </Card>
