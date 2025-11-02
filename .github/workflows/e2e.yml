@@ -73,6 +73,12 @@ jobs:
         with:
           name: test-results-basic
           path: test-results/
+      - name: Upload UI snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-snapshots-basic
+          path: ui-snapshots/
 
   e2e-tools:
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/') }}
@@ -158,8 +164,14 @@ jobs:
         with:
           name: test-results-tools
           path: test-results/
+      - name: Upload UI snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-snapshots-tools
+          path: ui-snapshots/
 
-      - name: Comment PR with artifacts link and failed summary
+  - name: Comment PR with artifacts link and failed summary
         if: ${{ github.event_name == 'pull_request' }}
         uses: actions/github-script@v7
         with:
@@ -196,7 +208,7 @@ jobs:
             const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}#artifacts`;
             const body = [
               '✅ E2E 测试已完成。',
-              '- 已上传 Playwright 报告与测试产物（视频/截图/trace）。',
+              '- 已上传 Playwright 报告、测试产物（视频/截图/trace）与 UI 快照。',
               `- 直达 Artifacts：${runUrl}`,
               summary
             ].join('\n');

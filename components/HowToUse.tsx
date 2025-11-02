@@ -7,9 +7,9 @@ export const HowToUse = () => {
   const { t } = useLanguage()
 
   return (
-    <Card className="mt-12 bg-white/90 backdrop-blur-sm border-white/20 shadow-2xl">
-      <CardHeader className="bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-gray-100">
-        <CardTitle className="text-2xl font-bold text-center text-gray-800">{t("howToUse.title")}</CardTitle>
+    <Card className="mt-12 bg-card/90 backdrop-blur-sm border border-border/20 shadow-2xl">
+      <CardHeader className="bg-gradient-to-r from-muted to-muted/60 border-b border-border">
+        <CardTitle className="text-2xl font-bold text-center text-foreground">{t("howToUse.title")}</CardTitle>
       </CardHeader>
       <CardContent className="p-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
