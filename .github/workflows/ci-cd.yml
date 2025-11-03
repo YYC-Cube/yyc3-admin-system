@@ -1,0 +1,354 @@
+# ==========================================================
+# 🚀 Easy Table Converter 高可用 CI/CD 工作流
+# 基于 GitHub Actions 的自动化测试、构建和部署
+# ==========================================================
+
+name: CI/CD Pipeline
+
+on:
+  # 主分支和标签触发
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*.*.*' ]
+  # PR触发
+  pull_request:
+    branches: [ main, master ]
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: '部署环境'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+# 环境变量定义
+env:
+  # Docker 相关配置
+  DOCKER_REGISTRY: ghcr.io
+  DOCKER_IMAGE_NAME: ${{ github.repository }}
+  DOCKER_IMAGE_TAG: ${{ github.sha }}
+  # 超时配置
+  NODE_OPTIONS: --max-old-space-size=4096
+
+jobs:
+  # ==========================================================
+  # 🔍 代码质量检查
+  # ==========================================================
+  lint:
+    name: 🔍 代码质量检查
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 📦 安装 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+      
+      - name: 📱 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: 📚 安装依赖
+        run: pnpm install --frozen-lockfile
+      
+      - name: 🔍 运行 ESLint
+        run: pnpm lint
+      
+      - name: 🎨 检查代码格式
+        run: pnpm format:check
+      
+      - name: 📊 类型检查
+        run: pnpm typecheck
+
+  # ==========================================================
+  # 🧪 自动化测试
+  # ==========================================================
+  test:
+    name: 🧪 自动化测试
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+      
+      - name: 📦 安装 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+      
+      - name: 📱 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: 📚 安装依赖
+        run: pnpm install --frozen-lockfile
+      
+      - name: 🧪 运行单元测试
+        run: pnpm test:unit
+      
+      - name: 💾 上传测试覆盖率
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage/
+
+  # ==========================================================
+  # 🧪 E2E 测试
+  # ==========================================================
+  e2e:
+    name: 🧪 E2E 测试
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+      
+      - name: 📦 安装 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+      
+      - name: 📱 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: 📚 安装依赖
+        run: pnpm install --frozen-lockfile
+      
+      - name: 📦 安装 Playwright
+        run: npx playwright install --with-deps
+      
+      - name: 🧪 运行 E2E 测试
+        run: pnpm test:e2e
+      
+      - name: 💾 上传测试报告
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  # ==========================================================
+  # 🏗️ 构建应用
+  # ==========================================================
+  build:
+    name: 🏗️ 构建应用
+    needs: [test, e2e]
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.set-output.outputs.tag }}
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+      
+      - name: 📦 安装 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+      
+      - name: 📱 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: 📚 安装依赖
+        run: pnpm install --frozen-lockfile
+      
+      - name: 🏗️ 构建应用
+        run: pnpm build
+      
+      - name: 💾 上传构建产物
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: .next/
+      
+      - name: 🔐 登录到 GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 📝 设置镜像标签
+        id: set-output
+        run: |
+          # 根据触发事件设置标签
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref_type }}" == "tag" ]]; then
+            # 标签推送使用标签名
+            echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            # 其他情况使用 commit SHA
+            echo "tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 🏗️ 构建并推送 Docker 镜像
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ steps.set-output.outputs.tag }}
+            ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:latest
+          # 缓存优化
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          # 构建参数
+          build-args: |
+            NODE_ENV=production
+            NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://yyc3.example.com' }}
+
+  # ==========================================================
+  # 🚀 部署到 Staging 环境
+  # ==========================================================
+  deploy-staging:
+    name: 🚀 部署到 Staging 环境
+    if: github.event_name != 'push' || github.ref_type != 'tag'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+      
+      - name: 🔄 准备部署配置
+        run: |
+          mkdir -p nginx/ssl nginx/logs
+          echo "# Staging 环境配置" > .env.staging
+          echo "NEXT_PUBLIC_SITE_URL=${{ secrets.STAGING_SITE_URL }}" >> .env.staging
+          echo "DEBUG_MODE=false" >> .env.staging
+          echo "ENV_STRICT=true" >> .env.staging
+      
+      - name: 🚀 部署到 Staging
+        run: |
+          # 这里应该配置你的部署逻辑
+          # 例如：使用 SSH 部署或云服务商 CLI
+          echo "部署到 Staging 环境，镜像标签: ${{ needs.build.outputs.image_tag }}"
+          # 示例：ssh 部署
+          # ssh ${{ secrets.STAGING_SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} "cd ${{ secrets.STAGING_DEPLOY_PATH }} && docker-compose pull && docker-compose up -d"
+      
+      - name: ✅ 验证部署
+        run: |
+          echo "验证 Staging 部署..."
+          # 这里添加部署验证逻辑
+          # 例如：健康检查 API
+      
+      - name: 📧 发送部署通知
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: deployments
+          SLACK_TITLE: 🌐 Staging 环境部署成功
+          SLACK_MESSAGE: 应用已成功部署到 Staging 环境！
+          SLACK_COLOR: good
+
+  # ==========================================================
+  # 🚀 部署到 Production 环境
+  # ==========================================================
+  deploy-production:
+    name: 🚀 部署到 Production 环境
+    if: github.event_name == 'push' && github.ref_type == 'tag' || github.event.inputs.environment == 'production'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+      
+      - name: 🔄 准备部署配置
+        run: |
+          mkdir -p nginx/ssl nginx/logs
+          echo "# Production 环境配置" > .env.production
+          echo "NEXT_PUBLIC_SITE_URL=${{ secrets.PROD_SITE_URL }}" >> .env.production
+          echo "DEBUG_MODE=false" >> .env.production
+          echo "ENV_STRICT=true" >> .env.production
+          echo "MAX_UPLOAD_SIZE=50MB" >> .env.production
+      
+      - name: 🚀 滚动部署到 Production
+        run: |
+          echo "执行滚动部署到 Production 环境，镜像标签: ${{ needs.build.outputs.image_tag }}"
+          # 这里应该配置你的生产环境部署逻辑
+          # 例如：使用 Docker Compose 进行滚动更新
+          # docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --scale app=3 --no-recreate
+      
+      - name: ✅ 部署后验证
+        run: |
+          echo "验证 Production 部署..."
+          # 添加健康检查和部署验证逻辑
+      
+      - name: 📧 发送部署通知
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: deployments
+          SLACK_TITLE: 🚀 Production 环境部署成功
+          SLACK_MESSAGE: 应用已成功部署到 Production 环境！版本: ${{ needs.build.outputs.image_tag }}
+          SLACK_COLOR: good
+
+  # ==========================================================
+  # 🔍 部署后监控
+  # ==========================================================
+  monitor:
+    name: 🔍 部署后监控
+    needs: [deploy-staging, deploy-production]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: 📊 检查应用健康状态
+        run: |
+          echo "检查应用健康状态..."
+          # 这里添加健康检查和监控逻辑
+      
+      - name: 📈 记录部署指标
+        run: |
+          echo "记录部署指标..."
+          # 这里添加部署指标记录逻辑
+
+# ==========================================================
+# 📝 工作流说明
+# ==========================================================
+# 1. 触发条件：
+#    - 主分支推送到 main/master
+#    - 标签推送到 'v*.*.*'
+#    - PR 提交到 main/master
+#    - 手动触发（可选择环境）
+
+# 2. 工作流程：
+#    - 代码质量检查（ESLint、格式化、类型检查）
+#    - 单元测试和 E2E 测试
+#    - 构建应用和 Docker 镜像
+#    - 根据条件部署到 Staging 或 Production
+#    - 部署后监控
+
+# 3. 高可用特性：
+#    - 多环境部署（Staging/Production）
+#    - 滚动更新机制
+#    - 健康检查验证
+#    - 部署通知和监控
+
+# 4. 安全考虑：
+#    - 使用 GitHub Secrets 存储敏感信息
+#    - 环境隔离
+#    - 构建时注入环境变量
+
+# 5. 优化：
+#    - 缓存依赖和 Docker 镜像
+#    - 并行运行测试
+#    - 条件部署
+# ==========================================================

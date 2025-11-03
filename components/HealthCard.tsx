@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * @file 健康监控卡片组件
@@ -10,13 +10,13 @@
  * @updated 2025-10-31
  */
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 
 interface HealthResponse {
-  status: "ok" | "error";
+  status: 'ok' | 'error';
   timestamp: string;
   healthScore: number;
   metrics: {
@@ -54,7 +54,7 @@ export const HealthCard: React.FC = () => {
     let mounted = true;
     const fetchHealth = async () => {
       try {
-        const res = await fetch("/api/health", { cache: "no-store" });
+        const res = await fetch('/api/health', { cache: 'no-store' });
         if (!res.ok) throw new Error(`健康接口异常: ${res.status}`);
         const json = (await res.json()) as HealthResponse;
         if (mounted) {
@@ -82,17 +82,16 @@ export const HealthCard: React.FC = () => {
   const score = Math.round((data?.healthScore ?? 0) * 10) / 10; // 保留 1 位小数
 
   return (
-    <Card className="mt-6 bg-white/90 backdrop-blur-md border-white/30">
+    <Card
+      data-slot="health-card"
+      className="mt-6 bg-card/90 backdrop-blur-md border border-border/20 shadow-2xl"
+    >
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-semibold text-gray-800">系统健康</CardTitle>
+        <CardTitle className="text-lg font-semibold text-foreground">系统健康</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {!data && !error && (
-          <div className="text-sm text-muted-foreground">正在加载健康数据…</div>
-        )}
-        {error && (
-          <div className="text-sm text-red-600">{error}</div>
-        )}
+        {!data && !error && <div className="text-sm text-muted-foreground">正在加载健康数据…</div>}
+        {error && <div className="text-sm text-destructive">{error}</div>}
         {data && (
           <div className="space-y-3">
             {/* 健康分 */}
@@ -104,45 +103,46 @@ export const HealthCard: React.FC = () => {
               <Progress value={Math.min(100, Math.round((score / 10) * 100))} />
             </div>
 
-            {/* 运行时内存 */}
+            {/* 运行时内存与事件循环 */}
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-lg bg-muted p-3 border border-border">
                 <div className="text-muted-foreground">内存使用</div>
-                <div className="mt-1 font-medium text-gray-800">{memRatio}%</div>
+                <div className="mt-1 font-medium text-foreground">{memRatio}%</div>
               </div>
               <div className="rounded-lg bg-muted p-3 border border-border">
                 <div className="text-muted-foreground">事件循环滞后</div>
-                <div className="mt-1 font-medium text-gray-800">{Math.round(data.metrics.eventLoop.lag)} ms</div>
+                <div className="mt-1 font-medium text-foreground">
+                  {Math.round(data.metrics.eventLoop.lag)} ms
+                </div>
               </div>
             </div>
 
             {/* API 指标 */}
             <div className="grid grid-cols-3 gap-3 text-sm">
-              <div className="rounded-xl bg-card/90 border border-border/30 shadow-sm p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-primary/80 flex items-center justify-center">
-                    <Heartbeat className="w-4 h-4 text-primary-foreground" />
-                  </div>
-                  <h4 className="text-foreground font-medium">{title}</h4>
-                </div>
-                <p className="text-muted-foreground text-sm">{desc}</p>
-              </div>
               <div className="rounded-lg bg-muted p-3 border border-border">
                 <div className="text-muted-foreground">平均响应</div>
-                <div className="mt-1 font-medium text-gray-800">{Math.round(data.metrics.apiHealth.responseTime)} ms</div>
+                <div className="mt-1 font-medium text-foreground">
+                  {Math.round(data.metrics.apiHealth.responseTime)} ms
+                </div>
               </div>
               <div className="rounded-lg bg-muted p-3 border border-border">
                 <div className="text-muted-foreground">错误率</div>
-                <div className="mt-1 font-medium text-gray-800">{Math.round(data.metrics.apiHealth.errorRate * 100)}%</div>
+                <div className="mt-1 font-medium text-foreground">
+                  {Math.round(data.metrics.apiHealth.errorRate * 100)}%
+                </div>
               </div>
               <div className="rounded-lg bg-muted p-3 border border-border">
                 <div className="text-muted-foreground">吞吐</div>
-                <div className="mt-1 font-medium text-gray-800">{data.metrics.apiHealth.throughput} req/min</div>
+                <div className="mt-1 font-medium text-foreground">
+                  {data.metrics.apiHealth.throughput} req/min
+                </div>
               </div>
             </div>
 
             {/* 时间戳 */}
-            <div className="text-xs text-muted-foreground">更新时间：{new Date(data.timestamp).toLocaleString()}</div>
+            <div className="text-xs text-muted-foreground">
+              更新时间：{new Date(data.timestamp).toLocaleString()}
+            </div>
           </div>
         )}
       </CardContent>
