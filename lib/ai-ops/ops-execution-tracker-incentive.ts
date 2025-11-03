@@ -547,20 +547,24 @@ export class OpsExecutionTrackerIncentive {
   /**
    * Safely evaluate a simple comparison expression without using eval()
    * Supports: >, <, >=, <=, ==, !=, &&, ||
+   * Note: Mixed && and || operators without parentheses are not supported
+   * Examples: "score > 80", "score >= 70 && rank < 5", "quality > 90 || efficiency > 85"
    */
   private safeEvaluateExpression(expr: string, context: Record<string, number>): boolean {
     // Remove extra whitespace
     expr = expr.trim()
 
     // Handle logical operators (AND, OR)
-    if (expr.includes("&&")) {
-      const parts = expr.split("&&")
-      return parts.every((part) => this.safeEvaluateExpression(part.trim(), context))
-    }
-
+    // Note: We don't support mixed && and || without parentheses
+    // Process && with higher precedence than ||
     if (expr.includes("||")) {
       const parts = expr.split("||")
       return parts.some((part) => this.safeEvaluateExpression(part.trim(), context))
+    }
+
+    if (expr.includes("&&")) {
+      const parts = expr.split("&&")
+      return parts.every((part) => this.safeEvaluateExpression(part.trim(), context))
     }
 
     // Handle comparison operators - Use a more efficient regex to avoid ReDoS
@@ -572,6 +576,12 @@ export class OpsExecutionTrackerIncentive {
 
     const [, variable, operator, valueStr] = comparisonMatch
     const value = parseFloat(valueStr)
+
+    // Validate that parseFloat succeeded
+    if (isNaN(value)) {
+      console.warn(`[v0] Invalid number in condition: ${valueStr}`)
+      return false
+    }
 
     // Check if variable exists in context
     if (!(variable in context)) {

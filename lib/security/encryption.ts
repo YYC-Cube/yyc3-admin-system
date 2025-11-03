@@ -58,8 +58,15 @@ if (!process.env.ENCRYPTION_SECRET) {
 }
 
 // Load or generate salt (in production, this should be stored securely)
-const ENCRYPTION_SALT = process.env.ENCRYPTION_SALT
-  ? Buffer.from(process.env.ENCRYPTION_SALT, "hex")
-  : undefined
+let ENCRYPTION_SALT: Buffer | undefined
+if (process.env.ENCRYPTION_SALT) {
+  // Validate hex string format
+  if (!/^[0-9a-fA-F]+$/.test(process.env.ENCRYPTION_SALT)) {
+    throw new Error(
+      "ENCRYPTION_SALT must be a valid hexadecimal string. Generate one with: openssl rand -hex 64"
+    )
+  }
+  ENCRYPTION_SALT = Buffer.from(process.env.ENCRYPTION_SALT, "hex")
+}
 
 export const encryption = new Encryption(process.env.ENCRYPTION_SECRET, ENCRYPTION_SALT)
