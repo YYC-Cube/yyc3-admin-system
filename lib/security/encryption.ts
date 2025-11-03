@@ -60,10 +60,10 @@ if (!process.env.ENCRYPTION_SECRET) {
 // Load or generate salt (in production, this should be stored securely)
 let ENCRYPTION_SALT: Buffer | undefined
 if (process.env.ENCRYPTION_SALT) {
-  // Validate hex string format
-  if (!/^[0-9a-fA-F]+$/.test(process.env.ENCRYPTION_SALT)) {
+  // Validate hex string format and length (should be 128 hex chars for 64 bytes)
+  if (!/^[0-9a-fA-F]{128}$/.test(process.env.ENCRYPTION_SALT)) {
     throw new Error(
-      "ENCRYPTION_SALT must be a valid hexadecimal string. Generate one with: openssl rand -hex 64"
+      "ENCRYPTION_SALT must be a valid hexadecimal string of exactly 128 characters (64 bytes). Generate one with: openssl rand -hex 64"
     )
   }
   ENCRYPTION_SALT = Buffer.from(process.env.ENCRYPTION_SALT, "hex")
