@@ -524,21 +524,79 @@ export class OpsExecutionTrackerIncentive {
   }
 
   private evaluateCondition(condition: string, performance: PerformanceScore): boolean {
-    // 简单的条件评估（实际应使用表达式解析器）
+    // Safe condition evaluation without eval()
+    // Supports simple comparison operations like: "taskCompletionRate > 80", "qualityScore >= 70 && efficiencyScore > 60"
     try {
-      // 替换变量
-      const expr = condition
-        .replace(/taskCompletionRate/g, performance.taskCompletionRate.toString())
-        .replace(/qualityScore/g, performance.qualityScore.toString())
-        .replace(/efficiencyScore/g, performance.efficiencyScore.toString())
-        .replace(/overallScore/g, performance.overallScore.toString())
-        .replace(/rank/g, performance.rank.toString())
+      // Create a safe context with only the performance metrics
+      const context: Record<string, number> = {
+        taskCompletionRate: performance.taskCompletionRate,
+        qualityScore: performance.qualityScore,
+        efficiencyScore: performance.efficiencyScore,
+        overallScore: performance.overallScore,
+        rank: performance.rank,
+      }
 
-      // 评估表达式
-      return eval(expr)
+      // Parse and evaluate the condition safely
+      return this.safeEvaluateExpression(condition, context)
     } catch (error) {
       console.error("[v0] Condition evaluation failed:", error)
       return false
+    }
+  }
+
+  /**
+   * Safely evaluate a simple comparison expression without using eval()
+   * Supports: >, <, >=, <=, ==, !=, &&, ||
+   */
+  private safeEvaluateExpression(expr: string, context: Record<string, number>): boolean {
+    // Remove extra whitespace
+    expr = expr.trim()
+
+    // Handle logical operators (AND, OR)
+    if (expr.includes("&&")) {
+      const parts = expr.split("&&")
+      return parts.every((part) => this.safeEvaluateExpression(part.trim(), context))
+    }
+
+    if (expr.includes("||")) {
+      const parts = expr.split("||")
+      return parts.some((part) => this.safeEvaluateExpression(part.trim(), context))
+    }
+
+    // Handle comparison operators
+    const comparisonMatch = expr.match(/^(\w+)\s*(>=|<=|>|<|==|!=)\s*(-?\d+\.?\d*)$/)
+    if (!comparisonMatch) {
+      console.warn(`[v0] Invalid condition format: ${expr}`)
+      return false
+    }
+
+    const [, variable, operator, valueStr] = comparisonMatch
+    const value = parseFloat(valueStr)
+
+    // Check if variable exists in context
+    if (!(variable in context)) {
+      console.warn(`[v0] Unknown variable in condition: ${variable}`)
+      return false
+    }
+
+    const varValue = context[variable]
+
+    // Perform comparison
+    switch (operator) {
+      case ">":
+        return varValue > value
+      case "<":
+        return varValue < value
+      case ">=":
+        return varValue >= value
+      case "<=":
+        return varValue <= value
+      case "==":
+        return varValue === value
+      case "!=":
+        return varValue !== value
+      default:
+        return false
     }
   }
 

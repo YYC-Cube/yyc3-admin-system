@@ -9,9 +9,13 @@ const TAG_LENGTH = 16
 
 export class Encryption {
   private key: Buffer
+  private salt: Buffer
 
-  constructor(secret: string) {
-    this.key = crypto.scryptSync(secret, "salt", KEY_LENGTH)
+  constructor(secret: string, salt?: Buffer) {
+    // Generate a random salt if not provided (for new installations)
+    // For existing installations, the salt should be stored securely and passed in
+    this.salt = salt || crypto.randomBytes(SALT_LENGTH)
+    this.key = crypto.scryptSync(secret, this.salt, KEY_LENGTH)
   }
 
   encrypt(text: string): string {
@@ -46,4 +50,16 @@ export class Encryption {
   }
 }
 
-export const encryption = new Encryption(process.env.ENCRYPTION_SECRET || "default-secret-key-change-in-production")
+// Validate that ENCRYPTION_SECRET is set
+if (!process.env.ENCRYPTION_SECRET) {
+  throw new Error(
+    "ENCRYPTION_SECRET environment variable is not set. Please set it to a secure random string."
+  )
+}
+
+// Load or generate salt (in production, this should be stored securely)
+const ENCRYPTION_SALT = process.env.ENCRYPTION_SALT
+  ? Buffer.from(process.env.ENCRYPTION_SALT, "hex")
+  : undefined
+
+export const encryption = new Encryption(process.env.ENCRYPTION_SECRET, ENCRYPTION_SALT)
