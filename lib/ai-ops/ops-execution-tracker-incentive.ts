@@ -563,8 +563,8 @@ export class OpsExecutionTrackerIncentive {
       return parts.some((part) => this.safeEvaluateExpression(part.trim(), context))
     }
 
-    // Handle comparison operators
-    const comparisonMatch = expr.match(/^(\w+)\s*(>=|<=|>|<|==|!=)\s*(-?\d+\.?\d*)$/)
+    // Handle comparison operators - Use a more efficient regex to avoid ReDoS
+    const comparisonMatch = expr.match(/^(\w+)\s*(>=|<=|>|<|==|!=)\s*(-?\d+(?:\.\d+)?)$/)
     if (!comparisonMatch) {
       console.warn(`[v0] Invalid condition format: ${expr}`)
       return false
