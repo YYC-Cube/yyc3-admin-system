@@ -7,9 +7,6 @@ import { DynamicPricingDashboard } from "@/components/ai/dynamic-pricing-dashboa
 import { PriceOptimizationPanel } from "@/components/ai/price-optimization-panel"
 import { RevenueProjectionChart } from "@/components/ai/revenue-projection-chart"
 
-// Disable static generation for this page
-export const dynamic = 'force-dynamic'
-
 export default function AIPricingPage() {
   return (
     <div className="space-y-6">

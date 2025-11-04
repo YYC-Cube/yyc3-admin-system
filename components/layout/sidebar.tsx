@@ -1,6 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -29,7 +30,6 @@ import {
   Phone,
   ClipboardCheck,
 } from "lucide-react"
-import { AnimatePresence, useState } from "framer-motion" // Import AnimatePresence and useState
 
 // 导航菜单配置
 const menuItems = [

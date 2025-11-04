@@ -1,3 +1,5 @@
+"use client"
+
 import { Suspense } from "react"
 import { CustomerPromotionDashboard } from "@/components/ai-ops/customer-promotion-dashboard"
 

@@ -20,6 +20,43 @@ export function UserBehaviorDashboard() {
     conversionRate: 12.5,
   }
 
+  // 模拟用户画像数据
+  const mockProfile = {
+    name: "张三",
+    segment: "高价值用户",
+    tags: ["VIP客户", "高频访问", "高消费"],
+    value: 25800,
+    lastVisit: "2024-11-03",
+  }
+
+  // 模拟路径分析数据
+  const mockPathSteps = [
+    { page: "首页", users: 10000, dropRate: 0 },
+    { page: "产品列表", users: 7500, dropRate: 25 },
+    { page: "产品详情", users: 5000, dropRate: 33.3 },
+    { page: "购物车", users: 3000, dropRate: 40 },
+    { page: "结算", users: 1500, dropRate: 50 },
+    { page: "支付成功", users: 1250, dropRate: 16.7 },
+  ]
+
+  // 模拟漏斗分析数据
+  const mockFunnelSteps = [
+    { name: "访问首页", users: 10000, conversionRate: 100 },
+    { name: "浏览商品", users: 7500, conversionRate: 75 },
+    { name: "加入购物车", users: 3000, conversionRate: 30 },
+    { name: "提交订单", users: 1500, conversionRate: 15 },
+    { name: "完成支付", users: 1250, conversionRate: 12.5 },
+  ]
+
+  // 模拟留存数据
+  const mockRetentionData = [
+    { day: "Day 1", rate: 100 },
+    { day: "Day 3", rate: 75 },
+    { day: "Day 7", rate: 55 },
+    { day: "Day 14", rate: 42 },
+    { day: "Day 30", rate: 35 },
+  ]
+
   return (
     <div className="space-y-6">
       {/* 关键指标 */}
@@ -79,19 +116,19 @@ export function UserBehaviorDashboard() {
         </TabsList>
 
         <TabsContent value="profile" className="space-y-4">
-          <UserProfilePanel />
+          <UserProfilePanel profile={mockProfile} />
         </TabsContent>
 
         <TabsContent value="path" className="space-y-4">
-          <PathAnalysisPanel />
+          <PathAnalysisPanel steps={mockPathSteps} />
         </TabsContent>
 
         <TabsContent value="funnel" className="space-y-4">
-          <FunnelAnalysisPanel />
+          <FunnelAnalysisPanel steps={mockFunnelSteps} />
         </TabsContent>
 
         <TabsContent value="retention" className="space-y-4">
-          <RetentionAnalysisPanel />
+          <RetentionAnalysisPanel data={mockRetentionData} cohortName="2024年10月" />
         </TabsContent>
       </Tabs>
     </div>

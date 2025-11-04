@@ -18,7 +18,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    optimizePackageImports: ['lucide-react', 'recharts', 'framer-motion', '@radix-ui/react-icons'],
+    optimizePackageImports: ['lucide-react', 'recharts', '@radix-ui/react-icons'],
   },
   assetPrefix: process.env.CDN_URL || '',
   async headers() {

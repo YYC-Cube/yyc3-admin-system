@@ -1,3 +1,5 @@
+"use client"
+
 import { Suspense } from "react"
 import { CacheMetricsDashboard } from "@/components/edge/cache-metrics-dashboard"
 import { CacheControlPanel } from "@/components/edge/cache-control-panel"
