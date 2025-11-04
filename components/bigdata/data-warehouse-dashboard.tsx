@@ -18,6 +18,15 @@ export function DataWarehouseDashboard() {
     qps: 0,
   })
 
+  // 模拟数据源
+  const mockDataSources = [
+    { name: "MySQL订单数据库", status: "active" as const, recordsToday: 12500, lastSync: "1分钟前" },
+    { name: "MongoDB用户行为日志", status: "active" as const, recordsToday: 98500, lastSync: "2分钟前" },
+    { name: "Redis缓存数据", status: "active" as const, recordsToday: 245000, lastSync: "30秒前" },
+    { name: "ClickHouse分析库", status: "active" as const, recordsToday: 156000, lastSync: "1分钟前" },
+    { name: "Elasticsearch搜索引擎", status: "error" as const, recordsToday: 0, lastSync: "15分钟前" },
+  ]
+
   useEffect(() => {
     // 模拟统计数据
     setStats({
@@ -82,7 +91,7 @@ export function DataWarehouseDashboard() {
       </div>
 
       {/* 数据采集面板 */}
-      <DataCollectionPanel />
+      <DataCollectionPanel sources={mockDataSources} />
 
       {/* 查询构建器面板 */}
       <QueryBuilderPanel />
