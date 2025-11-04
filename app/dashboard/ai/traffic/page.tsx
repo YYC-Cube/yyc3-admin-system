@@ -1,3 +1,5 @@
+"use client"
+
 import { Suspense } from "react"
 import { TrafficPredictionDashboard } from "@/components/ai/traffic-prediction-dashboard"
 import { TrafficForecastChart } from "@/components/ai/traffic-forecast-chart"
@@ -5,8 +7,11 @@ import { AnomalyAlertPanel } from "@/components/ai/anomaly-alert-panel"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-// 服务端组件 - 获取预测数据
-async function getTrafficPredictions() {
+// Disable static generation for this page
+export const dynamic = 'force-dynamic'
+
+// 客户端组件 - 获取预测数据
+function getTrafficPredictions() {
   // 模拟获取历史数据
   const historicalTraffic = Array.from({ length: 168 }, (_, i) => ({
     date: new Date(Date.now() - (168 - i) * 3600000),
@@ -24,8 +29,8 @@ async function getTrafficPredictions() {
   return { historicalTraffic, externalFactors }
 }
 
-export default async function TrafficPredictionPage() {
-  const { historicalTraffic, externalFactors } = await getTrafficPredictions()
+export default function TrafficPredictionPage() {
+  const { historicalTraffic, externalFactors } = getTrafficPredictions()
 
   return (
     <div className="space-y-6">
