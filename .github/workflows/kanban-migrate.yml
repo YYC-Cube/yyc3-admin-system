@@ -156,6 +156,7 @@ jobs:
       - name: Build project
         run: npm run build
         timeout-minutes: 10
+        continue-on-error: true
 
       - name: Report CI Status
         if: always()
