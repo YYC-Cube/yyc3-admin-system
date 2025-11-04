@@ -1,3 +1,5 @@
+"use client"
+
 import { Suspense } from "react"
 import { OpsTrackerDashboard } from "@/components/ai-ops/ops-tracker-dashboard"
 
