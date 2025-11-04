@@ -91,8 +91,8 @@ git push origin branch-name
 
 ## 相关文档 / Related Docs
 
-- 📖 [完整清理指南](../docs/BRANCH_CLEANUP_GUIDE.md)
-- 🔧 [清理脚本文档](./README_CLEANUP.md)
+- 📖 [完整清理指南](docs/BRANCH_CLEANUP_GUIDE.md)
+- 🔧 [清理脚本文档](scripts/README_CLEANUP.md)
 
 ---
 

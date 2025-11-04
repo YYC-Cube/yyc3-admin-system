@@ -58,7 +58,7 @@ while [[ $# -gt 0 ]]; do
             usage
             ;;
         *)
-            echo -e "${RED}错误：未知选项 $1${NC}" / "Error: Unknown option $1"
+            echo -e "${RED}错误：未知选项 $1 / Error: Unknown option $1${NC}"
             usage
             ;;
     esac
@@ -101,7 +101,14 @@ get_merged_branches() {
     # 获取所有远程分支 / Get all remote branches (handle case where main might not exist locally)
     local all_branches=""
     if git show-ref --verify --quiet refs/remotes/origin/${MAIN_BRANCH}; then
-        all_branches=$(git branch -r --merged origin/${MAIN_BRANCH} 2>/dev/null | grep -v "HEAD" | grep -v "${MAIN_BRANCH}" | sed 's/origin\///' | sed 's/^[[:space:]]*//')
+        # Get remote branches merged into main
+        local remote_branches=$(git branch -r --merged origin/${MAIN_BRANCH} 2>/dev/null)
+        # Filter out HEAD and main branch
+        remote_branches=$(echo "$remote_branches" | grep -v "HEAD" | grep -v "${MAIN_BRANCH}")
+        # Remove 'origin/' prefix
+        remote_branches=$(echo "$remote_branches" | sed 's/origin\///')
+        # Trim whitespace
+        all_branches=$(echo "$remote_branches" | sed 's/^[[:space:]]*//')
     fi
     
     # 已知已合并的分支列表 / Known merged branches list
@@ -196,7 +203,10 @@ main() {
     
     # 获取已合并的分支 / Get merged branches
     info "正在查找已合并到 ${MAIN_BRANCH} 的分支... / Finding branches merged into ${MAIN_BRANCH}..."
-    local branches=($(get_merged_branches))
+    local branches=()
+    while IFS= read -r branch; do
+        [ -n "$branch" ] && branches+=("$branch")
+    done < <(get_merged_branches)
     
     # 显示分支列表 / Display branch list
     if ! display_branches "${branches[@]}"; then
