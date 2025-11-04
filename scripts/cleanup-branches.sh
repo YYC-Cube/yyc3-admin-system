@@ -98,10 +98,11 @@ update_remote() {
 
 # 获取已合并到 main 的远程分支 / Get remote branches merged into main
 get_merged_branches() {
-    info "正在查找已合并到 ${MAIN_BRANCH} 的分支... / Finding branches merged into ${MAIN_BRANCH}..."
-    
-    # 获取所有远程分支 / Get all remote branches
-    local all_branches=$(git branch -r --merged origin/${MAIN_BRANCH} | grep -v "HEAD" | grep -v "${MAIN_BRANCH}" | sed 's/origin\///')
+    # 获取所有远程分支 / Get all remote branches (handle case where main might not exist locally)
+    local all_branches=""
+    if git show-ref --verify --quiet refs/remotes/origin/${MAIN_BRANCH}; then
+        all_branches=$(git branch -r --merged origin/${MAIN_BRANCH} 2>/dev/null | grep -v "HEAD" | grep -v "${MAIN_BRANCH}" | sed 's/origin\///' | sed 's/^[[:space:]]*//')
+    fi
     
     # 已知已合并的分支列表 / Known merged branches list
     local known_merged=(
@@ -117,14 +118,26 @@ get_merged_branches() {
         "dependabot/npm_and_yarn/npm_and_yarn-2e94d63b2a"
     )
     
-    # 合并两个列表 / Merge both lists
-    echo "${all_branches}"
+    # 合并两个列表并去重 / Merge both lists and remove duplicates
+    local combined_list=""
+    
+    if [ -n "$all_branches" ]; then
+        combined_list=$(echo "$all_branches")
+    fi
+    
     for branch in "${known_merged[@]}"; do
-        # 检查分支是否存在 / Check if branch exists
-        if git ls-remote --heads origin "${branch}" | grep -q "${branch}"; then
-            echo "${branch}"
+        # 检查分支是否存在于远程 / Check if branch exists on remote
+        if git ls-remote --heads origin "${branch}" 2>/dev/null | grep -q "${branch}"; then
+            if [ -n "$combined_list" ]; then
+                combined_list=$(echo -e "${combined_list}\n${branch}")
+            else
+                combined_list="${branch}"
+            fi
         fi
-    done | sort -u
+    done
+    
+    # 去重并排序 / Remove duplicates and sort
+    echo "$combined_list" | grep -v "^$" | sort -u
 }
 
 # 显示将要删除的分支 / Display branches to be deleted
@@ -182,6 +195,7 @@ main() {
     update_remote
     
     # 获取已合并的分支 / Get merged branches
+    info "正在查找已合并到 ${MAIN_BRANCH} 的分支... / Finding branches merged into ${MAIN_BRANCH}..."
     local branches=($(get_merged_branches))
     
     # 显示分支列表 / Display branch list
