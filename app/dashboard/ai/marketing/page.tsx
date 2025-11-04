@@ -1,5 +1,10 @@
+"use client"
+
 import { Suspense } from "react"
 import { MarketingDashboard } from "@/components/ai/marketing-dashboard"
+
+// Disable static generation for this page
+export const dynamic = 'force-dynamic'
 
 export default function AIMarketingPage() {
   return (

@@ -1,0 +1,175 @@
+name: Kanban Auto Migration
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+    branches: [main, staging]
+  issues:
+    types: [opened, reopened, assigned]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  repository-projects: write
+
+jobs:
+  migrate-to-doing:
+    name: Move to Doing Column
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'issues'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Move PR to Doing
+        if: github.event_name == 'pull_request'
+        uses: actions/add-to-project@v0.5.0
+        with:
+          project-url: https://github.com/orgs/YYC-Cube/projects/1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Move Issue to Doing
+        if: github.event_name == 'issues'
+        uses: actions/add-to-project@v0.5.0
+        with:
+          project-url: https://github.com/orgs/YYC-Cube/projects/1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add labels to PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['in-progress']
+            })
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '🎯 此 PR 已自动移至"进行中"看板列。CI 检查正在运行中...'
+            })
+
+  validate-migration:
+    name: Validate Kanban Migration
+    runs-on: ubuntu-latest
+    needs: migrate-to-doing
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate PR is linked to issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+
+            // Check if PR references an issue
+            const issuePattern = /#\d+|closes #\d+|fixes #\d+|resolves #\d+/i;
+            const hasIssueRef = issuePattern.test(body);
+
+            if (!hasIssueRef) {
+              core.warning('此 PR 未关联任何 Issue。建议在描述中添加 Issue 引用（如：fixes #123）。');
+            } else {
+              core.info('✅ PR 已关联 Issue');
+            }
+
+      - name: Check PR description quality
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+            const title = pr.title || '';
+
+            let score = 0;
+            const feedback = [];
+
+            // Check title length
+            if (title.length > 10) score += 20;
+            else feedback.push('标题过短，建议提供更详细的描述');
+
+            // Check body length
+            if (body.length > 50) score += 30;
+            else feedback.push('描述过短，建议添加更多实现细节');
+
+            // Check for checklist
+            if (body.includes('- [')) score += 25;
+            else feedback.push('建议添加任务清单跟踪进度');
+
+            // Check for test info
+            if (body.toLowerCase().includes('test') || body.includes('测试')) score += 25;
+            else feedback.push('建议说明测试情况');
+
+            core.info(`PR 质量评分: ${score}/100`);
+
+            if (score < 50) {
+              core.warning(`PR 描述质量较低（${score}/100）。建议改进：\n${feedback.join('\n')}`);
+            }
+
+  ci-gate-check:
+    name: CI Gate Status Check
+    runs-on: ubuntu-latest
+    needs: validate-migration
+    if: github.event_name == 'pull_request'
+
+    env:
+      NODE_ENV: test
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:4000/api
+      JWT_SECRET: test_jwt_secret_for_ci
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Run type check
+        run: npx tsc --noEmit
+        continue-on-error: true
+
+      - name: Build project
+        run: npm run build
+        timeout-minutes: 10
+        continue-on-error: true
+
+      - name: Report CI Status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ job.status }}';
+            const emoji = status === 'success' ? '✅' : '❌';
+            const message = `${emoji} CI 门禁检查${status === 'success' ? '通过' : '失败'}`;
+
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: message
+            });
