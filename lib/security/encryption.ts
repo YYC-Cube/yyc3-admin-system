@@ -9,9 +9,13 @@ const TAG_LENGTH = 16
 
 export class Encryption {
   private key: Buffer
+  private salt: Buffer
 
-  constructor(secret: string) {
-    this.key = crypto.scryptSync(secret, "salt", KEY_LENGTH)
+  constructor(secret: string, salt?: Buffer) {
+    // Generate a random salt if not provided (for new installations)
+    // For existing installations, the salt should be stored securely and passed in
+    this.salt = salt || crypto.randomBytes(SALT_LENGTH)
+    this.key = crypto.scryptSync(secret, this.salt, KEY_LENGTH)
   }
 
   encrypt(text: string): string {
@@ -46,4 +50,23 @@ export class Encryption {
   }
 }
 
-export const encryption = new Encryption(process.env.ENCRYPTION_SECRET || "default-secret-key-change-in-production")
+// Validate that ENCRYPTION_SECRET is set
+if (!process.env.ENCRYPTION_SECRET) {
+  throw new Error(
+    "ENCRYPTION_SECRET environment variable is not set. Please set it to a secure random string."
+  )
+}
+
+// Load or generate salt (in production, this should be stored securely)
+let ENCRYPTION_SALT: Buffer | undefined
+if (process.env.ENCRYPTION_SALT) {
+  // Validate hex string format and length (should be 128 hex chars for 64 bytes)
+  if (!/^[0-9a-fA-F]{128}$/.test(process.env.ENCRYPTION_SALT)) {
+    throw new Error(
+      "ENCRYPTION_SALT must be a valid hexadecimal string of exactly 128 characters (64 bytes). Generate one with: openssl rand -hex 64"
+    )
+  }
+  ENCRYPTION_SALT = Buffer.from(process.env.ENCRYPTION_SALT, "hex")
+}
+
+export const encryption = new Encryption(process.env.ENCRYPTION_SECRET, ENCRYPTION_SALT)
