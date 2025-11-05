@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { ArrowUpRight, ArrowDownRight } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+import { slideUpVariants } from "@/lib/utils/animation-variants"
 
 interface Stat {
   title: string
@@ -24,8 +25,7 @@ export function DashboardStats({ data }: DashboardStatsProps) {
       {data.map((stat, index) => (
         <motion.div
           key={stat.title}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          {...slideUpVariants}
           transition={{ duration: 0.4, delay: index * 0.1 }}
         >
           <Card className="overflow-hidden transition-all hover:shadow-lg">
