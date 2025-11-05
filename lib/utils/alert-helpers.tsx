@@ -60,7 +60,7 @@ export type DeviceType = "lighting" | "ac" | "audio" | "other"
 /**
  * 根据设备类型返回对应的图标
  */
-export function getDeviceIcon(type: DeviceType | string, className: string = "h-5 w-5"): ReactElement | null {
+export function getDeviceIcon(type: DeviceType, className: string = "h-5 w-5"): ReactElement | null {
   const iconProps = { className }
 
   switch (type) {
@@ -70,6 +70,7 @@ export function getDeviceIcon(type: DeviceType | string, className: string = "h-
       return <Wind {...iconProps} />
     case "audio":
       return <Volume2 {...iconProps} />
+    case "other":
     default:
       return null
   }
@@ -84,7 +85,7 @@ export type AlertType = "theft" | "out_of_stock" | "low_stock" | "anomaly" | "ot
  * 根据警告类型返回对应的图标和颜色类
  */
 export function getAlertTypeIcon(
-  type: AlertType | string,
+  type: AlertType,
   className: string = "h-4 w-4"
 ): ReactElement | null {
   switch (type) {
@@ -96,6 +97,7 @@ export function getAlertTypeIcon(
       return <AlertTriangle className={`${className} text-orange-500`} />
     case "anomaly":
       return <AlertCircle className={`${className} text-blue-500`} />
+    case "other":
     default:
       return <AlertTriangle className={`${className} text-blue-500`} />
   }

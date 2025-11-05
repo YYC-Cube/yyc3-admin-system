@@ -98,7 +98,7 @@ export function AlertsPanel() {
     }
     const severity = severityMap[level] || "info"
     const variant = getAlertBadgeVariant(severity)
-    const text = level === AlertLevel.CRITICAL ? "严重" : level === AlertLevel.WARNING ? "警告" : "信息"
+    const text = getAlertSeverityText(severity)
 
     return <Badge variant={variant}>{text}</Badge>
   }
