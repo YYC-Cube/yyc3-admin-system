@@ -8,6 +8,7 @@ import { CustomerSegmentPanel } from "./customer-segment-panel"
 import { CampaignGeneratorPanel } from "./campaign-generator-panel"
 import { CampaignPerformancePanel } from "./campaign-performance-panel"
 import { Users, Target, TrendingUp, Zap } from "lucide-react"
+import { slideUpVariants } from "@/lib/utils/animation-variants"
 
 export function MarketingDashboard() {
   const [stats, setStats] = useState({
@@ -65,8 +66,7 @@ export function MarketingDashboard() {
         {statCards.map((stat, index) => (
           <motion.div
             key={stat.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            {...slideUpVariants}
             transition={{ delay: index * 0.1 }}
           >
             <Card className="p-6">

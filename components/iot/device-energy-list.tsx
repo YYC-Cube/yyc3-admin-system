@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { Lightbulb, Wind, Volume2 } from "lucide-react"
+import { getDeviceIcon, type DeviceType } from "@/lib/utils/alert-helpers"
 
 interface DeviceEnergy {
   name: string
@@ -16,19 +16,6 @@ interface DeviceEnergyListProps {
 }
 
 export function DeviceEnergyList({ devices }: DeviceEnergyListProps) {
-  const getIcon = (type: string) => {
-    switch (type) {
-      case "lighting":
-        return <Lightbulb className="h-5 w-5" />
-      case "ac":
-        return <Wind className="h-5 w-5" />
-      case "audio":
-        return <Volume2 className="h-5 w-5" />
-      default:
-        return null
-    }
-  }
-
   return (
     <Card>
       <CardHeader>
@@ -41,7 +28,7 @@ export function DeviceEnergyList({ devices }: DeviceEnergyListProps) {
             <div key={index} className="space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  {getIcon(device.type)}
+                  {getDeviceIcon(device.type as DeviceType)}
                   <span className="font-medium">{device.name}</span>
                 </div>
                 <div className="text-right">

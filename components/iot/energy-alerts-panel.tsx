@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { AlertTriangle, AlertCircle, Info } from "lucide-react"
+import { getAlertIcon, getAlertBadgeVariant, getAlertSeverityText, type AlertSeverity } from "@/lib/utils/alert-helpers"
 
 interface EnergyAlert {
   id: string
@@ -18,29 +18,15 @@ interface EnergyAlertsPanelProps {
 
 export function EnergyAlertsPanel({ alerts }: EnergyAlertsPanelProps) {
   const getIcon = (type: string) => {
-    switch (type) {
-      case "critical":
-        return <AlertTriangle className="h-5 w-5 text-red-500" />
-      case "warning":
-        return <AlertCircle className="h-5 w-5 text-yellow-500" />
-      case "info":
-        return <Info className="h-5 w-5 text-blue-500" />
-      default:
-        return null
-    }
+    return getAlertIcon(type as AlertSeverity, "h-5 w-5")
   }
 
   const getBadgeVariant = (type: string) => {
-    switch (type) {
-      case "critical":
-        return "destructive"
-      case "warning":
-        return "default"
-      case "info":
-        return "secondary"
-      default:
-        return "outline"
-    }
+    return getAlertBadgeVariant(type as AlertSeverity)
+  }
+
+  const getSeverityText = (type: string) => {
+    return getAlertSeverityText(type as AlertSeverity)
   }
 
   return (
@@ -58,7 +44,7 @@ export function EnergyAlertsPanel({ alerts }: EnergyAlertsPanelProps) {
                 <div className="flex items-center justify-between">
                   <h4 className="font-semibold">{alert.title}</h4>
                   <Badge variant={getBadgeVariant(alert.type)}>
-                    {alert.type === "critical" ? "严重" : alert.type === "warning" ? "警告" : "提示"}
+                    {getSeverityText(alert.type)}
                   </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">{alert.message}</p>

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { slideLeftVariants, fastTransition } from "@/lib/utils/animation-variants"
 
 interface Order {
   id: string
@@ -30,9 +31,8 @@ export function RecentOrders({ orders }: RecentOrdersProps) {
           {orders.map((order, index) => (
             <motion.div
               key={order.id}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
+              {...slideLeftVariants}
+              transition={{ ...fastTransition, delay: index * 0.1 }}
               className="flex items-center justify-between rounded-lg border border-border p-4 transition-colors hover:bg-accent"
             >
               <div className="space-y-1">
