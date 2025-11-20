@@ -298,7 +298,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: deployments
           SLACK_TITLE: 🚀 Production 环境部署成功
-          SLACK_MESSAGE: 应用已成功部署到 Production 环境！版本: ${{ needs.build.outputs.image_tag }}
+          SLACK_MESSAGE: "应用已成功部署到 Production 环境！版本: ${{ needs.build.outputs.image_tag }}"
           SLACK_COLOR: good
 
   # ==========================================================
