@@ -4,7 +4,6 @@ import type React from "react"
 
 import { motion } from "framer-motion"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { slideLeftVariants, fastTransition } from "@/lib/utils/animation-variants"
 
 interface Column {
   key: string
@@ -45,8 +44,9 @@ export function DataTable({ columns, data, actions, onRowClick }: DataTableProps
             data.map((row, index) => (
               <motion.tr
                 key={row.id || index}
-                {...slideLeftVariants}
-                transition={{ ...fastTransition, delay: index * 0.05 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
                 className="group cursor-pointer hover:bg-muted/50"
                 onClick={() => onRowClick?.(row)}
               >

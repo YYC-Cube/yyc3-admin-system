@@ -5,10 +5,8 @@ import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { CheckCircle } from "lucide-react"
+import { AlertTriangle, CheckCircle, XCircle } from "lucide-react"
 import { trafficPredictionSystem } from "@/lib/ai/traffic-prediction"
-import { getAlertBadgeVariant, getAlertIcon, type AlertSeverity } from "@/lib/utils/alert-helpers"
-import { slideLeftVariants } from "@/lib/utils/animation-variants"
 
 export function AnomalyAlertPanel() {
   const [alerts, setAlerts] = useState<any[]>([])
@@ -30,11 +28,29 @@ export function AnomalyAlertPanel() {
   }, [])
 
   const getSeverityColor = (severity: string) => {
-    return getAlertBadgeVariant(severity as AlertSeverity)
+    switch (severity) {
+      case "high":
+        return "destructive"
+      case "medium":
+        return "default"
+      case "low":
+        return "secondary"
+      default:
+        return "default"
+    }
   }
 
   const getSeverityIcon = (severity: string) => {
-    return getAlertIcon(severity as AlertSeverity, "h-4 w-4")
+    switch (severity) {
+      case "high":
+        return <XCircle className="h-4 w-4" />
+      case "medium":
+        return <AlertTriangle className="h-4 w-4" />
+      case "low":
+        return <CheckCircle className="h-4 w-4" />
+      default:
+        return null
+    }
   }
 
   return (
@@ -55,7 +71,8 @@ export function AnomalyAlertPanel() {
               {alerts.map((alert, index) => (
                 <motion.div
                   key={index}
-                  {...slideLeftVariants}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
                   <Alert>

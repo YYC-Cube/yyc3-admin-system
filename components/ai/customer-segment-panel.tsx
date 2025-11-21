@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import type { CustomerSegment } from "@/lib/ai/marketing-assistant"
 import { Users, TrendingUp, AlertCircle } from "lucide-react"
-import { scaleVariants } from "@/lib/utils/animation-variants"
 
 export function CustomerSegmentPanel() {
   const [segments, setSegments] = useState<CustomerSegment[]>([])
@@ -91,7 +90,8 @@ export function CustomerSegmentPanel() {
       {segments.map((segment, index) => (
         <motion.div
           key={segment.id}
-          {...scaleVariants}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: index * 0.1 }}
         >
           <Card className="p-6 hover:shadow-lg transition-shadow">

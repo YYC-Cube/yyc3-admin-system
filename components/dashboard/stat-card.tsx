@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import type { LucideIcon } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { slideUpVariants, defaultTransition } from "@/lib/utils/animation-variants"
 
 interface StatCardProps {
   title: string
@@ -21,7 +20,7 @@ interface StatCardProps {
 
 export function StatCard({ title, value, icon: Icon, trend, description, className, delay = 0 }: StatCardProps) {
   return (
-    <motion.div {...slideUpVariants} transition={{ ...defaultTransition, delay }}>
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay }}>
       <Card className={cn("overflow-hidden", className)}>
         <CardContent className="p-6">
           <div className="flex items-start justify-between">
