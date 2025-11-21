@@ -5,15 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { CheckCircle, Clock, X } from "lucide-react"
+import { AlertTriangle, CheckCircle, Shield, Clock, X } from "lucide-react"
 import { AlertLevel } from "@/lib/iot/smart-inventory-system"
-import {
-  getAlertBadgeVariant,
-  getAlertTypeIcon,
-  type AlertSeverity,
-  type AlertType,
-} from "@/lib/utils/alert-helpers"
-import { formatRelativeTime } from "@/lib/utils/time-helpers"
 
 interface Alert {
   alertId: string
@@ -91,20 +84,43 @@ export function AlertsPanel() {
   }
 
   const getLevelBadge = (level: AlertLevel) => {
-    const severityMap: Record<AlertLevel, AlertSeverity> = {
-      [AlertLevel.CRITICAL]: "critical",
-      [AlertLevel.WARNING]: "warning",
-      [AlertLevel.INFO]: "info",
+    switch (level) {
+      case AlertLevel.CRITICAL:
+        return <Badge variant="destructive">严重</Badge>
+      case AlertLevel.WARNING:
+        return (
+          <Badge variant="default" className="bg-orange-500">
+            警告
+          </Badge>
+        )
+      case AlertLevel.INFO:
+        return <Badge variant="secondary">信息</Badge>
+      default:
+        return <Badge variant="outline">{level}</Badge>
     }
-    const severity = severityMap[level] || "info"
-    const variant = getAlertBadgeVariant(severity)
-    const text = getAlertSeverityText(severity)
-
-    return <Badge variant={variant}>{text}</Badge>
   }
 
   const getTypeIcon = (type: string) => {
-    return getAlertTypeIcon(type as AlertType, "h-4 w-4")
+    switch (type) {
+      case "theft":
+        return <Shield className="h-4 w-4 text-red-500" />
+      case "out_of_stock":
+        return <AlertTriangle className="h-4 w-4 text-red-500" />
+      case "low_stock":
+        return <AlertTriangle className="h-4 w-4 text-orange-500" />
+      default:
+        return <AlertTriangle className="h-4 w-4 text-blue-500" />
+    }
+  }
+
+  const formatTime = (timestamp: number) => {
+    const diff = Date.now() - timestamp
+    const minutes = Math.floor(diff / 60000)
+    const hours = Math.floor(minutes / 60)
+
+    if (hours > 0) return `${hours}小时前`
+    if (minutes > 0) return `${minutes}分钟前`
+    return "刚刚"
   }
 
   const unacknowledgedAlerts = alerts.filter((a) => !a.acknowledged)
@@ -143,7 +159,7 @@ export function AlertsPanel() {
                       <p className="text-sm text-muted-foreground">{alert.message}</p>
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <Clock className="h-3 w-3" />
-                        {formatRelativeTime(alert.timestamp)}
+                        {formatTime(alert.timestamp)}
                         {alert.acknowledged && (
                           <>
                             <span>•</span>

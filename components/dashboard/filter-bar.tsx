@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DatePickerWithRange } from "@/components/ui/date-range-picker"
-import { slideDownVariants } from "@/lib/utils/animation-variants"
 
 interface FilterBarProps {
   searchPlaceholder?: string
@@ -33,7 +32,8 @@ export function FilterBar({
 }: FilterBarProps) {
   return (
     <motion.div
-      {...slideDownVariants}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
       className="flex flex-col gap-4 rounded-lg border bg-card p-4 sm:flex-row sm:items-center sm:justify-between"
     >
       <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
