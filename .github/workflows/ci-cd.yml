@@ -43,17 +43,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
       
       - name: 📦 安装 pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@53751a9789c7351e4924f01fe68370252a4f1f18 # v2.4.1
         with:
           version: latest
       
       - name: 📱 设置 Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
           node-version: '20'
           cache: 'pnpm'
@@ -79,15 +79,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       
       - name: 📦 安装 pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@53751a9789c7351e4924f01fe68370252a4f1f18 # v2.4.1
         with:
           version: latest
       
       - name: 📱 设置 Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
           node-version: '20'
           cache: 'pnpm'
@@ -99,7 +99,7 @@ jobs:
         run: pnpm test:unit
       
       - name: 💾 上传测试覆盖率
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 # v3.2.1
         with:
           name: coverage
           path: coverage/
@@ -113,15 +113,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       
       - name: 📦 安装 pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@53751a9789c7351e4924f01fe68370252a4f1f18 # v2.4.1
         with:
           version: latest
       
       - name: 📱 设置 Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
           node-version: '20'
           cache: 'pnpm'
@@ -137,7 +137,7 @@ jobs:
       
       - name: 💾 上传测试报告
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 # v3.2.1
         with:
           name: playwright-report
           path: playwright-report/
@@ -154,15 +154,15 @@ jobs:
       image_tag: ${{ steps.set-output.outputs.tag }}
     steps:
       - name: 📥 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       
       - name: 📦 安装 pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@53751a9789c7351e4924f01fe68370252a4f1f18 # v2.4.1
         with:
           version: latest
       
       - name: 📱 设置 Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
           node-version: '20'
           cache: 'pnpm'
@@ -174,13 +174,13 @@ jobs:
         run: pnpm build
       
       - name: 💾 上传构建产物
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 # v3.2.1
         with:
           name: build-output
           path: .next/
       
       - name: 🔐 登录到 GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2.2.0
         with:
           registry: ${{ env.DOCKER_REGISTRY }}
           username: ${{ github.actor }}
@@ -199,7 +199,7 @@ jobs:
           fi
       
       - name: 🏗️ 构建并推送 Docker 镜像
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@0a97817b6ade9f46837855d676c4cca3a2471fc9 # v4.2.1
         with:
           context: .
           push: true
@@ -225,7 +225,7 @@ jobs:
     environment: staging
     steps:
       - name: 📥 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       
       - name: 🔄 准备部署配置
         run: |
@@ -250,7 +250,7 @@ jobs:
           # 例如：健康检查 API
       
       - name: 📧 发送部署通知
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@c8d87ceaa24406d9749a1c181fed3a7004bbd7aa # v2.3.2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: deployments
@@ -269,7 +269,7 @@ jobs:
     environment: production
     steps:
       - name: 📥 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       
       - name: 🔄 准备部署配置
         run: |
@@ -293,12 +293,12 @@ jobs:
           # 添加健康检查和部署验证逻辑
       
       - name: 📧 发送部署通知
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@c8d87ceaa24406d9749a1c181fed3a7004bbd7aa # v2.3.2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: deployments
           SLACK_TITLE: 🚀 Production 环境部署成功
-          SLACK_MESSAGE: 应用已成功部署到 Production 环境！版本: ${{ needs.build.outputs.image_tag }}
+          SLACK_MESSAGE: "应用已成功部署到 Production 环境！版本: ${{ needs.build.outputs.image_tag }}"
           SLACK_COLOR: good
 
   # ==========================================================
