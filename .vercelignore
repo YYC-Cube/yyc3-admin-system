@@ -1,0 +1,45 @@
+# Test and Coverage Files
+coverage/
+__tests__/
+e2e/
+tests/
+test-strategy/
+performance/
+monitoring/
+
+# Build artifacts
+.next/
+.turbo/
+dist/
+
+# Git
+.git/
+
+# Environment
+.env*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Other large files
+*.vsix
+F-ktv/
+problems_and_diagnostics/
+project-root/
