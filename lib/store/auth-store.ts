@@ -1,10 +1,31 @@
-// 认证状态管理
+/** 
+ * @file auth-store.ts
+ * @description 认证状态管理 - 处理用户登录、注销、权限验证等功能
+ * @module store
+ * @author YYC³ 
+ * @version 1.0.0 
+ * @created 2025-09-15 
+ * @updated 2025-09-15
+ */
 
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import type { User, Permission } from "@/lib/types"
 import { apiClient } from "@/lib/api/client"
 
+// 🛡️ 统一错误处理辅助函数
+const handleError = (error: unknown, context: string): string => {
+  const errorMessage = error instanceof Error ? error.message : `操作失败: ${context}`
+  console.error(`🚨 [${context}] 错误:`, error)
+  return errorMessage
+}
+
+/**
+ * @description 认证状态接口定义
+ * @property {User | null} user - 用户信息
+ * @property {boolean} isAuthenticated - 是否已认证
+ * @property {boolean} isLoading - 加载状态
+ */
 interface AuthState {
   user: User | null
   isAuthenticated: boolean
@@ -26,6 +47,12 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isLoading: false,
 
+      /**
+       * @description 用户登录
+       * @param {string} phone - 手机号码
+       * @param {string} password - 密码
+       * @returns {Promise<boolean>} 登录是否成功
+       */
       login: async (phone: string, password: string) => {
         set({ isLoading: true })
 
@@ -44,18 +71,25 @@ export const useAuthStore = create<AuthState>()(
 
           return false
         } catch (error) {
-          console.error("[v0] 登录失败:", error)
+          handleError(error, "登录")
           return false
         } finally {
           set({ isLoading: false })
         }
       },
 
+      /**
+       * @description 用户登出
+       */
       logout: () => {
         apiClient.clearToken()
         set({ user: null, isAuthenticated: false })
       },
 
+      /**
+       * @description 检查认证状态
+       * @returns {Promise<void>}
+       */
       checkAuth: async () => {
         const token = typeof window !== "undefined" ? localStorage.getItem("auth_token") : null
 
@@ -76,7 +110,7 @@ export const useAuthStore = create<AuthState>()(
             apiClient.clearToken()
           }
         } catch (error) {
-          console.error("[v0] 验证失败:", error)
+          handleError(error, "验证")
           set({ user: null, isAuthenticated: false })
           apiClient.clearToken()
         } finally {
@@ -84,17 +118,32 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
+      /**
+       * @description 检查是否拥有指定权限
+       * @param {Permission} permission - 权限名称
+       * @returns {boolean} 是否拥有权限
+       */
       hasPermission: (permission: Permission) => {
         const { user } = get()
         return user?.permissions.includes(permission) ?? false
       },
 
+      /**
+       * @description 检查是否拥有任意一个指定权限
+       * @param {Permission[]} permissions - 权限列表
+       * @returns {boolean} 是否拥有任意权限
+       */
       hasAnyPermission: (permissions: Permission[]) => {
         const { user } = get()
         if (!user) return false
         return permissions.some((p) => user.permissions.includes(p))
       },
 
+      /**
+       * @description 检查是否拥有所有指定权限
+       * @param {Permission[]} permissions - 权限列表
+       * @returns {boolean} 是否拥有所有权限
+       */
       hasAllPermissions: (permissions: Permission[]) => {
         const { user } = get()
         if (!user) return false

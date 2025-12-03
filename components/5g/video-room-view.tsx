@@ -1,13 +1,17 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useRef } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Video, VideoOff, Mic, MicOff, PhoneOff, Users, Settings } from "lucide-react"
-import { motion } from "framer-motion"
-import { realtimeVideoSystem, type VideoRoom, type RoomConnection } from "@/lib/5g/realtime-video-system"
-import { toast } from "sonner"
+import { useState, useEffect, useRef } from 'react'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Video, VideoOff, Mic, MicOff, PhoneOff, Users, Settings } from 'lucide-react'
+import { motion } from 'framer-motion'
+import {
+  realtimeVideoSystem,
+  type VideoRoom,
+  type RoomConnection,
+} from '@/lib/5g/realtime-video-system'
+import { toast } from 'sonner'
 
 interface VideoRoomViewProps {
   room: VideoRoom
@@ -28,7 +32,7 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
     joinRoom()
 
     // 监听远程流
-    realtimeVideoSystem.on("remote-stream-added", handleRemoteStreamAdded)
+    realtimeVideoSystem.on('remote-stream-added', handleRemoteStreamAdded)
 
     return () => {
       // 离开房间
@@ -61,17 +65,17 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
       const userId = `user-${Date.now()}`
       const conn = await realtimeVideoSystem.joinRoom(room.id, userId)
       setConnection(conn)
-      toast.success("加入房间成功")
+      toast.success('加入房间成功')
     } catch (error) {
-      console.error("加入房间失败:", error)
-      toast.error("加入房间失败")
+      console.error('加入房间失败:', error)
+      toast.error('加入房间失败')
       onLeave()
     }
   }
 
   const handleRemoteStreamAdded = ({ roomId, userId, stream }: any) => {
     if (roomId === room.id) {
-      setRemoteStreams((prev) => new Map(prev).set(userId, stream))
+      setRemoteStreams(prev => new Map(prev).set(userId, stream))
     }
   }
 
@@ -80,7 +84,7 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
       const newState = !audioEnabled
       realtimeVideoSystem.toggleAudio(room.id, connection.userId, newState)
       setAudioEnabled(newState)
-      toast.success(newState ? "麦克风已开启" : "麦克风已关闭")
+      toast.success(newState ? '麦克风已开启' : '麦克风已关闭')
     }
   }
 
@@ -89,14 +93,14 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
       const newState = !videoEnabled
       realtimeVideoSystem.toggleVideo(room.id, connection.userId, newState)
       setVideoEnabled(newState)
-      toast.success(newState ? "摄像头已开启" : "摄像头已关闭")
+      toast.success(newState ? '摄像头已开启' : '摄像头已关闭')
     }
   }
 
   const handleLeave = async () => {
     if (connection) {
       await realtimeVideoSystem.leaveRoom(room.id, connection.userId)
-      toast.success("已离开房间")
+      toast.success('已离开房间')
     }
     onLeave()
   }
@@ -123,7 +127,13 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
         {/* 本地视频 */}
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
           <Card className="relative aspect-video bg-black overflow-hidden">
-            <video ref={localVideoRef} autoPlay muted playsInline className="w-full h-full object-cover" />
+            <video
+              ref={localVideoRef}
+              autoPlay
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            />
             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
               <Badge variant="secondary">你</Badge>
               <div className="flex gap-2">
@@ -143,16 +153,16 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
         </motion.div>
 
         {/* 远程视频 */}
-        {Array.from(remoteStreams.entries()).map(([userId, stream], index) => (
+        {Array.from(remoteStreams.entries()).map(([userId, _stream], index) => (
           <motion.div
             key={userId}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1 }}
           >
-            <Card className="relative aspect-video bg-black overflow-hidden">
+            <Card className="relative aspect-video bg-slate-900 dark:bg-slate-950 overflow-hidden">
               <video
-                ref={(el) => {
+                ref={el => {
                   if (el) remoteVideosRef.current.set(userId, el)
                 }}
                 autoPlay
@@ -168,7 +178,10 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
 
         {/* 空位占位符 */}
         {Array.from({ length: Math.max(0, 6 - remoteStreams.size - 1) }).map((_, index) => (
-          <Card key={`empty-${index}`} className="aspect-video bg-muted flex items-center justify-center">
+          <Card
+            key={`empty-${index}`}
+            className="aspect-video bg-muted flex items-center justify-center"
+          >
             <div className="text-center text-muted-foreground">
               <Users className="h-12 w-12 mx-auto mb-2 opacity-50" />
               <p className="text-sm">等待加入...</p>
@@ -182,7 +195,7 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
         <div className="flex items-center justify-center gap-4">
           <Button
             size="lg"
-            variant={audioEnabled ? "default" : "destructive"}
+            variant={audioEnabled ? 'default' : 'destructive'}
             className="h-14 w-14 rounded-full"
             onClick={toggleAudio}
           >
@@ -191,7 +204,7 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
 
           <Button
             size="lg"
-            variant={videoEnabled ? "default" : "destructive"}
+            variant={videoEnabled ? 'default' : 'destructive'}
             className="h-14 w-14 rounded-full"
             onClick={toggleVideo}
           >
@@ -202,7 +215,12 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
             <Settings className="h-6 w-6" />
           </Button>
 
-          <Button size="lg" variant="destructive" className="h-14 w-14 rounded-full" onClick={handleLeave}>
+          <Button
+            size="lg"
+            variant="destructive"
+            className="h-14 w-14 rounded-full"
+            onClick={handleLeave}
+          >
             <PhoneOff className="h-6 w-6" />
           </Button>
         </div>
@@ -212,8 +230,11 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
       <Card className="p-4">
         <h3 className="font-semibold mb-4">参与者 ({room.participants.length})</h3>
         <div className="space-y-2">
-          {room.participants.map((participant) => (
-            <div key={participant.userId} className="flex items-center justify-between p-2 rounded-lg hover:bg-muted">
+          {room.participants.map(participant => (
+            <div
+              key={participant.userId}
+              className="flex items-center justify-between p-2 rounded-lg hover:bg-muted"
+            >
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                   <Users className="h-5 w-5 text-primary" />

@@ -118,10 +118,15 @@ export interface AttributionFactor {
  * 4. 归因分析 - 因果关系分析
  */
 export class BusinessIntelligence {
+  // @ts-ignore: 属性预留用于未来功能扩展
   private metabaseUrl: string
+  // @ts-ignore: 属性预留用于未来功能扩展
   private metabaseApiKey: string
+  // @ts-ignore: 属性预留用于未来功能扩展
   private clickhouseUrl: string
+  // @ts-ignore: 属性预留用于未来功能扩展
   private clickhouseUser: string
+  // @ts-ignore: 属性预留用于未来功能扩展
   private clickhousePassword: string
 
   constructor() {
@@ -323,7 +328,7 @@ export class BusinessIntelligence {
     return recommendations
   }
 
-  private async generateTimeSeriesData(metric: Metric, timeRange: TimeRange): Promise<TrendDataPoint[]> {
+  private async generateTimeSeriesData(_metric: Metric, timeRange: TimeRange): Promise<TrendDataPoint[]> {
     const dataPoints: TrendDataPoint[] = []
     const { start, end, granularity } = timeRange
 
@@ -495,7 +500,7 @@ export class BusinessIntelligence {
     return attributionFactors
   }
 
-  private generateAttributionInsights(outcome: Outcome, factors: AttributionFactor[]): string[] {
+  private generateAttributionInsights(_outcome: Outcome, factors: AttributionFactor[]): string[] {
     const insights: string[] = []
 
     if (factors.length > 0) {
@@ -552,7 +557,7 @@ export class BusinessIntelligence {
     return alerts
   }
 
-  private async sendReport(trends: TrendReport[], alerts: string[]): Promise<void> {
+  private async sendReport(_trends: TrendReport[], alerts: string[]): Promise<void> {
     console.log("[BI分析] 发送报告到:", env.REPORT_NOTIFY_EMAIL)
     console.log("告警:", alerts)
     // 实际实现中应调用邮件服务

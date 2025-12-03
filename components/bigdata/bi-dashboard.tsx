@@ -68,15 +68,41 @@ export function BIDashboard() {
           </TabsList>
 
           <TabsContent value="trend" className="p-6">
-            <TrendAnalysisPanel />
-          </TabsContent>
+        <TrendAnalysisPanel 
+          data={[
+            { date: '2024-01', value: 100 },
+            { date: '2024-02', value: 150 },
+            { date: '2024-03', value: 200 },
+            { date: '2024-04', value: 180 },
+            { date: '2024-05', value: 250 },
+          ]}
+          metric="销售额"
+        />
+      </TabsContent>
 
           <TabsContent value="comparison" className="p-6">
-            <ComparisonAnalysisPanel />
+            <ComparisonAnalysisPanel 
+              data={[
+                { name: 'Q1', group1: 100, group2: 150 },
+                { name: 'Q2', group1: 120, group2: 130 },
+                { name: 'Q3', group1: 150, group2: 180 },
+                { name: 'Q4', group1: 200, group2: 220 },
+              ]}
+              group1Name="去年同期"
+              group2Name="今年同期"
+            />
           </TabsContent>
 
           <TabsContent value="attribution" className="p-6">
-            <AttributionAnalysisPanel />
+            <AttributionAnalysisPanel 
+              factors={[
+                { name: '市场推广', contribution: 45, impact: '显著提升用户访问量' },
+                { name: '产品迭代', contribution: 30, impact: '提高用户留存率' },
+                { name: '价格策略', contribution: 15, impact: '增加转化率' },
+                { name: '竞品动态', contribution: 10, impact: '影响市场份额' },
+              ]}
+              outcome="销售额增长"
+            />
           </TabsContent>
 
           <TabsContent value="olap" className="p-6">

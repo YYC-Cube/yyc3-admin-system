@@ -3,7 +3,7 @@ import { mockDatabase } from "@/lib/utils/storage"
 import type { Product } from "@/lib/types"
 
 // 获取单个商品
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_request: NextRequest, { params }: any) {
   try {
     const product = await mockDatabase.findById<Product>("products", params.id)
 
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // 更新商品
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: any) {
   try {
     const body = await request.json()
 
@@ -76,7 +76,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // 删除商品
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_request: NextRequest, { params }: any) {
   try {
     const deleted = await mockDatabase.delete("products", params.id)
 

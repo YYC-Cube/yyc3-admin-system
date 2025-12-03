@@ -1,5 +1,4 @@
 import { type NextRequest, NextResponse } from "next/server"
-import crypto from "crypto"
 
 // CSRF Token管理
 class CSRFProtection {
@@ -7,8 +6,12 @@ class CSRFProtection {
   private readonly TOKEN_EXPIRY = 3600000 // 1小时
 
   // 生成CSRF Token
-  generateToken(sessionId: string): string {
-    const token = crypto.randomBytes(32).toString("hex")
+  async generateToken(sessionId: string): Promise<string> {
+    // 使用Web Crypto API生成随机token
+    const array = new Uint8Array(32)
+    crypto.getRandomValues(array)
+    const token = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('')
+    
     const expires = Date.now() + this.TOKEN_EXPIRY
 
     this.tokenStore.set(sessionId, { token, expires })
@@ -20,7 +23,7 @@ class CSRFProtection {
   }
 
   // 验证CSRF Token
-  validateToken(sessionId: string, token: string): boolean {
+  async validateToken(sessionId: string, token: string): Promise<boolean> {
     const stored = this.tokenStore.get(sessionId)
 
     if (!stored) {
@@ -47,9 +50,16 @@ class CSRFProtection {
 
   // 中间件：生成CSRF Token
   generateTokenMiddleware() {
-    return (request: NextRequest) => {
-      const sessionId = request.cookies.get("session_id")?.value || crypto.randomUUID()
-      const csrfToken = this.generateToken(sessionId)
+    return async (request: NextRequest) => {
+      // 使用Web Crypto API生成sessionId
+      const generateSessionId = () => {
+        const array = new Uint8Array(16)
+        crypto.getRandomValues(array)
+        return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('')
+      }
+      
+      const sessionId = request.cookies.get("session_id")?.value || generateSessionId()
+      const csrfToken = await this.generateToken(sessionId)
 
       const response = NextResponse.next()
       response.cookies.set("csrf_token", csrfToken, {
@@ -58,12 +68,16 @@ class CSRFProtection {
         sameSite: "strict",
         maxAge: this.TOKEN_EXPIRY / 1000,
       })
-      response.cookies.set("session_id", sessionId, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: this.TOKEN_EXPIRY / 1000,
-      })
+      
+      // 如果没有session_id，则设置一个
+      if (!request.cookies.get("session_id")?.value) {
+        response.cookies.set("session_id", sessionId, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          maxAge: this.TOKEN_EXPIRY / 1000,
+        })
+      }
 
       return response
     }
@@ -71,7 +85,7 @@ class CSRFProtection {
 
   // 中间件：验证CSRF Token
   validateTokenMiddleware() {
-    return (request: NextRequest) => {
+    return async (request: NextRequest) => {
       // 只对修改数据的请求进行CSRF验证
       if (!["POST", "PUT", "DELETE", "PATCH"].includes(request.method)) {
         return NextResponse.next()
@@ -84,8 +98,13 @@ class CSRFProtection {
         return NextResponse.json({ error: "CSRF token missing" }, { status: 403 })
       }
 
-      if (!this.validateToken(sessionId, csrfToken)) {
-        return NextResponse.json({ error: "Invalid CSRF token" }, { status: 403 })
+      try {
+        if (!(await this.validateToken(sessionId, csrfToken))) {
+          return NextResponse.json({ error: "Invalid CSRF token" }, { status: 403 })
+        }
+      } catch (error) {
+        console.error("CSRF validation error:", error)
+        return NextResponse.json({ error: "CSRF validation failed" }, { status: 403 })
       }
 
       return NextResponse.next()

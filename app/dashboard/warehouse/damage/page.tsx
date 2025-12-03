@@ -12,11 +12,11 @@ import { Badge } from "@/components/ui/badge"
 
 // 报损单管理页面
 export default function DamageReportsPage() {
-  const [reports, setReports] = useState([
+  const [reports, _setReports] = useState([
     {
       id: "DR001",
       storeId: "store_1",
-      storeName: "巨嗨KTV",
+      storeName: "启智",
       warehouseId: "wh_1",
       warehouseName: "总仓",
       operatorId: "emp_1",

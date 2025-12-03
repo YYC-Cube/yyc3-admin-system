@@ -7,30 +7,35 @@
 ## 二、核心功能
 
 ### 2.1 组织架构管理
+
 - 部门管理：创建、编辑、删除部门
 - 团队管理：创建、编辑、删除团队
 - 角色管理：定义角色和权限
 - 权限配置：细粒度权限控制
 
 ### 2.2 即时通讯
+
 - 一对一聊天：私人消息
 - 群组聊天：多人群组消息
 - 文件传输：支持文件分享
 - 消息已读回执：消息状态追踪
 
 ### 2.3 任务协同
+
 - 任务创建和分配：创建任务并分配给团队成员
 - 任务讨论：任务相关的讨论和沟通
 - 任务进度同步：实时同步任务进度
 - 任务提醒：自动提醒任务截止时间
 
 ### 2.4 消息推送
+
 - 系统通知：系统级别的通知
 - 任务提醒：任务相关的提醒
 - 审批通知：审批流程通知
 - 公告发布：全员公告
 
 ### 2.5 可视化
+
 - 组织架构图：可视化展示组织结构
 - 沟通流转图：展示沟通流程
 - 协作关系图：展示团队协作关系
@@ -64,6 +69,7 @@ class InternalCommunicationFramework {
 ### 3.2 数据模型
 
 #### 部门表 (departments)
+
 \`\`\`sql
 CREATE TABLE departments (
   id VARCHAR(50) PRIMARY KEY,
@@ -80,6 +86,7 @@ CREATE TABLE departments (
 \`\`\`
 
 #### 团队表 (teams)
+
 \`\`\`sql
 CREATE TABLE teams (
   id VARCHAR(50) PRIMARY KEY,
@@ -96,6 +103,7 @@ CREATE TABLE teams (
 \`\`\`
 
 #### 消息表 (messages)
+
 \`\`\`sql
 CREATE TABLE messages (
   id VARCHAR(50) PRIMARY KEY,
@@ -115,6 +123,7 @@ CREATE TABLE messages (
 \`\`\`
 
 #### 用户消息关系表 (user_messages)
+
 \`\`\`sql
 CREATE TABLE user_messages (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -131,6 +140,7 @@ CREATE TABLE user_messages (
 \`\`\`
 
 #### 群组表 (groups)
+
 \`\`\`sql
 CREATE TABLE groups (
   id VARCHAR(50) PRIMARY KEY,
@@ -147,6 +157,7 @@ CREATE TABLE groups (
 \`\`\`
 
 #### 通知表 (notifications)
+
 \`\`\`sql
 CREATE TABLE notifications (
   id VARCHAR(50) PRIMARY KEY,
@@ -166,25 +177,31 @@ CREATE TABLE notifications (
 ## 四、API端点
 
 ### 4.1 消息管理
+
 - `POST /api/ai-ops/comm/messages` - 发送消息
 - `GET /api/ai-ops/comm/messages?userId={userId}` - 获取用户消息
 
 ### 4.2 群组管理
+
 - `POST /api/ai-ops/comm/groups` - 创建群组
 
 ### 4.3 任务协同
+
 - `POST /api/ai-ops/comm/collaboration` - 创建任务协同
 
 ### 4.4 通知管理
+
 - `POST /api/ai-ops/comm/notifications` - 推送通知
 - `GET /api/ai-ops/comm/notifications?userId={userId}` - 获取用户通知
 
 ### 4.5 组织架构
+
 - `GET /api/ai-ops/comm/organization` - 获取组织架构
 
 ## 五、使用示例
 
 ### 5.1 发送消息
+
 \`\`\`typescript
 const result = await fetch('/api/ai-ops/comm/messages', {
   method: 'POST',
@@ -201,6 +218,7 @@ const result = await fetch('/api/ai-ops/comm/messages', {
 \`\`\`
 
 ### 5.2 创建群组
+
 \`\`\`typescript
 const result = await fetch('/api/ai-ops/comm/groups', {
   method: 'POST',
@@ -215,6 +233,7 @@ const result = await fetch('/api/ai-ops/comm/groups', {
 \`\`\`
 
 ### 5.3 任务协同
+
 \`\`\`typescript
 const result = await fetch('/api/ai-ops/comm/collaboration', {
   method: 'POST',
@@ -229,18 +248,21 @@ const result = await fetch('/api/ai-ops/comm/collaboration', {
 ## 六、预期效果
 
 ### 6.1 业务指标
+
 - **沟通效率**: 提升60%
 - **协作效率**: 提升50%
 - **信息传达准确率**: 95%+
 - **员工满意度**: 提升40%
 
 ### 6.2 技术指标
+
 - **消息延迟**: <100ms
 - **并发用户**: 1000+
 - **消息送达率**: 99.9%
 - **系统可用性**: 99.95%
 
 ### 6.3 成本效益
+
 - **沟通成本**: 降低40%
 - **协作成本**: 降低35%
 - **管理成本**: 降低30%

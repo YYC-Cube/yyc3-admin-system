@@ -330,7 +330,6 @@ export class AIMarketingAssistant {
     const avgReachRate = similarCampaigns.reduce((sum, c) => sum + c.reachRate, 0) / similarCampaigns.length
     const avgResponseRate = similarCampaigns.reduce((sum, c) => sum + c.responseRate, 0) / similarCampaigns.length
     const avgConversionRate = similarCampaigns.reduce((sum, c) => sum + c.conversionRate, 0) / similarCampaigns.length
-    const avgROI = similarCampaigns.reduce((sum, c) => sum + c.actualROI, 0) / similarCampaigns.length
 
     // 预测收入
     const targetMembers = campaign.targetSegment.memberCount
@@ -462,7 +461,7 @@ export class AIMarketingAssistant {
     return 0.2
   }
 
-  private selectCampaignType(segment: CustomerSegment, businessGoal: BusinessGoal): CampaignType {
+  private selectCampaignType(segment: CustomerSegment, _businessGoal: BusinessGoal): CampaignType {
     if (segment.id === "vip" || segment.id === "loyal") {
       return CampaignType.POINTS
     }
@@ -481,7 +480,7 @@ export class AIMarketingAssistant {
   private generateCampaignContent(
     segment: CustomerSegment,
     type: CampaignType,
-    businessGoal: BusinessGoal,
+    _businessGoal: BusinessGoal,
   ): CampaignContent {
     const templates = {
       [CampaignType.DISCOUNT]: {
@@ -546,7 +545,7 @@ export class AIMarketingAssistant {
     return Math.round(baseBudget * memberFactor)
   }
 
-  private estimateROI(segment: CustomerSegment, type: CampaignType, budget: number): number {
+  private estimateROI(segment: CustomerSegment, type: CampaignType, _budget: number): number {
     // 基于细分和活动类型估算ROI
     const baseROI = {
       [CampaignType.DISCOUNT]: 1.5,

@@ -3,7 +3,7 @@ import { internalCommunicationFramework } from "@/lib/ai-ops/internal-communicat
 
 export const runtime = "nodejs"
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const organization = await internalCommunicationFramework.getOrganization()
 

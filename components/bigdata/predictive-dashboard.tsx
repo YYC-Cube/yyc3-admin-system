@@ -71,19 +71,87 @@ export function PredictiveDashboard() {
         </TabsList>
 
         <TabsContent value="sales" className="space-y-4">
-          <SalesForecastPanel />
+          <SalesForecastPanel 
+            data={[
+              { date: '2024-01-01', actual: 12000, forecast: 12500, upper: 14000, lower: 11000 },
+              { date: '2024-01-02', actual: 13200, forecast: 13000, upper: 14500, lower: 11500 },
+              { date: '2024-01-03', actual: 14100, forecast: 14200, upper: 15700, lower: 12700 },
+              { date: '2024-01-04', actual: 13800, forecast: 14000, upper: 15500, lower: 12500 },
+              { date: '2024-01-05', actual: 15200, forecast: 14800, upper: 16300, lower: 13300 },
+              { date: '2024-01-06', forecast: 15500, upper: 17000, lower: 14000 },
+              { date: '2024-01-07', forecast: 16000, upper: 17500, lower: 14500 }
+            ]} 
+          />
         </TabsContent>
 
         <TabsContent value="churn" className="space-y-4">
-          <ChurnPredictionPanel />
+          <ChurnPredictionPanel 
+            customers={[
+              {
+                id: '1',
+                name: '张三',
+                riskScore: 85,
+                reason: '最近30天内未登录系统',
+                recommendation: '发送个性化优惠券并进行电话回访'
+              },
+              {
+                id: '2',
+                name: '李四',
+                riskScore: 72,
+                reason: '购买频率显著下降',
+                recommendation: '提供专属折扣并推送新产品信息'
+              },
+              {
+                id: '3',
+                name: '王五',
+                riskScore: 90,
+                reason: '已转向竞争对手',
+                recommendation: '提供特别优惠方案争取回流'
+              }
+            ]} 
+          />
         </TabsContent>
 
         <TabsContent value="inventory" className="space-y-4">
-          <InventoryForecastPanel />
+          <InventoryForecastPanel 
+            forecasts={[
+              {
+                productName: "茅台飞天53度500ml",
+                currentStock: 45,
+                forecastDemand: 60,
+                recommendedOrder: 30,
+                status: "warning"
+              },
+              {
+                productName: "五粮液52度500ml",
+                currentStock: 15,
+                forecastDemand: 40,
+                recommendedOrder: 50,
+                status: "critical"
+              },
+              {
+                productName: "青岛啤酒330ml",
+                currentStock: 120,
+                forecastDemand: 90,
+                recommendedOrder: 0,
+                status: "sufficient"
+              }
+            ]} 
+          />
         </TabsContent>
 
         <TabsContent value="elasticity" className="space-y-4">
-          <PriceElasticityPanel />
+          <PriceElasticityPanel 
+            data={[
+              { price: 100, demand: 1000 },
+              { price: 120, demand: 800 },
+              { price: 140, demand: 650 },
+              { price: 160, demand: 500 },
+              { price: 180, demand: 400 },
+              { price: 200, demand: 300 }
+            ]} 
+            elasticity={-1.2} 
+          />
         </TabsContent>
       </Tabs>
     </div>

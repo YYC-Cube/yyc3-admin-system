@@ -12,7 +12,7 @@
 
 - **原生体验**: 使用React Native开发，提供接近原生的性能和体验
 - **跨平台支持**: 一套代码同时支持iOS和Android
-- **核心功能**: 
+- **核心功能**:
   - 仪表盘数据展示
   - 订单管理
   - 商品管理
@@ -37,17 +37,22 @@ mobile-app/
 ### 1.3 开发指南
 
 \`\`\`bash
+
 # 安装依赖
+
 cd mobile-app
 npm install
 
 # 启动开发服务器
+
 npm start
 
 # 运行Android
+
 npm run android
 
 # 运行iOS
+
 npm run ios
 \`\`\`
 
@@ -81,8 +86,8 @@ const nextConfig = {
       new ModuleFederationPlugin({
         name: 'host',
         remotes: {
-          sales: 'sales@http://localhost:3001/remoteEntry.js',
-          products: 'products@http://localhost:3002/remoteEntry.js',
+          sales: 'sales@<http://localhost:3001/remoteEntry.js>',
+          products: 'products@<http://localhost:3002/remoteEntry.js>',
         },
         shared: {
           react: { singleton: true },
@@ -252,21 +257,27 @@ realtimeCollaboration.lockResource('product-123');
 ### 6.1 移动端部署
 
 \`\`\`bash
+
 # Android打包
+
 cd mobile-app
 npm run build:android
 
 # iOS打包
+
 npm run build:ios
 \`\`\`
 
 ### 6.2 微前端部署
 
 \`\`\`bash
+
 # 构建主应用
+
 npm run build
 
 # 构建子应用
+
 cd sales-app && npm run build
 cd products-app && npm run build
 cd warehouse-app && npm run build
@@ -275,7 +286,9 @@ cd warehouse-app && npm run build
 ### 6.3 WebSocket服务器
 
 \`\`\`bash
+
 # 启动WebSocket服务器
+
 cd websocket-server
 npm install
 npm start

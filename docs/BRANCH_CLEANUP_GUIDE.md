@@ -36,6 +36,7 @@ The following branches have their changes merged into `main` and can be safely d
 ### 方法1：通过 GitHub 网页界面 / Method 1: Via GitHub Web Interface
 
 1. 访问仓库页面 / Visit repository page:
+
    ```
    https://github.com/YYC-Cube/yyc3-admin-system
    ```

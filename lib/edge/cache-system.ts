@@ -284,7 +284,7 @@ export const edgeCacheSystem = new EdgeCacheSystem({
 
 // 缓存装饰器
 export function Cacheable(ttl = 3600) {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (_target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value
 
     descriptor.value = async function (...args: any[]) {

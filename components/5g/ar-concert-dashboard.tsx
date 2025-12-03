@@ -8,7 +8,7 @@ import { ARSceneViewer } from "./ar-scene-viewer"
 import { ARControlPanel } from "./ar-control-panel"
 
 export function ARConcertDashboard() {
-  const [stats, setStats] = useState({
+  const [stats, _setStats] = useState({
     activeScenes: 3,
     totalUsers: 156,
     avgLatency: 45,

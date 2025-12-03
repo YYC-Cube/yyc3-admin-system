@@ -1,0 +1,330 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # 代码质量检查
+  code-quality:
+    runs-on: ubuntu-latest
+    name: 代码质量检查
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+
+      - name: 🔧 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 安装依赖
+        run: npm ci
+
+      - name: 🔍 ESLint 检查
+        run: npm run lint
+
+      - name: 📊 TypeScript 检查
+        run: npx tsc --noEmit
+
+  # 单元测试
+  unit-tests:
+    runs-on: ubuntu-latest
+    name: 单元测试
+    needs: code-quality
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+
+      - name: 🔧 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 安装依赖
+        run: npm ci
+
+      - name: 🧪 运行单元测试
+        run: npm run test:unit
+
+      - name: 📊 生成覆盖率报告
+        run: npm run test:coverage
+
+      - name: 📈 上传覆盖率到 Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+  # 集成测试
+  integration-tests:
+    runs-on: ubuntu-latest
+    name: 集成测试
+    needs: code-quality
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+
+      - name: 🔧 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 安装依赖
+        run: npm ci
+
+      - name: 🧪 运行集成测试
+        run: npm run test:integration
+
+  # 端到端测试
+  e2e-tests:
+    runs-on: ubuntu-latest
+    name: E2E测试
+    needs: [unit-tests, integration-tests]
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+
+      - name: 🔧 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 安装依赖
+        run: npm ci
+
+      - name: 🎭 安装 Playwright
+        run: npx playwright install --with-deps
+
+      - name: 🔍 安装浏览器
+        run: npx playwright install-deps
+
+      - name: 🏗️ 构建应用
+        run: npm run build
+
+      - name: 🚀 启动服务器
+        run: npm start &
+        env:
+          NODE_ENV: test
+
+      - name: ⏳ 等待服务器启动
+        run: npx wait-on http://localhost:3000 --timeout 60000
+
+      - name: 🎭 运行 E2E 测试
+        run: npm run test:e2e
+
+      - name: 📊 上传测试报告
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  # 性能测试
+  performance-tests:
+    runs-on: ubuntu-latest
+    name: 性能测试
+    needs: unit-tests
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+
+      - name: 🔧 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 安装依赖
+        run: npm ci
+
+      - name: 🏗️ 构建应用
+        run: npm run build
+
+      - name: 🚀 启动服务器
+        run: npm start &
+        env:
+          NODE_ENV: test
+
+      - name: ⏳ 等待服务器启动
+        run: npx wait-on http://localhost:3000 --timeout 60000
+
+      - name: 🏃 运行性能测试
+        run: npm run test:performance
+
+      - name: 📊 运行性能基准测试
+        run: node -e "
+          const { performanceBenchmark } = require('./lib/monitoring/benchmark');
+          performanceBenchmark.establishBaseline().then(() => {
+            console.log('Performance baseline established');
+          });
+        "
+
+      - name: 📈 上传性能报告
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-reports
+          path: performance-*.json
+          retention-days: 30
+
+  # 安全扫描
+  security-scan:
+    runs-on: ubuntu-latest
+    name: 安全扫描
+    needs: code-quality
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+
+      - name: 🔧 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 安装依赖
+        run: npm ci
+
+      - name: 🔒 运行安全扫描
+        run: npm audit --audit-level moderate
+
+      - name: 🛡️ 运行 Snyk 安全扫描
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  # 构建和部署（仅主分支）
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: 构建和部署
+    needs: [e2e-tests, performance-tests, security-scan]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    environment: production
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+
+      - name: 🔧 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 安装依赖
+        run: npm ci
+
+      - name: 🏗️ 构建应用
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
+      - name: 🔍 构建安全检查
+        run: npm audit --audit-level moderate
+
+      - name: 📊 生成生产版本报告
+        run: |
+          echo "## 构建报告" > build-report.md
+          echo "分支: ${{ github.ref }}" >> build-report.md
+          echo "提交: ${{ github.sha }}" >> build-report.md
+          echo "构建时间: $(date)" >> build-report.md
+
+      - name: 📦 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            .next/
+            build-report.md
+          retention-days: 30
+
+      - name: 🚀 部署到 Vercel（生产环境）
+        if: github.ref == 'refs/heads/main'
+        uses: vercel/action@v24
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+
+      - name: 🚀 部署到 Vercel（开发环境）
+        if: github.ref == 'refs/heads/develop'
+        uses: vercel/action@v24
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+          vercel-args: '--prod=false'
+
+      - name: 📊 部署后性能检查
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "检查部署后的应用性能..."
+          # 这里可以添加部署后的性能验证
+
+  # 测试结果汇总
+  test-results:
+    runs-on: ubuntu-latest
+    name: 测试结果汇总
+    needs: [unit-tests, integration-tests, e2e-tests, performance-tests]
+    if: always()
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+
+      - name: 📊 下载所有测试报告
+        uses: actions/download-artifact@v4
+
+      - name: 📝 生成测试总结报告
+        run: |
+          echo "# 测试结果汇总报告" > test-summary.md
+          echo "" >> test-summary.md
+          echo "## 流水线运行信息" >> test-summary.md
+          echo "- 分支: ${{ github.ref }}" >> test-summary.md
+          echo "- 提交: ${{ github.sha }}" >> test-summary.md
+          echo "- 运行时间: $(date)" >> test-summary.md
+          echo "" >> test-summary.md
+          echo "## 测试状态" >> test-summary.md
+          
+          # 检查各个测试任务的状态
+          if [[ "${{ needs.unit-tests.result }}" == "success" ]]; then
+            echo "✅ 单元测试: 通过" >> test-summary.md
+          else
+            echo "❌ 单元测试: 失败" >> test-summary.md
+          fi
+          
+          if [[ "${{ needs.integration-tests.result }}" == "success" ]]; then
+            echo "✅ 集成测试: 通过" >> test-summary.md
+          else
+            echo "❌ 集成测试: 失败" >> test-summary.md
+          fi
+          
+          if [[ "${{ needs.e2e-tests.result }}" == "success" ]]; then
+            echo "✅ E2E测试: 通过" >> test-summary.md
+          else
+            echo "❌ E2E测试: 失败" >> test-summary.md
+          fi
+          
+          if [[ "${{ needs.performance-tests.result }}" == "success" ]]; then
+            echo "✅ 性能测试: 通过" >> test-summary.md
+          else
+            echo "❌ 性能测试: 失败" >> test-summary.md
+          fi
+
+      - name: 📊 上传测试总结
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-summary-report
+          path: test-summary.md
+          retention-days: 90

@@ -17,7 +17,7 @@ import { FilterBar } from "@/components/dashboard/filter-bar"
 const roomPackages = [
   {
     id: 1,
-    store: "巨嗨KTV",
+    store: "启智",
     type: "酒水套餐",
     name: "酒水套餐",
     duration: 1500,
@@ -25,7 +25,7 @@ const roomPackages = [
   },
   {
     id: 2,
-    store: "巨嗨KTV",
+    store: "启智",
     type: "团购套餐",
     name: "实惠开房套餐",
     duration: 1500,
@@ -33,7 +33,7 @@ const roomPackages = [
   },
   {
     id: 3,
-    store: "巨嗨KTV",
+    store: "启智",
     type: "最低消费套餐",
     name: "最低消费套餐",
     duration: 1500,
@@ -41,7 +41,7 @@ const roomPackages = [
   },
   {
     id: 4,
-    store: "巨嗨KTV",
+    store: "启智",
     type: "时间套餐",
     name: "10分钟套餐",
     duration: 1500,
@@ -57,69 +57,72 @@ export default function RoomPackagesPage() {
     name: "",
   })
 
-  const columns = [
-    { key: "image", label: "图片", width: "w-20" },
-    { key: "store", label: "门店", width: "w-32" },
-    { key: "type", label: "套餐类型", width: "w-32" },
-    { key: "name", label: "套餐名称", width: "w-48" },
-    { key: "duration", label: "时长/分钟", width: "w-28" },
-    { key: "actions", label: "操作", width: "w-48" },
-  ]
-
-  const renderCell = (item: any, key: string) => {
-    switch (key) {
-      case "image":
-        return item.image ? (
-          <img src={item.image || "/placeholder.svg"} alt={item.name} className="h-12 w-12 rounded-lg object-cover" />
-        ) : (
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
-            <Package className="h-6 w-6 text-muted-foreground" />
-          </div>
-        )
-      case "type":
-        return (
-          <Badge
-            variant={
-              item.type === "酒水套餐"
-                ? "default"
-                : item.type === "团购套餐"
-                  ? "secondary"
-                  : item.type === "时间套餐"
-                    ? "outline"
-                    : "destructive"
-            }
-          >
-            {item.type}
-          </Badge>
-        )
-      case "duration":
-        return (
-          <div className="flex items-center gap-1 text-sm">
-            <Clock className="h-3 w-3 text-muted-foreground" />
-            <span>{item.duration}</span>
-          </div>
-        )
-      case "actions":
-        return (
-          <div className="flex gap-2">
-            <Button variant="ghost" size="sm">
-              <Edit className="mr-1 h-3 w-3" />
-              修改
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Trash2 className="mr-1 h-3 w-3" />
-              删除
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Copy className="mr-1 h-3 w-3" />
-              复制
-            </Button>
-          </div>
-        )
-      default:
-        return item[key]
-    }
+  const renderActions = () => {
+    return (
+      <div className="flex gap-2">
+        <Button variant="ghost" size="sm">
+          <Edit className="mr-1 h-3 w-3" />
+          修改
+        </Button>
+        <Button variant="ghost" size="sm">
+          <Trash2 className="mr-1 h-3 w-3" />
+          删除
+        </Button>
+        <Button variant="ghost" size="sm">
+          <Copy className="mr-1 h-3 w-3" />
+          复制
+        </Button>
+      </div>
+    )
   }
+
+  const columns = [
+    {
+      key: "image", 
+      label: "图片", 
+      width: "w-20",
+      render: (image: string | null, row: any) => image ? (
+        <img src={image || "/placeholder.svg"} alt={row.name} className="h-12 w-12 rounded-lg object-cover" />
+      ) : (
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
+          <Package className="h-6 w-6 text-muted-foreground" />
+        </div>
+      )
+    },
+    { key: "store", label: "门店", width: "w-32" },
+    {
+      key: "type", 
+      label: "套餐类型", 
+      width: "w-32",
+      render: (type: string) => (
+        <Badge
+          variant={
+            type === "酒水套餐"
+              ? "default"
+              : type === "团购套餐"
+                ? "secondary"
+                : type === "时间套餐"
+                  ? "outline"
+                  : "destructive"
+          }
+        >
+          {type}
+        </Badge>
+      )
+    },
+    { key: "name", label: "套餐名称", width: "w-48" },
+    {
+      key: "duration", 
+      label: "时长/分钟", 
+      width: "w-28",
+      render: (duration: number) => (
+        <div className="flex items-center gap-1 text-sm">
+          <Clock className="h-3 w-3 text-muted-foreground" />
+          <span>{duration}</span>
+        </div>
+      )
+    },
+  ]
 
   return (
     <div className="space-y-6">
@@ -150,7 +153,7 @@ export default function RoomPackagesPage() {
                         <SelectValue placeholder="选择门店" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="store1">巨嗨KTV</SelectItem>
+                        <SelectItem value="store1">启智</SelectItem>
                         <SelectItem value="store2">KTV旗舰店</SelectItem>
                       </SelectContent>
                     </Select>
@@ -203,40 +206,31 @@ export default function RoomPackagesPage() {
       </motion.div>
 
       {/* 筛选栏 */}
-      <FilterBar>
-        <Select value={filters.store} onValueChange={(value) => setFilters({ ...filters, store: value })}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="选择门店" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部门店</SelectItem>
-            <SelectItem value="store1">巨嗨KTV</SelectItem>
-            <SelectItem value="store2">KTV旗舰店</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select value={filters.type} onValueChange={(value) => setFilters({ ...filters, type: value })}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="套餐类型" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部类型</SelectItem>
-            <SelectItem value="time">时间套餐</SelectItem>
-            <SelectItem value="liquor">酒水套餐</SelectItem>
-            <SelectItem value="minimum">最低消费套餐</SelectItem>
-            <SelectItem value="group">团购套餐</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Input
-          placeholder="请输入套餐名称"
-          value={filters.name}
-          onChange={(e) => setFilters({ ...filters, name: e.target.value })}
-          className="w-64"
-        />
-
-        <Button className="ml-auto">查询</Button>
-      </FilterBar>
+      <FilterBar
+        filters={[
+          {
+            label: '门店',
+            options: [
+              { value: 'all', label: '全部门店' },
+              { value: 'store1', label: '启智' },
+              { value: 'store2', label: 'KTV旗舰店' }
+            ],
+            onChange: (value) => setFilters({ ...filters, store: value })
+          },
+          {
+            label: '套餐类型',
+            options: [
+              { value: 'all', label: '全部类型' },
+              { value: 'time', label: '时间套餐' },
+              { value: 'liquor', label: '酒水套餐' },
+              { value: 'minimum', label: '最低消费套餐' },
+              { value: 'group', label: '团购套餐' }
+            ],
+            onChange: (value) => setFilters({ ...filters, type: value })
+          }
+        ]}
+        onSearch={(searchValue) => setFilters({ ...filters, name: searchValue })}
+      />
 
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-3">
@@ -282,7 +276,7 @@ export default function RoomPackagesPage() {
 
       {/* 数据表格 */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-        <DataTable columns={columns} data={roomPackages} renderCell={renderCell} />
+        <DataTable columns={columns} data={roomPackages} actions={renderActions} />
       </motion.div>
     </div>
   )

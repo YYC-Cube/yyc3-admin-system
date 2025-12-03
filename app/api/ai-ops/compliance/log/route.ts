@@ -25,15 +25,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams
-    const startDate = searchParams.get("startDate")
-    const endDate = searchParams.get("endDate")
 
     // 获取审计日志
     // 实际应该从数据库查询
-    const logs = []
+    const logs: any[] = []
 
     return NextResponse.json({
       success: true,

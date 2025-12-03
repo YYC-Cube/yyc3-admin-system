@@ -293,7 +293,7 @@ export class RealtimeDataWarehouse extends EventEmitter {
     }
   }
 
-  private async fetchFromDatabase(source: DataSource): Promise<Record<string, any>> {
+  private async fetchFromDatabase(_source: DataSource): Promise<Record<string, any>> {
     // 模拟数据库查询
     return {
       orders: [
@@ -303,7 +303,7 @@ export class RealtimeDataWarehouse extends EventEmitter {
     }
   }
 
-  private async fetchFromAPI(source: DataSource): Promise<Record<string, any>> {
+  private async fetchFromAPI(_source: DataSource): Promise<Record<string, any>> {
     // 模拟API调用
     return {
       events: [
@@ -313,7 +313,7 @@ export class RealtimeDataWarehouse extends EventEmitter {
     }
   }
 
-  private async fetchFromFile(source: DataSource): Promise<Record<string, any>> {
+  private async fetchFromFile(_source: DataSource): Promise<Record<string, any>> {
     // 模拟文件读取
     return {
       logs: [
@@ -323,7 +323,7 @@ export class RealtimeDataWarehouse extends EventEmitter {
     }
   }
 
-  private async fetchFromStream(source: DataSource): Promise<Record<string, any>> {
+  private async fetchFromStream(_source: DataSource): Promise<Record<string, any>> {
     // 模拟流数据
     return {
       metrics: [
@@ -333,7 +333,7 @@ export class RealtimeDataWarehouse extends EventEmitter {
     }
   }
 
-  private assessDataQuality(raw: RawData): DataQuality {
+  private assessDataQuality(_raw: RawData): DataQuality {
     // 评估数据质量
     return {
       completeness: 0.95,
@@ -403,7 +403,7 @@ export class RealtimeDataWarehouse extends EventEmitter {
 
   private aggregateData(
     facts: Fact[],
-    dimensions: string[],
+    _dimensions: string[],
     measures: string[],
     groupBy?: string[],
   ): Record<string, any>[] {
@@ -427,7 +427,7 @@ export class RealtimeDataWarehouse extends EventEmitter {
 
     // 计算聚合值
     const result: Record<string, any>[] = []
-    groups.forEach((groupFacts, key) => {
+    groups.forEach((groupFacts, _key) => {
       const aggregated: Record<string, any> = {}
 
       // 添加维度值

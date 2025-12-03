@@ -14,10 +14,10 @@ interface CustomerSegment {
 }
 
 interface CustomerSegmentPanelProps {
-  segments: CustomerSegment[]
+  segments?: CustomerSegment[]
 }
 
-export function CustomerSegmentPanel({ segments }: CustomerSegmentPanelProps) {
+export function CustomerSegmentPanel({ segments = [] }: CustomerSegmentPanelProps) {
   return (
     <Card>
       <CardHeader>
@@ -29,7 +29,7 @@ export function CustomerSegmentPanel({ segments }: CustomerSegmentPanelProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {segments.map((segment) => (
+          {(segments || []).map((segment) => (
             <div key={segment.id} className="flex items-center justify-between p-4 border rounded-lg">
               <div className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: segment.color }} />

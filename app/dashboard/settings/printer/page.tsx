@@ -19,7 +19,7 @@ import { FilterBar } from "@/components/dashboard/filter-bar"
 const printers = [
   {
     id: 1,
-    store: "巨嗨KTV",
+    store: "启智",
     area: "顶楼,6楼,9楼,7楼,5楼,3楼",
     room: "无",
     name: "01",
@@ -27,7 +27,7 @@ const printers = [
   },
   {
     id: 2,
-    store: "巨嗨KTV",
+    store: "启智",
     area: "3楼,5楼,7楼,9楼,6楼,顶楼",
     room: "无",
     name: "客户测试莆田",
@@ -35,7 +35,7 @@ const printers = [
   },
   {
     id: 3,
-    store: "巨嗨KTV",
+    store: "启智",
     area: "顶楼,6楼,9楼,7楼,5楼,3楼",
     room: "无",
     name: "55超市",
@@ -45,44 +45,49 @@ const printers = [
 
 export default function PrinterSettingsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [filters, setFilters] = useState({
+    store: "",
+    area: "",
+    status: "",
+    name: ""
+  })
 
   const columns = [
     { key: "store", label: "门店", width: "w-32" },
     { key: "area", label: "区域", width: "w-64" },
     { key: "room", label: "包厢号", width: "w-24" },
     { key: "name", label: "打印机名称", width: "w-40" },
-    { key: "status", label: "状态", width: "w-24" },
-    { key: "actions", label: "操作", width: "w-64" },
+    { 
+      key: "status", 
+      label: "状态", 
+      width: "w-24",
+      render: (status: string) => (
+        <Badge variant={status === "启用" ? "default" : "secondary"}>
+          {status === "启用" ? <Power className="mr-1 h-3 w-3" /> : <PowerOff className="mr-1 h-3 w-3" />}
+          {status}
+        </Badge>
+      )
+    },
+    { 
+      key: "actions", 
+      label: "操作", 
+      width: "w-64",
+      render: (_: any, row: any) => (
+        <div className="flex gap-2">
+          <Button variant="ghost" size="sm">
+            <Edit className="mr-1 h-3 w-3" />
+            修改
+          </Button>
+          <Button variant="ghost" size="sm">
+            {row.status === "启用" ? "禁用" : "启用"}
+          </Button>
+          <Button variant="ghost" size="sm">
+            账单二维码
+          </Button>
+        </div>
+      )
+    },
   ]
-
-  const renderCell = (item: any, key: string) => {
-    switch (key) {
-      case "status":
-        return (
-          <Badge variant={item.status === "启用" ? "default" : "secondary"}>
-            {item.status === "启用" ? <Power className="mr-1 h-3 w-3" /> : <PowerOff className="mr-1 h-3 w-3" />}
-            {item.status}
-          </Badge>
-        )
-      case "actions":
-        return (
-          <div className="flex gap-2">
-            <Button variant="ghost" size="sm">
-              <Edit className="mr-1 h-3 w-3" />
-              修改
-            </Button>
-            <Button variant="ghost" size="sm">
-              {item.status === "启用" ? "禁用" : "启用"}
-            </Button>
-            <Button variant="ghost" size="sm">
-              账单二维码
-            </Button>
-          </div>
-        )
-      default:
-        return item[key]
-    }
-  }
 
   return (
     <div className="space-y-6">
@@ -113,7 +118,7 @@ export default function PrinterSettingsPage() {
                         <SelectValue placeholder="选择门店" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="store1">巨嗨KTV</SelectItem>
+                        <SelectItem value="store1">启智</SelectItem>
                         <SelectItem value="store2">KTV旗舰店</SelectItem>
                       </SelectContent>
                     </Select>
@@ -264,40 +269,46 @@ export default function PrinterSettingsPage() {
       </motion.div>
 
       {/* 筛选栏 */}
-      <FilterBar>
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="选择门店" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部门店</SelectItem>
-            <SelectItem value="store1">巨嗨KTV</SelectItem>
-            <SelectItem value="store2">KTV旗舰店</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="包厢区域" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部区域</SelectItem>
-            <SelectItem value="floor1">1楼</SelectItem>
-            <SelectItem value="floor2">2楼</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="状态类型" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部状态</SelectItem>
-            <SelectItem value="enabled">启用</SelectItem>
-            <SelectItem value="disabled">禁用</SelectItem>
-          </SelectContent>
-        </Select>
-        <Input placeholder="请输入打印机别名" className="w-64" />
-        <Button className="ml-auto">查询</Button>
-      </FilterBar>
+      <FilterBar
+        filters={[
+          {
+            label: "门店",
+            options: [
+              { label: "全部门店", value: "all" },
+              { label: "启智", value: "store1" },
+              { label: "KTV旗舰店", value: "store2" }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, store: value })
+          },
+          {
+            label: "包厢区域",
+            options: [
+              { label: "全部区域", value: "all" },
+              { label: "1楼", value: "floor1" },
+              { label: "2楼", value: "floor2" }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, area: value })
+          },
+          {
+            label: "状态类型",
+            options: [
+              { label: "全部状态", value: "all" },
+              { label: "启用", value: "enabled" },
+              { label: "禁用", value: "disabled" }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, status: value })
+          },
+          {
+            label: "打印机别名",
+            options: [],
+            onChange: (value: string) => setFilters({ ...filters, name: value })
+          }
+        ]}
+        onSearch={() => {
+          // 处理搜索逻辑
+          console.log('搜索条件:', filters)
+        }}
+      />
 
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-3">
@@ -343,7 +354,7 @@ export default function PrinterSettingsPage() {
 
       {/* 数据表格 */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-        <DataTable columns={columns} data={printers} renderCell={renderCell} />
+        <DataTable columns={columns} data={printers} />
       </motion.div>
     </div>
   )

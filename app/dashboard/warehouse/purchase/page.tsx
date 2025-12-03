@@ -13,7 +13,7 @@ const mockPurchases = [
   {
     id: "CG2019060512345",
     date: "2019-06-05 14:30",
-    store: "巨嗨KTV",
+    store: "启智",
     warehouse: "总仓",
     supplier: "青岛啤酒供应商",
     quantity: 480,
@@ -25,7 +25,7 @@ const mockPurchases = [
   {
     id: "CG2019060512346",
     date: "2019-06-05 15:20",
-    store: "巨嗨KTV",
+    store: "启智",
     warehouse: "超市仓",
     supplier: "饮料批发商",
     quantity: 200,
@@ -112,7 +112,7 @@ export default function PurchasePage() {
             label: "门店",
             options: [
               { label: "全部门店", value: "all" },
-              { label: "巨嗨KTV", value: "juhai" },
+              { label: "启智", value: "juhai" },
             ],
             onChange: (value) => console.log("门店筛选:", value),
           },
@@ -133,7 +133,7 @@ export default function PurchasePage() {
         columns={columns}
         data={mockPurchases}
         onRowClick={(purchase) => console.log("查看采购单:", purchase)}
-        actions={(purchase) => (
+        actions={(_purchase) => (
           <Button variant="ghost" size="sm">
             详情
           </Button>

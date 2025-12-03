@@ -41,7 +41,6 @@ interface TestReport {
 }
 
 class TestRunner {
-  private results: TestResult[] = []
   private startTime = 0
 
   async runAllTests(): Promise<TestReport> {

@@ -27,7 +27,6 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
   } = useForm<MemberFormData>({
     resolver: zodResolver(memberSchema),
     defaultValues: member
@@ -35,12 +34,9 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
           name: member.name,
           phone: member.phone,
           level: member.level,
-          balance: member.balance,
-          points: member.points,
+          balance: member.balance.general,
+          points: member.points.total,
           birthday: member.birthday,
-          gender: member.gender,
-          address: member.address,
-          remark: member.remark,
         }
       : {
           level: 1,
@@ -103,7 +99,7 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
 
             <div className="space-y-2">
               <Label htmlFor="gender">性别</Label>
-              <Select onValueChange={(value) => setValue("gender", value as any)} defaultValue={member?.gender}>
+              <Select onValueChange={(value) => setValue("gender", value as any)}>
                 <SelectTrigger>
                   <SelectValue placeholder="请选择性别" />
                 </SelectTrigger>
@@ -138,12 +134,12 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label>账户余额</Label>
-                <div className="text-2xl font-bold text-primary">¥{member.balance.toFixed(2)}</div>
+                <div className="text-2xl font-bold text-primary">¥{member.balance.general.toFixed(2)}</div>
               </div>
 
               <div className="space-y-2">
                 <Label>积分余额</Label>
-                <div className="text-2xl font-bold text-primary">{member.points}</div>
+                <div className="text-2xl font-bold text-primary">{member.points.total}</div>
               </div>
             </div>
 

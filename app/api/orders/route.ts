@@ -1,43 +1,48 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { mockDatabase } from "@/lib/utils/storage"
-import type { Order } from "@/lib/types"
+import { NextRequest, NextResponse } from 'next/server'
+import { mockService } from '../../../lib/api/mock-service'
+
+/**
+ * @description 订单管理API路由
+ * @project KTV商家管理系统
+ */
 
 // 获取订单列表
 export async function GET(request: NextRequest) {
   try {
+    // 解析查询参数
     const searchParams = request.nextUrl.searchParams
-    const page = Number.parseInt(searchParams.get("page") || "1")
-    const pageSize = Number.parseInt(searchParams.get("pageSize") || "10")
-    const storeId = searchParams.get("storeId")
-    const status = searchParams.get("status")
-    const orderNumber = searchParams.get("orderNumber")
-
-    const filters: any = {}
-    if (storeId) filters.storeId = storeId
-    if (status) filters.status = status
-    if (orderNumber) filters.orderNumber = orderNumber
-
-    const result = await mockDatabase.query<Order>("orders", {
-      page,
-      pageSize,
-      filters,
-      sort: { field: "createdAt", order: "desc" },
-    })
-
+    const page = parseInt(searchParams.get('page') || '1')
+    const pageSize = parseInt(searchParams.get('pageSize') || '10')
+    const status = searchParams.get('status')
+    
+    // 调用模拟服务获取订单
+    const response = await mockService.getOrders({ page, pageSize })
+    
+    if (!response.success) {
+      return NextResponse.json(
+        { success: false, error: response.error || '获取订单列表失败' },
+        { status: 500 }
+      )
+    }
+    
+    // 应用状态筛选（如果提供）
+    let filteredOrders = response.data?.data || []
+    if (status) {
+      filteredOrders = filteredOrders.filter(order => order.status === status)
+    }
+    
     return NextResponse.json({
       success: true,
-      data: result,
-      message: "获取订单列表成功",
+      data: {
+        ...response.data,
+        data: filteredOrders
+      },
     })
   } catch (error) {
-    console.error("[v0] 获取订单列表失败:", error)
+    console.error('[v0] 获取订单列表错误:', error)
     return NextResponse.json(
-      {
-        success: false,
-        data: null,
-        message: "获取订单列表失败",
-      },
-      { status: 500 },
+      { success: false, error: '获取订单列表失败' },
+      { status: 500 }
     )
   }
 }
@@ -45,44 +50,85 @@ export async function GET(request: NextRequest) {
 // 创建订单
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-
-    const order: Order = {
-      id: `order_${Date.now()}`,
-      orderNumber: `ORD${Date.now()}`,
-      storeId: body.storeId || "store_1",
-      roomNumber: body.roomNumber,
-      type: body.type || "product",
-      items: body.items || [],
-      totalAmount: body.totalAmount || 0,
-      discountAmount: body.discountAmount || 0,
-      actualAmount: body.actualAmount || 0,
-      status: "pending",
-      paymentMethod: body.paymentMethod,
-      paymentStatus: "unpaid",
-      memberId: body.memberId,
-      employeeId: body.employeeId,
-      remark: body.remark,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+    const orderData = await request.json()
+    
+    // 验证必填字段
+    if (!orderData.room_id || !orderData.items || orderData.items.length === 0) {
+      return NextResponse.json(
+        { success: false, error: '缺少必填字段: room_id 或 items' },
+        { status: 400 }
+      )
     }
+    
+    // 调用模拟服务创建订单
+    const response = await mockService.createOrder(orderData)
+    
+    if (!response.success) {
+      return NextResponse.json(
+        { success: false, error: response.error || '创建订单失败' },
+        { status: 400 }
+      )
+    }
+    
+    return NextResponse.json(
+      { success: true, data: response.data },
+      { status: 201 }
+    )
+  } catch (error) {
+    console.error('[v0] 创建订单错误:', error)
+    return NextResponse.json(
+      { success: false, error: '创建订单失败' },
+      { status: 500 }
+    )
+  }
+}
 
-    const created = await mockDatabase.create<Order>("orders", order)
-
+// 更新订单 (保留接口但简化实现)
+export async function PUT(request: NextRequest) {
+  try {
+    const { id, ...updateData } = await request.json()
+    
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: '订单ID不能为空' },
+        { status: 400 }
+      )
+    }
+    
+    // 简单实现：直接返回更新的数据
     return NextResponse.json({
       success: true,
-      data: created,
-      message: "创建订单成功",
+      data: { id, ...updateData, updatedAt: new Date().toISOString() }
     })
   } catch (error) {
-    console.error("[v0] 创建订单失败:", error)
+    console.error('[v0] 更新订单错误:', error)
     return NextResponse.json(
-      {
-        success: false,
-        data: null,
-        message: "创建订单失败",
-      },
-      { status: 500 },
+      { success: false, error: '更新订单失败' },
+      { status: 500 }
+    )
+  }
+}
+
+// 删除订单 (保留接口)
+export async function DELETE(request: NextRequest) {
+  try {
+    const searchParams = request.nextUrl.searchParams
+    const id = searchParams.get('id')
+    
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: '订单ID不能为空' },
+        { status: 400 }
+      )
+    }
+    
+    // 简单实现：返回成功
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('[v0] 删除订单错误:', error)
+    return NextResponse.json(
+      { success: false, error: '删除订单失败' },
+      { status: 500 }
     )
   }
 }

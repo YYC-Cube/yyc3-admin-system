@@ -3,11 +3,8 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, Phone, User, MapPin, Download, Eye } from "lucide-react"
+import { Calendar, Clock, Phone, User, MapPin, Eye } from "lucide-react"
 import { DataTable } from "@/components/dashboard/data-table"
 import { FilterBar } from "@/components/dashboard/filter-bar"
 
@@ -63,53 +60,67 @@ export default function ReservationsPage() {
 
   const columns = [
     { key: "roomType", label: "包厢类型", width: "w-24" },
-    { key: "orderNo", label: "预定单号", width: "w-48" },
+    { 
+      key: "id", 
+      label: "预定单号", 
+      width: "w-48",
+      render: (id: string) => <span className="font-mono text-xs">{id}</span>
+    },
     { key: "packageName", label: "套餐名称", width: "w-40" },
     { key: "orderTime", label: "下单时间", width: "w-40" },
     { key: "arrivalTime", label: "到店时间", width: "w-40" },
-    { key: "customer", label: "预定信息", width: "w-48" },
-    { key: "amount", label: "实收金额", width: "w-28" },
-    { key: "status", label: "使用状态", width: "w-28" },
-    { key: "actions", label: "操作", width: "w-24" },
-  ]
-
-  const renderCell = (item: any, key: string) => {
-    switch (key) {
-      case "orderNo":
-        return <span className="font-mono text-xs">{item.id}</span>
-      case "customer":
-        return (
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <User className="h-3 w-3 text-muted-foreground" />
-              <span className="text-sm">{item.customerName}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Phone className="h-3 w-3 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">{item.phone}</span>
-            </div>
+    { 
+      key: "customerName", 
+      label: "预定信息", 
+      width: "w-48",
+      render: (customerName: string, row: any) => (
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <User className="h-3 w-3 text-muted-foreground" />
+            <span className="text-sm">{customerName}</span>
           </div>
-        )
-      case "amount":
-        return <span className="font-semibold text-primary">¥{item.amount.toFixed(2)}</span>
-      case "status":
-        return (
-          <Badge
-            variant={item.status === "未使用" ? "default" : item.status === "已使用" ? "secondary" : "destructive"}
-          >
-            {item.status}
-          </Badge>
-        )
-      case "actions":
-        return (
-          <Button variant="ghost" size="sm">
-            <Eye className="h-4 w-4" />
-          </Button>
-        )
-      default:
-        return item[key]
-    }
-  }
+          <div className="flex items-center gap-2">
+            <Phone className="h-3 w-3 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">{row.phone}</span>
+          </div>
+        </div>
+      )
+    },
+    { 
+      key: "amount", 
+      label: "实收金额", 
+      width: "w-28",
+      render: (amount: number) => <span className="font-semibold text-primary">¥{amount?.toFixed(2) || '0.00'}</span>
+    },
+    { 
+      key: "status", 
+      label: "使用状态", 
+      width: "w-28",
+      render: (status: string) => (
+        <Badge
+          variant={
+            status === "未使用"
+              ? "default"
+              : status === "已使用"
+              ? "secondary"
+              : "destructive"
+          }
+        >
+          {status}
+        </Badge>
+      )
+    },
+    { 
+      key: "actions", 
+      label: "操作", 
+      width: "w-24",
+      render: () => (
+        <button className="p-2 rounded-md hover:bg-muted transition-colors">
+          <Eye className="h-4 w-4" />
+        </button>
+      )
+    },
+  ]
 
   return (
     <div className="space-y-6">
@@ -120,46 +131,39 @@ export default function ReservationsPage() {
       </motion.div>
 
       {/* 筛选栏 */}
-      <FilterBar>
-        <Select value={filters.status} onValueChange={(value) => setFilters({ ...filters, status: value })}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="使用状态" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部状态</SelectItem>
-            <SelectItem value="unused">未使用</SelectItem>
-            <SelectItem value="used">已使用</SelectItem>
-            <SelectItem value="cancelled">已取消</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select value={filters.source} onValueChange={(value) => setFilters({ ...filters, source: value })}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="订单来源" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部来源</SelectItem>
-            <SelectItem value="wechat">微信预定</SelectItem>
-            <SelectItem value="alipay">支付宝预定</SelectItem>
-            <SelectItem value="app">APP预定</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Input
-          placeholder="请输入预定单号"
-          value={filters.orderNo}
-          onChange={(e) => setFilters({ ...filters, orderNo: e.target.value })}
-          className="w-64"
-        />
-
-        <div className="ml-auto flex gap-2">
-          <Button variant="outline">
-            <Download className="mr-2 h-4 w-4" />
-            导出
-          </Button>
-          <Button>查询</Button>
-        </div>
-      </FilterBar>
+      <FilterBar
+        filters={[
+          {
+            label: "使用状态",
+            options: [
+              { label: "全部状态", value: "all" },
+              { label: "未使用", value: "unused" },
+              { label: "已使用", value: "used" },
+              { label: "已取消", value: "cancelled" }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, status: value })
+          },
+          {
+            label: "订单来源",
+            options: [
+              { label: "全部来源", value: "all" },
+              { label: "微信预定", value: "wechat" },
+              { label: "支付宝预定", value: "alipay" },
+              { label: "APP预定", value: "app" }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, source: value })
+          },
+          {
+            label: "预定单号",
+            options: [],
+            onChange: (value: string) => setFilters({ ...filters, orderNo: value })
+          }
+        ]}
+        onSearch={() => {
+          // 处理搜索逻辑
+          console.log("搜索条件:", filters)
+        }}
+      />
 
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-4">
@@ -218,7 +222,7 @@ export default function ReservationsPage() {
 
       {/* 数据表格 */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-        <DataTable columns={columns} data={reservations} renderCell={renderCell} />
+        <DataTable columns={columns} data={reservations} />
       </motion.div>
     </div>
   )

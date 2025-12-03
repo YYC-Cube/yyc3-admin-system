@@ -255,7 +255,7 @@ export class CustomerIntelligencePromotion {
    * 客户标签
    * 基于行为数据生成多维度标签
    */
-  async tagCustomers(customer: Member, behaviorData: BehaviorData): Promise<CustomerTags> {
+  async tagCustomers(_customer: Member, behaviorData: BehaviorData): Promise<CustomerTags> {
     const tags: CustomerTags = {
       behavioral: [],
       preference: [],

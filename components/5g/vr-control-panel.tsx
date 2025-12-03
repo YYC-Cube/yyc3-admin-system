@@ -12,7 +12,7 @@ interface VRControlPanelProps {
   roomId: string
 }
 
-export function VRControlPanel({ roomId }: VRControlPanelProps) {
+export function VRControlPanel({ }: VRControlPanelProps) {
   const [lighting, setLighting] = useState({
     ambient: 30,
     spotlight: 80,
@@ -161,10 +161,10 @@ export function VRControlPanel({ roomId }: VRControlPanelProps) {
       <TabsContent value="settings" className="space-y-4">
         <div className="space-y-2">
           <Label>渲染质量</Label>
-          <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+          <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" defaultValue="high">
             <option value="low">低</option>
             <option value="medium">中</option>
-            <option value="high" selected>
+            <option value="high">
               高
             </option>
             <option value="ultra">超高</option>
@@ -173,10 +173,10 @@ export function VRControlPanel({ roomId }: VRControlPanelProps) {
 
         <div className="space-y-2">
           <Label>抗锯齿</Label>
-          <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+          <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" defaultValue="msaa">
             <option value="none">关闭</option>
             <option value="fxaa">FXAA</option>
-            <option value="msaa" selected>
+            <option value="msaa">
               MSAA 4x
             </option>
           </select>
@@ -184,9 +184,9 @@ export function VRControlPanel({ roomId }: VRControlPanelProps) {
 
         <div className="space-y-2">
           <Label>帧率限制</Label>
-          <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+          <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" defaultValue="90">
             <option value="60">60 FPS</option>
-            <option value="90" selected>
+            <option value="90">
               90 FPS
             </option>
             <option value="120">120 FPS</option>

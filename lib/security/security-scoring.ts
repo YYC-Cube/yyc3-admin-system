@@ -47,7 +47,6 @@ export class SecurityScoringSystem {
   // 评估身份认证
   private evaluateAuthentication(): number {
     let score = 100
-    const stats = auditChain.getStatistics()
 
     // 检查登录失败率
     const loginEvents = auditChain.queryEvents({ type: AuditEventType.USER_LOGIN })

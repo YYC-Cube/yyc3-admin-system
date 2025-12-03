@@ -26,6 +26,54 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [barcodes, setBarcodes] = useState<string[]>(product?.barcode || [""])
 
+  // 创建一个符合ProductFormData类型的默认值对象
+  const getDefaultValues = (): ProductFormData => {
+    if (product) {
+      return {
+        name: product.name,
+        alias: product.alias || undefined,
+        barcode: product.barcode,
+        categoryId: product.categoryId,
+        unit: product.unit,
+        originalPrice: product.originalPrice,
+        price: product.price,
+        memberPrice: product.memberPrice,
+        stock: product.stock,
+        minStock: product.minStock,
+        costPrice: product.costPrice,
+        images: product.images || [],
+        flavors: product.flavors || [],
+        isGift: product.isGift,
+        allowDiscount: product.allowDiscount,
+        isSale: product.isSale,
+        isRecommend: product.isRecommend,
+        isLowConsumption: product.isLowConsumption,
+        displayOrder: product.displayOrder,
+      };
+    }
+    return {
+      name: '',
+      alias: undefined,
+      barcode: [""],
+      categoryId: '',
+      unit: '',
+      originalPrice: 0,
+      price: 0,
+      memberPrice: 0,
+      stock: 0,
+      minStock: 0,
+      costPrice: 0,
+      images: [],
+      flavors: [],
+      isGift: false,
+      allowDiscount: true,
+      isSale: true,
+      isRecommend: false,
+      isLowConsumption: false,
+      displayOrder: 0,
+    };
+  };
+
   const {
     register,
     handleSubmit,
@@ -33,36 +81,8 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
     setValue,
     watch,
   } = useForm<ProductFormData>({
-    resolver: zodResolver(productSchema),
-    defaultValues: product
-      ? {
-          name: product.name,
-          alias: product.alias,
-          barcode: product.barcode,
-          categoryId: product.categoryId,
-          unit: product.unit,
-          originalPrice: product.originalPrice,
-          price: product.price,
-          memberPrice: product.memberPrice,
-          stock: product.stock,
-          minStock: product.minStock,
-          costPrice: product.costPrice,
-          isGift: product.isGift,
-          allowDiscount: product.allowDiscount,
-          isSale: product.isSale,
-          isRecommend: product.isRecommend,
-          isLowConsumption: product.isLowConsumption,
-          displayOrder: product.displayOrder,
-        }
-      : {
-          barcode: [""],
-          isGift: false,
-          allowDiscount: true,
-          isSale: true,
-          isRecommend: false,
-          isLowConsumption: false,
-          displayOrder: 0,
-        },
+    resolver: zodResolver(productSchema) as any,
+    defaultValues: getDefaultValues(),
   })
 
   const handleFormSubmit = async (data: ProductFormData) => {

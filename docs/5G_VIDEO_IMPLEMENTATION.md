@@ -52,6 +52,7 @@
 核心类，负责管理视频房间、WebRTC连接和媒体流处理。
 
 **主要方法**:
+
 - `createRoom()`: 创建视频房间
 - `joinRoom()`: 加入视频房间
 - `processVideoStream()`: 处理视频流特效
@@ -64,6 +65,7 @@
 基于Edge Functions实现的信令服务器，处理WebRTC信令交换。
 
 **支持的信令消息**:
+
 - `create-room`: 创建房间
 - `join-room`: 加入房间
 - `leave-room`: 离开房间
@@ -73,6 +75,7 @@
 ### 2.3 视频特效
 
 支持多种实时视频特效:
+
 - **模糊效果**: 背景模糊
 - **美颜效果**: 磨皮、美白
 - **滤镜效果**: 色彩滤镜
@@ -155,16 +158,20 @@ console.log('音视频同步偏移:', syncedStream.syncOffset, 'ms')
 ### 4.1 环境变量配置
 
 \`\`\`env
+
 # WebRTC配置
+
 NEXT_PUBLIC_TURN_SERVER_URL=turn:turn.example.com:3478
 NEXT_PUBLIC_TURN_USERNAME=username
 NEXT_PUBLIC_TURN_CREDENTIAL=credential
 
 # 信令服务器
+
 NEXT_PUBLIC_SIGNALING_SERVER_URL=wss://signaling.example.com
 
 # 媒体服务器
-MEDIA_SERVER_URL=https://media.example.com
+
+MEDIA_SERVER_URL=<https://media.example.com>
 MEDIA_SERVER_API_KEY=your-api-key
 \`\`\`
 
@@ -173,13 +180,17 @@ MEDIA_SERVER_API_KEY=your-api-key
 推荐使用coturn作为TURN/STUN服务器:
 
 \`\`\`bash
+
 # 安装coturn
+
 sudo apt-get install coturn
 
 # 配置coturn
+
 sudo nano /etc/turnserver.conf
 
 # 启动coturn
+
 sudo systemctl start coturn
 sudo systemctl enable coturn
 \`\`\`

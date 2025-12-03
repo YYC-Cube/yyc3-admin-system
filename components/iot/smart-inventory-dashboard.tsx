@@ -11,7 +11,7 @@ import { AlertsPanel } from "./alerts-panel"
 import { RFIDReadersPanel } from "./rfid-readers-panel"
 
 export function SmartInventoryDashboard() {
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     totalItems: 156,
     inStock: 142,
     lowStock: 12,

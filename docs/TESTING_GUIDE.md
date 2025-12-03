@@ -7,11 +7,13 @@
 ## 测试框架
 
 ### 单元测试
+
 - **Jest**: JavaScript测试框架
 - **React Testing Library**: React组件测试
 - **@testing-library/user-event**: 用户交互模拟
 
 ### E2E测试
+
 - **Playwright**: 端到端测试框架
 - 支持多浏览器测试（Chrome、Firefox、Safari）
 - 支持移动端测试
@@ -19,23 +21,32 @@
 ## 运行测试
 
 ### 单元测试
+
 \`\`\`bash
+
 # 开发模式（监听文件变化）
+
 npm run test
 
 # CI模式
+
 npm run test:ci
 
 # 生成覆盖率报告
+
 npm run test:coverage
 \`\`\`
 
 ### E2E测试
+
 \`\`\`bash
+
 # 运行所有E2E测试
+
 npm run test:e2e
 
 # 使用UI模式运行
+
 npm run test:e2e:ui
 \`\`\`
 
@@ -48,6 +59,7 @@ npm run test:e2e:ui
 ## 编写测试
 
 ### 组件测试示例
+
 \`\`\`typescript
 import { render, screen } from '@testing-library/react'
 import { MyComponent } from './my-component'
@@ -61,6 +73,7 @@ describe('MyComponent', () => {
 \`\`\`
 
 ### E2E测试示例
+
 \`\`\`typescript
 import { test, expect } from '@playwright/test'
 

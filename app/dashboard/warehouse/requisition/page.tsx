@@ -22,11 +22,11 @@ import { toast } from "sonner"
 
 // 领用单管理页面
 export default function RequisitionPage() {
-  const [requisitions, setRequisitions] = useState([
+  const [requisitions, _setRequisitions] = useState([
     {
       id: "RQ001",
       storeId: "store_1",
-      storeName: "巨嗨KTV",
+      storeName: "启智",
       warehouseId: "wh_1",
       warehouseName: "总仓",
       operatorId: "emp_1",
@@ -277,7 +277,7 @@ export default function RequisitionPage() {
                     <SelectValue placeholder="选择门店" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="store_1">巨嗨KTV</SelectItem>
+                    <SelectItem value="store_1">启智</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

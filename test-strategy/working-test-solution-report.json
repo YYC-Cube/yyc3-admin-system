@@ -1,0 +1,55 @@
+{
+  "timestamp": "2025-11-15T02:55:14.995Z",
+  "testEnvironment": {
+    "status": "fixed",
+    "description": "测试环境已修复，包含正确的 React 导入和 Jest 配置"
+  },
+  "tests": [
+    {
+      "name": "主应用页面基础测试",
+      "status": "prepared",
+      "description": "组件渲染和计数器交互测试",
+      "file": "__tests__/working/main-page.test.tsx"
+    },
+    {
+      "name": "移动端页面基础测试",
+      "status": "prepared",
+      "description": "移动端组件渲染测试",
+      "file": "__tests__/working/mobile-page.test.tsx"
+    },
+    {
+      "name": "组件渲染测试",
+      "status": "prepared",
+      "description": "基础组件渲染功能测试",
+      "file": "__tests__/working/component-rendering.test.tsx"
+    },
+    {
+      "name": "表单交互测试",
+      "status": "prepared",
+      "description": "表单输入和验证测试",
+      "file": "__tests__/working/form-interaction.test.tsx"
+    },
+    {
+      "name": "按钮交互测试",
+      "status": "prepared",
+      "description": "按钮点击和状态变化测试",
+      "file": "__tests__/working/button-interaction.test.tsx"
+    },
+    {
+      "name": "数据列表测试",
+      "status": "prepared",
+      "description": "数据列表渲染和显示测试",
+      "file": "__tests__/working/data-list.test.tsx"
+    }
+  ],
+  "coverage": {
+    "current": "准备就绪",
+    "target": "将在执行测试后计算",
+    "filesReady": 6
+  },
+  "nextSteps": [
+    "运行 npx jest --testPathPattern=__tests__/working 执行测试",
+    "使用 npm run test:coverage 查看覆盖率报告",
+    "基于测试结果继续完善其他页面测试"
+  ]
+}

@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { outreachAutomationEngine } from "@/lib/ai-ops/outreach-automation-engine"
+import { outreachAutomationEngine, CommunicationChannel } from "@/lib/ai-ops/outreach-automation-engine"
 import { db } from "@/lib/db/mysql"
 
 export const runtime = "nodejs"
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       lastVisitDays,
       lastOrderAmount,
       customerSegment,
-      preferredChannel: "sms",
+      preferredChannel: CommunicationChannel.SMS,
     })
 
     return NextResponse.json({
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     // 获取待跟进客户列表
     const pendingFollowUps = await outreachAutomationEngine.getPendingFollowUps()

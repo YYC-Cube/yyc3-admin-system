@@ -1,0 +1,77 @@
+{
+  "name": "yyc3-monitoring",
+  "version": "1.0.0",
+  "description": "YYC3 Admin System - 统一监控告警系统",
+  "author": "YYC",
+  "homepage": "https://github.com/yyc/yyc3-admin-system",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yyc/yyc3-admin-system.git"
+  },
+  "scripts": {
+    "monitor": "node monitoring/scripts/unified-monitor.js",
+    "monitor:continuous": "node monitoring/scripts/unified-monitor.js --continuous",
+    "monitor:performance": "node monitoring/scripts/performance-monitor.js",
+    "monitor:performance:continuous": "node monitoring/scripts/performance-monitor.js --continuous",
+    "monitor:errors": "node monitoring/scripts/error-monitor.js",
+    "dashboard": "open monitoring/reports/dashboard.html",
+    "alerts": "ls -la monitoring/alerts/",
+    "reports": "ls -la monitoring/reports/",
+    "cleanup": "find monitoring/alerts/ -name '*.json' -mtime +7 -delete"
+  },
+  "keywords": [
+    "monitoring",
+    "performance",
+    "alerts",
+    "nextjs",
+    "admin-system"
+  ],
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "monitoring": {
+    "performance": {
+      "thresholds": {
+        "responseTime": 2000,
+        "memoryUsage": 80,
+        "cpuUsage": 70,
+        "diskUsage": 85,
+        "errorRate": 5
+      },
+      "intervals": {
+        "healthCheck": 30000,
+        "metrics": 60000
+      }
+    },
+    "errors": {
+      "thresholds": {
+        "errorCount": 10,
+        "criticalErrors": 3,
+        "crashCount": 1,
+        "logSize": 104857600
+      }
+    },
+    "unified": {
+      "intervals": {
+        "performance": 60000,
+        "error": 300000,
+        "dashboard": 300000
+      }
+    },
+    "dashboard": {
+      "autoRefresh": true,
+      "refreshInterval": 300000,
+      "theme": "modern",
+      "showHistoricalData": true
+    },
+    "alerts": {
+      "retentionDays": 7,
+      "enableEmail": false,
+      "enableSlack": false,
+      "enableWebhook": false
+    }
+  }
+}

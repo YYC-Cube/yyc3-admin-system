@@ -1,7 +1,8 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useState } from "react"
+// 导入React和核心hooks
+import { useState, useEffect } from "react"
+// 导入UI组件
 import { Package, Edit, Trash2 } from "lucide-react"
 import { FilterBar } from "@/components/dashboard/filter-bar"
 import { DataTable } from "@/components/dashboard/data-table"
@@ -11,6 +12,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+
+// 为了更好的兼容性，移除framer-motion动画依赖
 
 // 模拟套餐数据
 const mockPackages = [
@@ -52,6 +55,14 @@ const mockPackages = [
 export default function PackagesPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedPackage, setSelectedPackage] = useState<any>(null)
+  
+  // 添加useEffect确保组件正常挂载
+  useEffect(() => {
+    // 组件挂载时的初始化逻辑
+    return () => {
+      // 组件卸载时的清理逻辑
+    }
+  }, [])
 
   const columns = [
     {
@@ -87,7 +98,7 @@ export default function PackagesPage() {
   return (
     <div className="space-y-6">
       {/* 页面标题 */}
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3">
+      <div className="flex items-center gap-3">
         <div className="rounded-lg bg-primary/10 p-2">
           <Package className="h-6 w-6 text-primary" />
         </div>
@@ -95,7 +106,7 @@ export default function PackagesPage() {
           <h1 className="text-3xl font-bold tracking-tight">商品套餐</h1>
           <p className="text-sm text-muted-foreground">管理商品套餐和开房套餐</p>
         </div>
-      </motion.div>
+      </div>
 
       {/* 筛选栏 */}
       <FilterBar
@@ -120,7 +131,8 @@ export default function PackagesPage() {
         columns={columns}
         data={mockPackages}
         onRowClick={(pkg) => {
-          setSelectedPackage(pkg)
+          // 防止事件冒泡导致的重复触发
+          setSelectedPackage({...pkg}) // 创建新对象避免引用问题
           setIsDialogOpen(true)
         }}
         actions={(pkg) => (
@@ -128,14 +140,22 @@ export default function PackagesPage() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => {
-                setSelectedPackage(pkg)
+              onClick={(e) => {
+                e.stopPropagation()
+                setSelectedPackage({...pkg})
                 setIsDialogOpen(true)
               }}
             >
               <Edit className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => console.log("删除套餐:", pkg.id)}>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={(e) => {
+                e.stopPropagation()
+                console.log("删除套餐:", pkg.id)
+              }}
+            >
               <Trash2 className="h-4 w-4 text-destructive" />
             </Button>
           </div>

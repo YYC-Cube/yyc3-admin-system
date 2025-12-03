@@ -1,25 +1,31 @@
 # 导入错误修复说明
 
 ## 问题描述
+
 系统报告以下导入错误：
+
 - `config/env.validator` 缺少 `validateEnv` 导出
 - `env.sync` 缺少 `env` 导出
 
 ## 根本原因
+
 这是 v0 构建系统的 TypeScript 缓存问题。文件中确实有正确的导出，但构建缓存未更新。
 
 ## 已实施的解决方案
 
 ### 1. 创建了索引文件
+
 - `config/index.ts` - 重新导出所有 config 模块
 - `index.ts` - 重新导出 env.sync
 
 ### 2. 确保所有导出格式正确
+
 - ✅ `config/env.validator.ts` 有 `export function validateEnv()`
 - ✅ `env.sync.ts` 有 `export const env = {...}` 和 `export default env`
 - ✅ `configs/env.sync.ts` 有 `export const env = {...}` 和 `export default env`
 
 ### 3. 添加了清理脚本
+
 - `npm run clean` - 快速清理缓存
 - `npm run clean:all` - 完全清理并重新安装
 - `npm run rebuild` - 清理后重新构建
@@ -27,6 +33,7 @@
 ## 使用方法
 
 ### 方案 A：使用索引文件（推荐）
+
 \`\`\`typescript
 // 从索引文件导入
 import { validateEnv } from '@/config'
@@ -34,6 +41,7 @@ import { env } from '@/'
 \`\`\`
 
 ### 方案 B：直接导入（原方式）
+
 \`\`\`typescript
 // 直接从文件导入
 import { validateEnv } from '@/config/env.validator'
@@ -41,12 +49,16 @@ import { env } from '@/env.sync'
 \`\`\`
 
 ### 方案 C：清理缓存
+
 \`\`\`bash
-# 在本地开发环境运行
+
+## 在本地开发环境运行
+
 npm run clean
 npm run dev
 
-# 或完全清理
+## 或完全清理
+
 npm run clean:all
 npm run dev
 \`\`\`
@@ -55,10 +67,13 @@ npm run dev
 
 运行以下命令验证导出：
 \`\`\`bash
-# 检查 TypeScript 编译
+
+## 检查 TypeScript 编译
+
 npx tsc --noEmit
 
-# 运行测试
+## 运行测试
+
 npm run test:unit
 \`\`\`
 
@@ -79,6 +94,7 @@ npm run test:unit
 ## 技术细节
 
 ### 文件结构
+
 \`\`\`
 项目根目录/
 ├── config/
@@ -92,6 +108,7 @@ npm run test:unit
 \`\`\`
 
 ### 导出验证
+
 \`\`\`typescript
 // config/env.validator.ts
 export function validateEnv(customVars?: string[]) { ... }  ✅

@@ -7,6 +7,12 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    serverComponentsExternalPackages: ['bcrypt'],
+    serverActions: {
+      allowedOrigins: ['localhost:3000', 'localhost:3555'],
+    },
+  },
   images: {
     unoptimized: true,
     domains: ['cdn.example.com'],
@@ -23,6 +29,28 @@ const nextConfig = {
   assetPrefix: process.env.CDN_URL || '',
   async headers() {
     return [
+      // 针对登录API的特殊配置
+      {
+        source: '/api/auth/login',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*'
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'POST, OPTIONS'
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization'
+          },
+          {
+            key: 'Access-Control-Allow-Credentials',
+            value: 'true'
+          }
+        ]
+      },
       {
         source: '/:path*',
         headers: [

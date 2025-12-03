@@ -4,20 +4,17 @@ import { motion } from "framer-motion"
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Wine, Package, Clock, User, Phone, Download } from "lucide-react"
+import { Wine, Package, Clock, User, Phone } from "lucide-react"
 import { DataTable } from "@/components/dashboard/data-table"
 import { FilterBar } from "@/components/dashboard/filter-bar"
-import { DateRangePicker } from "@/components/ui/date-range-picker"
 
 // 寄存管理数据
 const storageItems = [
   {
     id: "JC1906051400347646617",
     code: "000009",
-    store: "巨嗨测试1",
+    store: "启智",
     storageTime: "2019-06-05 14:00",
     expiryTime: "2019-07-15 14:00",
     customerName: "郭亮",
@@ -28,7 +25,7 @@ const storageItems = [
   {
     id: "JC1906051359869649288",
     code: "000008",
-    store: "巨嗨测试1",
+    store: "启智",
     storageTime: "2019-06-05 13:59",
     expiryTime: "2019-06-16 13:59",
     customerName: "郭亮",
@@ -39,7 +36,7 @@ const storageItems = [
   {
     id: "JC1906051355651920738",
     code: "000007",
-    store: "巨嗨测试1",
+    store: "启智",
     storageTime: "2019-06-05 13:55",
     expiryTime: "2019-07-16 13:46",
     customerName: "郭亮",
@@ -56,70 +53,84 @@ export default function StoragePage() {
   })
 
   const columns = [
-    { key: "code", label: "存酒码", width: "w-24" },
-    { key: "id", label: "存酒单号", width: "w-48" },
+    { 
+      key: "code", 
+      label: "存酒码", 
+      width: "w-24",
+      render: (code: string) => (
+        <Badge variant="outline" className="font-mono">
+          {code}
+        </Badge>
+      )
+    },
+    { 
+      key: "id", 
+      label: "存酒单号", 
+      width: "w-48",
+      render: (id: string) => <span className="font-mono text-xs">{id}</span>
+    },
     { key: "store", label: "门店", width: "w-32" },
-    { key: "time", label: "寄存时间", width: "w-40" },
-    { key: "expiry", label: "到期时间", width: "w-40" },
-    { key: "customer", label: "客户信息", width: "w-48" },
-    { key: "status", label: "状态", width: "w-24" },
-    { key: "actions", label: "操作", width: "w-24" },
+    { 
+      key: "storageTime", 
+      label: "寄存时间", 
+      width: "w-40",
+      render: (storageTime: string) => (
+        <div className="flex items-center gap-2">
+          <Clock className="h-3 w-3 text-muted-foreground" />
+          <span className="text-sm">{storageTime}</span>
+        </div>
+      )
+    },
+    { 
+      key: "expiryTime", 
+      label: "到期时间", 
+      width: "w-40",
+      render: (expiryTime: string) => (
+        <div className="flex items-center gap-2">
+          <Clock className="h-3 w-3 text-orange-500" />
+          <span className="text-sm">{expiryTime}</span>
+        </div>
+      )
+    },
+    { 
+      key: "customerName", 
+      label: "客户信息", 
+      width: "w-48",
+      render: (customerName: string, row: any) => (
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <User className="h-3 w-3 text-muted-foreground" />
+            <span className="text-sm">{customerName}</span>
+            <span className="text-xs text-muted-foreground">({row.wechatName})</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Phone className="h-3 w-3 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">{row.phone}</span>
+          </div>
+        </div>
+      )
+    },
+    { 
+      key: "status", 
+      label: "状态", 
+      width: "w-24",
+      render: (status: string) => (
+        <Badge variant={status === "有效" ? "default" : status === "配送中" ? "secondary" : "destructive"}>
+          {status}
+        </Badge>
+      )
+    },
+    { 
+      key: "actions", 
+      label: "操作", 
+      width: "w-24",
+      render: () => (
+        <Button variant="ghost" size="sm">
+          详情
+        </Button>
+      )
+    },
   ]
-
-  const renderCell = (item: any, key: string) => {
-    switch (key) {
-      case "code":
-        return (
-          <Badge variant="outline" className="font-mono">
-            {item.code}
-          </Badge>
-        )
-      case "id":
-        return <span className="font-mono text-xs">{item.id}</span>
-      case "time":
-        return (
-          <div className="flex items-center gap-2">
-            <Clock className="h-3 w-3 text-muted-foreground" />
-            <span className="text-sm">{item.storageTime}</span>
-          </div>
-        )
-      case "expiry":
-        return (
-          <div className="flex items-center gap-2">
-            <Clock className="h-3 w-3 text-orange-500" />
-            <span className="text-sm">{item.expiryTime}</span>
-          </div>
-        )
-      case "customer":
-        return (
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <User className="h-3 w-3 text-muted-foreground" />
-              <span className="text-sm">{item.customerName}</span>
-              <span className="text-xs text-muted-foreground">({item.wechatName})</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Phone className="h-3 w-3 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">{item.phone}</span>
-            </div>
-          </div>
-        )
-      case "status":
-        return (
-          <Badge variant={item.status === "有效" ? "default" : item.status === "配送中" ? "secondary" : "destructive"}>
-            {item.status}
-          </Badge>
-        )
-      case "actions":
-        return (
-          <Button variant="ghost" size="sm">
-            详情
-          </Button>
-        )
-      default:
-        return item[key]
-    }
-  }
 
   return (
     <div className="space-y-6">
@@ -130,32 +141,30 @@ export default function StoragePage() {
       </motion.div>
 
       {/* 筛选栏 */}
-      <FilterBar>
-        <DateRangePicker />
-        <Select value={filters.store} onValueChange={(value) => setFilters({ ...filters, store: value })}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="选择门店" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部门店</SelectItem>
-            <SelectItem value="store1">巨嗨测试1</SelectItem>
-            <SelectItem value="store2">KTV旗舰店</SelectItem>
-          </SelectContent>
-        </Select>
-        <Input
-          placeholder="请输入手机号"
-          value={filters.phone}
-          onChange={(e) => setFilters({ ...filters, phone: e.target.value })}
-          className="w-48"
-        />
-        <div className="ml-auto flex gap-2">
-          <Button variant="outline">
-            <Download className="mr-2 h-4 w-4" />
-            导出
-          </Button>
-          <Button>查询</Button>
-        </div>
-      </FilterBar>
+      <FilterBar 
+        filters={[
+          {
+            label: "日期范围",
+            options: [],
+            onChange: (value: string) => console.log("日期范围变化:", value)
+          },
+          {
+            label: "门店",
+            options: [
+              { label: "全部门店", value: "all" },
+              { label: "启智", value: "store1" },
+              { label: "KTV旗舰店", value: "store2" }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, store: value })
+          },
+          {
+            label: "手机号",
+            options: [],
+            onChange: (value: string) => setFilters({ ...filters, phone: value })
+          }
+        ]}
+        onSearch={() => console.log("搜索:", filters)}
+      />
 
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-4">
@@ -214,7 +223,7 @@ export default function StoragePage() {
 
       {/* 数据表格 */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-        <DataTable columns={columns} data={storageItems} renderCell={renderCell} />
+        <DataTable columns={columns} data={storageItems} />
       </motion.div>
     </div>
   )

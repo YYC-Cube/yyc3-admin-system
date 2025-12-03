@@ -1,4 +1,3 @@
-import type { BlockchainRecord } from "@/lib/blockchain/financial-audit-chain"
 import { getFinancialAuditChain } from "@/lib/blockchain/financial-audit-chain"
 
 // 操作类型定义
@@ -204,8 +203,6 @@ export class ComplianceAuditEngine {
    * 追踪数据变更
    */
   async trackDataChange(entity: string, before: any, after: any, userId: string): Promise<AuditLog> {
-    const changes = this.detectChanges(before, after)
-
     return await this.logOperation(userId, OperationType.UPDATE, {
       entity,
       entityId: before.id || after.id,
@@ -362,15 +359,14 @@ export class ComplianceAuditEngine {
    * 验证数据完整性（与区块链联动）
    */
   async verifyDataIntegrity(
-    data: any,
-    blockchain: BlockchainRecord,
+    data: any
   ): Promise<{
     isValid: boolean
     message: string
   }> {
     try {
       const financialAuditChain = getFinancialAuditChain()
-      const result = await financialAuditChain.verifyDataIntegrity(data.id)
+      const result = await financialAuditChain.verifyDataIntegrity(data)
 
       return {
         isValid: result.isValid,
@@ -380,7 +376,7 @@ export class ComplianceAuditEngine {
       console.error("[v0] 验证数据完整性失败:", error)
       return {
         isValid: false,
-        message: `验证失败: ${error.message}`,
+        message: `验证失败: ${error instanceof Error ? error.message : String(error)}`,
       }
     }
   }
@@ -398,7 +394,7 @@ export class ComplianceAuditEngine {
         category: "数据保护",
         severity: "high",
         description: "只收集必要的个人数据",
-        checkFunction: (data) => {
+        checkFunction: (_data) => {
           // 检查是否收集了不必要的敏感数据
           return true // 简化实现
         },
@@ -410,7 +406,7 @@ export class ComplianceAuditEngine {
         category: "财务合规",
         severity: "critical",
         description: "确保财务数据不可篡改",
-        checkFunction: (data) => {
+        checkFunction: (_data) => {
           // 检查财务数据是否有区块链记录
           return true // 简化实现
         },
@@ -422,7 +418,7 @@ export class ComplianceAuditEngine {
         category: "信息安全",
         severity: "high",
         description: "实施基于角色的访问控制",
-        checkFunction: (data) => {
+        checkFunction: (_data) => {
           // 检查是否有适当的访问控制
           return true // 简化实现
         },
@@ -455,20 +451,7 @@ export class ComplianceAuditEngine {
     return "low"
   }
 
-  /**
-   * 检测数据变更
-   */
-  private detectChanges(before: any, after: any): string[] {
-    const changes: string[] = []
-
-    for (const key in after) {
-      if (before[key] !== after[key]) {
-        changes.push(`${key}: ${before[key]} -> ${after[key]}`)
-      }
-    }
-
-    return changes
-  }
+  
 
   /**
    * 计算合规评分
@@ -604,7 +587,7 @@ export class ComplianceAuditEngine {
   /**
    * 计算趋势
    */
-  private calculateTrend(currentScore: number): "improving" | "stable" | "declining" {
+  private calculateTrend(_currentScore: number): "improving" | "stable" | "declining" {
     // 简化实现：与历史数据对比
     return "stable"
   }
@@ -633,7 +616,7 @@ export class ComplianceAuditEngine {
   /**
    * 评估数据泄露风险
    */
-  private assessDataLeakageRisk(findings: Finding[]): number {
+  private assessDataLeakageRisk(_findings: Finding[]): number {
     // 简化实现
     return 30
   }
@@ -641,7 +624,7 @@ export class ComplianceAuditEngine {
   /**
    * 评估未授权访问风险
    */
-  private assessUnauthorizedAccessRisk(findings: Finding[]): number {
+  private assessUnauthorizedAccessRisk(_findings: Finding[]): number {
     // 简化实现
     return 25
   }
@@ -649,7 +632,7 @@ export class ComplianceAuditEngine {
   /**
    * 评估合规违规风险
    */
-  private assessComplianceViolationRisk(findings: Finding[]): number {
+  private assessComplianceViolationRisk(_findings: Finding[]): number {
     // 简化实现
     return 20
   }
@@ -657,7 +640,7 @@ export class ComplianceAuditEngine {
   /**
    * 评估系统漏洞风险
    */
-  private assessSystemVulnerabilityRisk(findings: Finding[]): number {
+  private assessSystemVulnerabilityRisk(_findings: Finding[]): number {
     // 简化实现
     return 15
   }
@@ -665,7 +648,7 @@ export class ComplianceAuditEngine {
   /**
    * 评估操作失误风险
    */
-  private assessOperationalErrorRisk(findings: Finding[]): number {
+  private assessOperationalErrorRisk(_findings: Finding[]): number {
     // 简化实现
     return 10
   }
@@ -673,7 +656,7 @@ export class ComplianceAuditEngine {
   /**
    * 生成风险热力图
    */
-  private generateRiskHeatmap(findings: Finding[]): RiskHeatmap {
+  private generateRiskHeatmap(_findings: Finding[]): RiskHeatmap {
     return {
       categories: ["数据安全", "访问控制", "合规性", "系统安全", "操作安全"],
       data: [
@@ -713,7 +696,7 @@ export class ComplianceAuditEngine {
   /**
    * 更新系统审计报告
    */
-  private async updateSystemAuditReport(data: any): Promise<void> {
+  private async updateSystemAuditReport(_data: any): Promise<void> {
     // 实际实现应该更新SYSTEM_AUDIT_REPORT.md文件
     console.log("[v0] 更新系统审计报告")
   }

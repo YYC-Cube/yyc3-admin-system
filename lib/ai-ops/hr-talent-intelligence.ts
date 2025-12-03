@@ -572,7 +572,7 @@ export class HRTalentIntelligence {
     return Array.from(tags)
   }
 
-  private async calculateAbilityScores(employeeId: string, performanceRecords: any[]): Promise<Record<string, number>> {
+  private async calculateAbilityScores(_employeeId: string, _performanceRecords: any[]): Promise<Record<string, number>> {
     const scores: Record<string, number> = {
       技术能力: 0,
       沟通能力: 0,
@@ -583,8 +583,8 @@ export class HRTalentIntelligence {
     }
 
     // 从绩效记录中计算能力评分
-    if (performanceRecords.length > 0) {
-      const recentRecords = performanceRecords.slice(-3)
+    if (_performanceRecords.length > 0) {
+      const recentRecords = _performanceRecords.slice(-3)
 
       for (const record of recentRecords) {
         if (record.abilityScores) {
@@ -603,7 +603,7 @@ export class HRTalentIntelligence {
     return scores
   }
 
-  private async analyzeWorkStyle(workHistory: any[], performanceRecords: any[]): Promise<string> {
+  private async analyzeWorkStyle(_workHistory: any[], _performanceRecords: any[]): Promise<string> {
     // 简单的工作风格分析
     const styles = ["独立型", "协作型", "领导型", "支持型"]
 
@@ -612,7 +612,7 @@ export class HRTalentIntelligence {
     return styles[Math.floor(Math.random() * styles.length)]
   }
 
-  private async identifyCareerInterests(workHistory: any[], skillTags: string[]): Promise<string[]> {
+  private async identifyCareerInterests(_workHistory: any[], skillTags: string[]): Promise<string[]> {
     const interests: string[] = []
 
     // 基于技能标签推断职业兴趣
@@ -721,7 +721,7 @@ export class HRTalentIntelligence {
     return results.map((r: any) => r.skill_name)
   }
 
-  private async generateTrainingPlan(missingSkills: string[], timeframe: number): Promise<TrainingPlan> {
+  private async generateTrainingPlan(missingSkills: string[], _timeframe: number): Promise<TrainingPlan> {
     const courses: Course[] = []
     let totalCost = 0
     let totalDuration = 0
@@ -804,7 +804,7 @@ export class HRTalentIntelligence {
     return results[0]?.manager_score || 70
   }
 
-  private async getPerformanceRank(employeeId: string, period: Period, overallScore: number): Promise<number> {
+  private async getPerformanceRank(_employeeId: string, period: Period, overallScore: number): Promise<number> {
     const [results] = await db.query(
       `SELECT COUNT(*) + 1 as rank
        FROM performance_scores
@@ -817,7 +817,7 @@ export class HRTalentIntelligence {
     return results[0]?.rank || 1
   }
 
-  private async generatePerformanceFeedback(employeeId: string, scores: any): Promise<string> {
+  private async generatePerformanceFeedback(_employeeId: string, scores: any): Promise<string> {
     const feedback: string[] = []
 
     if (scores.overallScore >= 90) {
@@ -997,7 +997,7 @@ export class HRTalentIntelligence {
     return requirements
   }
 
-  private async analyzePromotionImpact(employeeId: string, targetPosition: string): Promise<ImpactAnalysis> {
+  private async analyzePromotionImpact(_employeeId: string, targetPosition: string): Promise<ImpactAnalysis> {
     // 团队影响
     const teamImpact = "晋升后将承担更多团队管理职责，需要培养接班人"
 
@@ -1061,7 +1061,7 @@ export class HRTalentIntelligence {
     return Math.min(0.4, riskScore)
   }
 
-  private async generateRetentionStrategies(employeeId: string, factors: string[]): Promise<string[]> {
+  private async generateRetentionStrategies(_employeeId: string, factors: string[]): Promise<string[]> {
     const strategies: string[] = []
 
     if (factors.includes("绩效下降趋势")) {

@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import { Suspense } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { DynamicPricingDashboard } from "@/components/ai/dynamic-pricing-dashboard"
-import { PriceOptimizationPanel } from "@/components/ai/price-optimization-panel"
-import { RevenueProjectionChart } from "@/components/ai/revenue-projection-chart"
+import { Suspense } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { DynamicPricingDashboard } from '@/components/ai/dynamic-pricing-dashboard'
+import { PriceOptimizationPanel } from '@/components/ai/price-optimization-panel'
+import { RevenueProjectionChart } from '@/components/ai/revenue-projection-chart'
 
 export default function AIPricingPage() {
   return (
@@ -48,7 +48,55 @@ export default function AIPricingPage() {
               <CardDescription>设置定价规则和约束条件</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">定价策略配置功能开发中...</p>
+              <div className="space-y-4">
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">基础价格</label>
+                    <input
+                      type="number"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="100"
+                    />
+                    <p className="text-xs text-muted-foreground">设置商品基础价格(元)</p>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">最低折扣</label>
+                    <input
+                      type="number"
+                      className="w-full px-3 py-2 border rounded-md"
+                      placeholder="0.7"
+                    />
+                    <p className="text-xs text-muted-foreground">最低折扣系数(0-1)</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">动态定价规则</label>
+                  <div className="space-y-2">
+                    {[
+                      { time: '高峰时段(18:00-23:00)', adjustment: '+20%', status: '启用' },
+                      { time: '低峰时段(10:00-18:00)', adjustment: '-10%', status: '启用' },
+                      { time: '会员专享', adjustment: '-15%', status: '启用' },
+                    ].map((rule, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-3 border rounded-lg"
+                      >
+                        <div>
+                          <p className="text-sm font-medium">{rule.time}</p>
+                          <p className="text-xs text-muted-foreground">
+                            价格调整: {rule.adjustment}
+                          </p>
+                        </div>
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full ${rule.status === '启用' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
+                        >
+                          {rule.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

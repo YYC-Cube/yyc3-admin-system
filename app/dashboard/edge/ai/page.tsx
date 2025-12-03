@@ -3,7 +3,7 @@
 import { Suspense } from "react"
 import { EdgeAIDashboard } from "@/components/edge/edge-ai-dashboard"
 
-export default async function EdgeAIPage() {
+export default function EdgeAIPage() {
   return (
     <div className="space-y-6">
       <div>

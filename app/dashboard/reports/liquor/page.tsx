@@ -1,20 +1,19 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
-import { Wine, Package, TrendingUp, TrendingDown, Download } from "lucide-react"
+// Removed unused imports
+import { Wine, Package, TrendingUp, TrendingDown } from "lucide-react"
 import { DataTable } from "@/components/dashboard/data-table"
 import { FilterBar } from "@/components/dashboard/filter-bar"
-import { DateRangePicker } from "@/components/ui/date-range-picker"
+// DateRangePicker removed as it's not used
 
 // 酒水存取汇总数据
 const liquorSummary = [
   {
     id: 1,
-    store: "巨嗨KTV",
+    store: "启智",
     category: "休闲食品",
     product: "JELLYBIRD果冻酒36gx2",
     unit: "个",
@@ -26,7 +25,7 @@ const liquorSummary = [
   },
   {
     id: 2,
-    store: "巨嗨KTV",
+    store: "启智",
     category: "果盘",
     product: "大果盘",
     unit: "份",
@@ -38,7 +37,7 @@ const liquorSummary = [
   },
   {
     id: 3,
-    store: "巨嗨KTV",
+    store: "启智",
     category: "啤酒",
     product: "乐堡啤酒330ml",
     unit: "瓶",
@@ -51,44 +50,55 @@ const liquorSummary = [
 ]
 
 export default function LiquorReportsPage() {
+  const [filters, setFilters] = useState({
+    dateRange: null,
+    store: 'all',
+    category: 'all',
+    name: ''
+  })
+
   const columns = [
     { key: "store", label: "门店", width: "w-32" },
     { key: "category", label: "商品类型", width: "w-28" },
     { key: "product", label: "商品名称", width: "w-48" },
     { key: "unit", label: "单位", width: "w-20" },
-    { key: "storage", label: "寄存信息", width: "w-40" },
-    { key: "pickup", label: "取酒信息", width: "w-40" },
-    { key: "price", label: "进货单价", width: "w-28" },
+    { 
+      key: "storageQty", 
+      label: "寄存信息", 
+      width: "w-40",
+      render: (storageQty: number, row: any) => (
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Package className="h-3 w-3 text-green-500" />
+            <span className="text-sm font-semibold text-green-500">{storageQty}</span>
+          </div>
+          <div className="text-xs text-muted-foreground">金额: ¥{(row.storageAmount || 0).toFixed(2)}</div>
+        </div>
+      )
+    },
+    { 
+      key: "pickupQty", 
+      label: "取酒信息", 
+      width: "w-40",
+      render: (pickupQty: number, row: any) => (
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Wine className="h-3 w-3 text-orange-500" />
+            <span className="text-sm font-semibold text-orange-500">{pickupQty}</span>
+          </div>
+          <div className="text-xs text-muted-foreground">金额: ¥{(row.pickupAmount || 0).toFixed(2)}</div>
+        </div>
+      )
+    },
+    { 
+      key: "price", 
+      label: "进货单价", 
+      width: "w-28",
+      render: (price: number) => (
+        <span className="font-semibold text-primary">¥{(price || 0).toFixed(2)}</span>
+      )
+    },
   ]
-
-  const renderCell = (item: any, key: string) => {
-    switch (key) {
-      case "storage":
-        return (
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <Package className="h-3 w-3 text-green-500" />
-              <span className="text-sm font-semibold text-green-500">{item.storageQty}</span>
-            </div>
-            <div className="text-xs text-muted-foreground">金额: ¥{item.storageAmount.toFixed(2)}</div>
-          </div>
-        )
-      case "pickup":
-        return (
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <Wine className="h-3 w-3 text-orange-500" />
-              <span className="text-sm font-semibold text-orange-500">{item.pickupQty}</span>
-            </div>
-            <div className="text-xs text-muted-foreground">金额: ¥{item.pickupAmount.toFixed(2)}</div>
-          </div>
-        )
-      case "price":
-        return <span className="font-semibold text-primary">¥{item.price.toFixed(2)}</span>
-      default:
-        return item[key]
-    }
-  }
 
   return (
     <div className="space-y-6">
@@ -99,38 +109,38 @@ export default function LiquorReportsPage() {
       </motion.div>
 
       {/* 筛选栏 */}
-      <FilterBar>
-        <DateRangePicker />
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="选择门店" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部门店</SelectItem>
-            <SelectItem value="store1">巨嗨KTV</SelectItem>
-            <SelectItem value="store2">KTV旗舰店</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="商品类型" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部类型</SelectItem>
-            <SelectItem value="liquor">洋酒</SelectItem>
-            <SelectItem value="beer">啤酒</SelectItem>
-            <SelectItem value="wine">红酒</SelectItem>
-          </SelectContent>
-        </Select>
-        <Input placeholder="请输入商品名称" className="w-48" />
-        <div className="ml-auto flex gap-2">
-          <Button variant="outline">
-            <Download className="mr-2 h-4 w-4" />
-            导出
-          </Button>
-          <Button>查询</Button>
-        </div>
-      </FilterBar>
+      <FilterBar
+        filters={[
+          {
+            label: '选择门店',
+            options: [
+              { label: '全部门店', value: 'all' },
+              { label: '启智', value: 'store1' },
+              { label: 'KTV旗舰店', value: 'store2' }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, store: value })
+          },
+          {
+            label: '商品类型',
+            options: [
+              { label: '全部类型', value: 'all' },
+              { label: '洋酒', value: 'liquor' },
+              { label: '啤酒', value: 'beer' },
+              { label: '红酒', value: 'wine' }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, category: value })
+          },
+          {
+            label: '商品名称',
+            options: [],
+            onChange: (value: string) => setFilters({ ...filters, name: value })
+          }
+        ]}
+        onSearch={() => {
+          console.log('搜索条件:', filters)
+          // 执行搜索逻辑
+        }}
+      />
 
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-4">
@@ -189,7 +199,7 @@ export default function LiquorReportsPage() {
 
       {/* 数据表格 */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-        <DataTable columns={columns} data={liquorSummary} renderCell={renderCell} />
+        <DataTable columns={columns} data={liquorSummary} />
       </motion.div>
     </div>
   )

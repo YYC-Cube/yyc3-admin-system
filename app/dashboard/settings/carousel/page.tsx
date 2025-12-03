@@ -26,7 +26,7 @@ export default function CarouselSongsPage() {
     {
       id: "1",
       storeId: "store_1",
-      storeName: "巨嗨KTV",
+      storeName: "启智",
       roomIds: ["all"],
       roomNames: "全部包厢",
       type: "custom",
@@ -186,7 +186,7 @@ export default function CarouselSongsPage() {
                     <SelectValue placeholder="选择门店" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="store_1">巨嗨KTV</SelectItem>
+                    <SelectItem value="store_1">启智</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

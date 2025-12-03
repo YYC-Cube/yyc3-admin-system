@@ -7,7 +7,6 @@ import { useI18n } from "@/lib/hooks/use-i18n"
 const languages = [
   { code: "zh-CN", name: "简体中文" },
   { code: "en-US", name: "English" },
-  { code: "ja-JP", name: "日本語" },
 ] as const
 
 export function LanguageToggle() {

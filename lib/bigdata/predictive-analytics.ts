@@ -110,8 +110,7 @@ export class PredictiveAnalytics {
     // 数据预处理
     const processedData = this.preprocessSalesData(historicalData)
 
-    // 特征工程
-    const features = this.extractSalesFeatures(processedData, externalFactors)
+    // 特征工程 - 预留功能
 
     // 时间序列分解
     const { trend, seasonal, residual } = this.decomposeTimeSeries(processedData)
@@ -277,6 +276,7 @@ export class PredictiveAnalytics {
     return data.sort((a, b) => a.date.getTime() - b.date.getTime())
   }
 
+  // @ts-ignore: 方法预留用于未来功能扩展
   private extractSalesFeatures(data: SalesData[], externalFactors: ExternalFactor[]): Record<string, any>[] {
     return data.map((d) => ({
       dayOfWeek: d.date.getDay(),
@@ -473,7 +473,7 @@ export class PredictiveAnalytics {
     return reasons
   }
 
-  private generateRetentionRecommendations(customer: CustomerData, reasons: string[]): string[] {
+  private generateRetentionRecommendations(_customer: CustomerData, reasons: string[]): string[] {
     const recommendations: string[] = []
 
     if (reasons.some((r) => r.includes("长时间未消费"))) {
@@ -562,10 +562,9 @@ export class PredictiveAnalytics {
     return "unitary"
   }
 
-  private calculateOptimalPrice(prices: PriceData[], sales: SalesData[], elasticity: number): number {
+  private calculateOptimalPrice(prices: PriceData[], _sales: SalesData[], elasticity: number): number {
     // 简化的最优价格计算
     const avgPrice = prices.reduce((sum, p) => sum + p.price, 0) / prices.length
-    const avgQuantity = sales.reduce((sum, s) => sum + s.quantity, 0) / sales.length
 
     // 如果需求弹性大，建议降价；如果需求弹性小，建议提价
     const priceAdjustment = elasticity < -1 ? -0.1 : elasticity > -0.5 ? 0.1 : 0
@@ -592,7 +591,7 @@ export class PredictiveAnalytics {
   }
 
   private generatePricingRecommendations(
-    elasticity: number,
+    _elasticity: number,
     type: string,
     optimalPrice: number,
     revenueImpact: number,

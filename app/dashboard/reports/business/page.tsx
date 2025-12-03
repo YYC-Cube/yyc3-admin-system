@@ -17,7 +17,7 @@ const salesData = [
     orderNo: "D108175561882149",
     type: "续时",
     payType: "自定义支付类型2",
-    store: "巨嗨KTV",
+    store: "启智",
     room: "5314",
     operator: "启智网络",
     category: "酒水套餐",
@@ -36,7 +36,7 @@ const salesData = [
     orderNo: "D108149772286496",
     type: "续时",
     payType: "现金",
-    store: "巨嗨KTV",
+    store: "启智",
     room: "9527",
     operator: "希尔瓦娜斯",
     category: "酒水套餐",
@@ -174,7 +174,7 @@ export default function BusinessReportPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">全部门店</SelectItem>
-                        <SelectItem value="store1">巨嗨KTV</SelectItem>
+                        <SelectItem value="store1">启智</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

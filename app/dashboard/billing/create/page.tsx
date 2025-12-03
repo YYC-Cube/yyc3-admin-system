@@ -12,7 +12,7 @@ import { Plus, Trash2, Save, Printer, Clock, DollarSign, Package } from "lucide-
 import { DateRangePicker } from "@/components/ui/date-range-picker"
 
 export default function BillingCreatePage() {
-  const [billItems, setBillItems] = useState([
+  const [billItems, _setBillItems] = useState([
     {
       id: 1,
       name: "团购套餐",
@@ -23,7 +23,7 @@ export default function BillingCreatePage() {
     },
   ])
 
-  const [paymentRecords, setPaymentRecords] = useState([
+  const [paymentRecords, _setPaymentRecords] = useState([
     {
       id: 1,
       method: "团购",
@@ -80,7 +80,7 @@ export default function BillingCreatePage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="store1">巨嗨测试1</SelectItem>
+                        <SelectItem value="store1">启智</SelectItem>
                         <SelectItem value="store2">KTV旗舰店</SelectItem>
                       </SelectContent>
                     </Select>
@@ -177,7 +177,7 @@ export default function BillingCreatePage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">消费门店</span>
-                  <span>巨嗨测试1</span>
+                  <span>启智</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">消费包厢</span>

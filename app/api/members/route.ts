@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { mockDatabase } from "@/lib/utils/storage"
 import type { Member } from "@/lib/types"
+import { MemberLevel } from "@/lib/types"
 
 // 获取会员列表
 export async function GET(request: NextRequest) {
@@ -55,18 +56,23 @@ export async function POST(request: NextRequest) {
     const member: Member = {
       id: `member_${Date.now()}`,
       storeId: body.storeId || "store_1",
-      cardNumber,
+      cardNo: cardNumber,
       name: body.name,
       phone: body.phone,
-      level: body.level || 1,
-      balance: body.balance || 0,
-      points: body.points || 0,
+      level: (body.level || 1) as MemberLevel,
+      balance: {
+        general: body.balance?.general || 0,
+        room: body.balance?.room || 0,
+        gift: body.balance?.gift || 0
+      },
+      points: {
+        total: body.points?.total || 0,
+        used: body.points?.used || 0,
+        available: body.points?.available || 0
+      },
       totalConsumption: 0,
       visitCount: 0,
       birthday: body.birthday,
-      gender: body.gender,
-      address: body.address,
-      remark: body.remark,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     }

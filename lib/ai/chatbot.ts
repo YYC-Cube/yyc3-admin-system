@@ -94,7 +94,7 @@ export class AIChatbot {
   }
 
   // 生成回复
-  private async generateResponse(userMessage: string, session: ChatSession): Promise<string> {
+  private async generateResponse(userMessage: string, _session: ChatSession): Promise<string> {
     // 简单的关键词匹配（实际应用中应使用真实的AI模型）
     const lowerMessage = userMessage.toLowerCase()
 

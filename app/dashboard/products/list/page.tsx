@@ -1,3 +1,10 @@
+/** 
+ * @file page.tsx
+ * @description 商品管理页面 - 展示商品列表、提供商品增删改查等功能
+ * @author YYC³ 
+ * @version 1.0.0 
+ * @created 2025-09-15 
+ */
 "use client"
 
 import { useState, useEffect } from "react"
@@ -44,7 +51,7 @@ export default function ProductListPage() {
       ])
 
       if (productsRes.success && productsRes.data) {
-        setProducts(productsRes.data.items)
+        setProducts(productsRes.data.data)
       }
       if (categoriesRes.success && categoriesRes.data) {
         setCategories(categoriesRes.data)
@@ -136,17 +143,13 @@ export default function ProductListPage() {
   return (
     <div className="space-y-6">
       {/* 页面标题 */}
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+      <div className="opacity-100">
         <h1 className="text-3xl font-bold tracking-tight text-foreground">商品管理</h1>
         <p className="mt-2 text-muted-foreground">管理商品资料、类型和口味设置</p>
-      </motion.div>
+      </div>
 
       {/* 标签页切换 */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-      >
+      <div className="opacity-100">
         <Tabs defaultValue="list" className="space-y-6">
           <TabsList className="grid w-full max-w-md grid-cols-3">
             <TabsTrigger value="list">商品列表</TabsTrigger>
@@ -265,7 +268,7 @@ export default function ProductListPage() {
                             </TableCell>
                             <TableCell>{product.unit}</TableCell>
                             <TableCell className="text-muted-foreground line-through">
-                              ¥{product.originalPrice.toFixed(2)}
+                              ¥{product.originalPrice ? product.originalPrice.toFixed(2) : '0.00'}
                             </TableCell>
                             <TableCell className="font-medium text-foreground">¥{product.price.toFixed(2)}</TableCell>
                             <TableCell className="font-medium text-primary">
@@ -334,11 +337,11 @@ export default function ProductListPage() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.05 }}
                       >
-                        <TableCell>{category.order}</TableCell>
+                        <TableCell>{category.displayOrder}</TableCell>
                         <TableCell className="font-medium">{category.name}</TableCell>
                         <TableCell>
-                          <Badge variant={category.display ? "default" : "secondary"}>
-                            {category.display ? "是" : "否"}
+                          <Badge variant={category.isDisplay ? "default" : "secondary"}>
+                            {category.isDisplay ? "是" : "否"}
                           </Badge>
                         </TableCell>
                         <TableCell>
@@ -406,8 +409,8 @@ export default function ProductListPage() {
             </Card>
           </TabsContent>
         </Tabs>
-      </motion.div>
-
+      </div>
+    
       <ProductDialog
         open={productDialogOpen}
         onOpenChange={setProductDialogOpen}

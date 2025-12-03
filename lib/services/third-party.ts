@@ -50,7 +50,7 @@ export async function sendWechatNotification(openId: string, template: string, d
 }
 
 // 地图服务
-export async function geocode(address: string): Promise<{ lat: number; lng: number }> {
+export async function geocode(_address: string): Promise<{ lat: number; lng: number }> {
   // 模拟地理编码
   // 实际应用中应该集成高德地图、百度地图等
   return {

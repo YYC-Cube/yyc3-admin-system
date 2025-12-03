@@ -368,7 +368,7 @@ export const edgeComputeFunction = new EdgeComputeFunction()
 
 // 计算装饰器
 export function EdgeCompute() {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (_target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value
 
     descriptor.value = async function (...args: any[]) {
@@ -399,27 +399,27 @@ class ImageProcessor {
     this.buffer = buffer
   }
 
-  resize(width: number, height: number, options: any): ImageProcessor {
+  resize(_width: number, _height: number, _options: any): ImageProcessor {
     // 模拟resize操作
     return this
   }
 
-  crop(options: any): ImageProcessor {
+  crop(_options: any): ImageProcessor {
     // 模拟crop操作
     return this
   }
 
-  format(format: string, options: any): ImageProcessor {
+  format(_format: string, _options: any): ImageProcessor {
     // 模拟format操作
     return this
   }
 
-  quality(quality: number): ImageProcessor {
+  quality(_quality: number): ImageProcessor {
     // 模拟quality操作
     return this
   }
 
-  watermark(options: any): ImageProcessor {
+  watermark(_options: any): ImageProcessor {
     // 模拟watermark操作
     return this
   }

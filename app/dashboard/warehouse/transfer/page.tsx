@@ -12,16 +12,15 @@ import { Label } from "@/components/ui/label"
 import { Plus, ArrowRightLeft, Package, Warehouse, TrendingUp } from "lucide-react"
 import { DataTable } from "@/components/dashboard/data-table"
 import { FilterBar } from "@/components/dashboard/filter-bar"
-import { DateRangePicker } from "@/components/ui/date-range-picker"
 
 // 库存调拨数据
 const transfers = [
   {
     id: "DB1906031538082862059",
     date: "2019-06-03 15:37",
-    fromStore: "巨嗨测试1",
+    fromStore: "启智",
     fromWarehouse: "总仓",
-    toStore: "巨嗨测试1",
+    toStore: "启智",
     toWarehouse: "超市仓",
     quantity: 50,
     operator: "林小软",
@@ -30,60 +29,68 @@ const transfers = [
 
 export default function TransferPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [selectedProducts, setSelectedProducts] = useState<any[]>([])
+  const [selectedProducts, _setSelectedProducts] = useState<any[]>([])
 
   const columns = [
-    { key: "id", label: "调拨单号", width: "w-48" },
+    { 
+      key: "id", 
+      label: "调拨单号", 
+      width: "w-48",
+      render: (id: string) => <span className="font-mono text-xs">{id}</span>
+    },
     { key: "date", label: "调拨日期", width: "w-40" },
-    { key: "from", label: "调出信息", width: "w-48" },
-    { key: "to", label: "调入信息", width: "w-48" },
-    { key: "quantity", label: "调拨数量", width: "w-28" },
+    { 
+      key: "fromStore", 
+      label: "调出信息", 
+      width: "w-48",
+      render: (fromStore: string, row: any) => (
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Package className="h-3 w-3 text-muted-foreground" />
+            <span className="text-sm">{fromStore}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Warehouse className="h-3 w-3 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">{row.fromWarehouse}</span>
+          </div>
+        </div>
+      )
+    },
+    { 
+      key: "toStore", 
+      label: "调入信息", 
+      width: "w-48",
+      render: (toStore: string, row: any) => (
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Package className="h-3 w-3 text-muted-foreground" />
+            <span className="text-sm">{toStore}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Warehouse className="h-3 w-3 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">{row.toWarehouse}</span>
+          </div>
+        </div>
+      )
+    },
+    { 
+      key: "quantity", 
+      label: "调拨数量", 
+      width: "w-28",
+      render: (quantity: number) => <Badge variant="secondary">{quantity}</Badge>
+    },
     { key: "operator", label: "操作人", width: "w-28" },
-    { key: "actions", label: "操作", width: "w-24" },
+    { 
+      key: "actions", 
+      label: "操作", 
+      width: "w-24",
+      render: () => (
+        <Button variant="ghost" size="sm">
+          详情
+        </Button>
+      )
+    },
   ]
-
-  const renderCell = (item: any, key: string) => {
-    switch (key) {
-      case "id":
-        return <span className="font-mono text-xs">{item.id}</span>
-      case "from":
-        return (
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <Package className="h-3 w-3 text-muted-foreground" />
-              <span className="text-sm">{item.fromStore}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Warehouse className="h-3 w-3 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">{item.fromWarehouse}</span>
-            </div>
-          </div>
-        )
-      case "to":
-        return (
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <Package className="h-3 w-3 text-muted-foreground" />
-              <span className="text-sm">{item.toStore}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Warehouse className="h-3 w-3 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">{item.toWarehouse}</span>
-            </div>
-          </div>
-        )
-      case "quantity":
-        return <Badge variant="secondary">{item.quantity}</Badge>
-      case "actions":
-        return (
-          <Button variant="ghost" size="sm">
-            详情
-          </Button>
-        )
-      default:
-        return item[key]
-    }
-  }
 
   return (
     <div className="space-y-6">
@@ -114,7 +121,7 @@ export default function TransferPage() {
                         <SelectValue placeholder="选择调出门店" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="store1">巨嗨测试1</SelectItem>
+                        <SelectItem value="store1">启智</SelectItem>
                         <SelectItem value="store2">KTV旗舰店</SelectItem>
                       </SelectContent>
                     </Select>
@@ -145,7 +152,7 @@ export default function TransferPage() {
                         <SelectValue placeholder="选择调入门店" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="store1">巨嗨测试1</SelectItem>
+                        <SelectItem value="store1">启智</SelectItem>
                         <SelectItem value="store2">KTV旗舰店</SelectItem>
                       </SelectContent>
                     </Select>
@@ -225,30 +232,43 @@ export default function TransferPage() {
       </motion.div>
 
       {/* 筛选栏 */}
-      <FilterBar>
-        <DateRangePicker />
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="调出门店" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部门店</SelectItem>
-            <SelectItem value="store1">巨嗨测试1</SelectItem>
-            <SelectItem value="store2">KTV旗舰店</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="调出仓库" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部仓库</SelectItem>
-            <SelectItem value="warehouse1">总仓</SelectItem>
-            <SelectItem value="warehouse2">超市仓</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button className="ml-auto">查询</Button>
-      </FilterBar>
+      <FilterBar 
+        filters={[
+          {
+            label: "日期范围",
+            options: [],
+            onChange: (value: string) => console.log("日期范围变化:", value)
+          },
+          {
+            label: "调出门店",
+            options: [
+              { label: "全部门店", value: "all" },
+              { label: "启智", value: "store1" },
+              { label: "KTV旗舰店", value: "store2" }
+            ],
+            onChange: (value: string) => console.log("调出门店变化:", value)
+          },
+          {
+            label: "调入门店",
+            options: [
+              { label: "全部门店", value: "all" },
+              { label: "启智", value: "store1" },
+              { label: "KTV旗舰店", value: "store2" }
+            ],
+            onChange: (value: string) => console.log("调入门店变化:", value)
+          },
+          {
+            label: "调出仓库",
+            options: [
+              { label: "全部仓库", value: "all" },
+              { label: "总仓", value: "warehouse1" },
+              { label: "超市仓", value: "warehouse2" }
+            ],
+            onChange: (value: string) => console.log("调出仓库变化:", value)
+          }
+        ]}
+        onSearch={() => console.log("搜索")}
+      />
 
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-3">
@@ -294,7 +314,7 @@ export default function TransferPage() {
 
       {/* 数据表格 */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-        <DataTable columns={columns} data={transfers} renderCell={renderCell} />
+        <DataTable columns={columns} data={transfers} />
       </motion.div>
     </div>
   )

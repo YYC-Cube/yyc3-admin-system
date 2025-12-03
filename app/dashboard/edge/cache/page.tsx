@@ -4,7 +4,7 @@ import { Suspense } from "react"
 import { CacheMetricsDashboard } from "@/components/edge/cache-metrics-dashboard"
 import { CacheControlPanel } from "@/components/edge/cache-control-panel"
 
-export default async function EdgeCachePage() {
+export default function EdgeCachePage() {
   return (
     <div className="space-y-6">
       <div>

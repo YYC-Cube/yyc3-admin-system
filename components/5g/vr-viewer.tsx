@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { useEffect, useRef, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Play, Pause, RotateCcw, Maximize2, Activity } from "lucide-react"
+import { useEffect, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Play, Pause, RotateCcw, Maximize2, Activity } from 'lucide-react'
 
 interface VRViewerProps {
   roomId: string
@@ -20,11 +20,11 @@ export function VRViewer({ roomId }: VRViewerProps) {
 
   useEffect(() => {
     // 初始化VR场景
-    console.log("[v0] 初始化VR场景:", roomId)
+    console.log('[v0] 初始化VR场景:', roomId)
 
     // 模拟FPS更新
     const interval = setInterval(() => {
-      setMetrics((prev) => ({
+      setMetrics(prev => ({
         ...prev,
         fps: 58 + Math.random() * 4,
         latency: 15 + Math.random() * 10,
@@ -39,7 +39,7 @@ export function VRViewer({ roomId }: VRViewerProps) {
   }
 
   const handleReset = () => {
-    console.log("[v0] 重置VR场景")
+    console.log('[v0] 重置VR场景')
   }
 
   const handleFullscreen = () => {
@@ -83,8 +83,11 @@ export function VRViewer({ roomId }: VRViewerProps) {
 
         {/* 状态指示器 */}
         <div className="absolute top-4 right-4">
-          <Badge variant={isPlaying ? "default" : "secondary"} className="bg-black/50 backdrop-blur-sm">
-            {isPlaying ? "运行中" : "已暂停"}
+          <Badge
+            variant={isPlaying ? 'default' : 'secondary'}
+            className="bg-slate-900/80 dark:bg-slate-950/80 backdrop-blur-sm"
+          >
+            {isPlaying ? '运行中' : '已暂停'}
           </Badge>
         </div>
       </div>

@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 const mockBills = [
   {
     id: "ZD1901041651326204612",
-    store: "巨嗨KTV",
+    store: "启智",
     room: "星际穿越",
     type: "计时开房",
     amount: 12460.0,
@@ -27,7 +27,7 @@ const mockBills = [
   },
   {
     id: "ZD1901031147303838854",
-    store: "巨嗨KTV",
+    store: "启智",
     room: "星际穿越",
     type: "最低消费套餐",
     amount: 0.01,
@@ -41,7 +41,7 @@ const mockBills = [
   },
   {
     id: "ZD1901022019641134346",
-    store: "巨嗨KTV",
+    store: "启智",
     room: "星际穿越",
     type: "包断",
     amount: 0.01,
@@ -103,7 +103,7 @@ export default function BillsPage() {
             label: "消费门店",
             options: [
               { label: "全部门店", value: "all" },
-              { label: "巨嗨KTV", value: "juhai" },
+              { label: "启智", value: "juhai" },
               { label: "KTV旗舰店", value: "flagship" },
             ],
             onChange: (value) => console.log("门店筛选:", value),

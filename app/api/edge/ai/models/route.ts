@@ -3,7 +3,7 @@ import { edgeAIInference } from "@/lib/edge/ai-inference"
 
 export const runtime = "edge"
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const metrics = edgeAIInference.getMetrics()
 

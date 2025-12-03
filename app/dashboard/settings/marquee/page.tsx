@@ -27,7 +27,7 @@ export default function MarqueeSettingsPage() {
     {
       id: "1",
       storeId: "store_1",
-      storeName: "巨嗨KTV",
+      storeName: "启智",
       content: "欢迎使用启智KTV自助点歌系统，我们将为您提供方便快捷的服务",
       playOrder: 1,
       playDate: "每天",
@@ -205,7 +205,7 @@ export default function MarqueeSettingsPage() {
                   <SelectValue placeholder="选择门店" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="store_1">巨嗨KTV</SelectItem>
+                  <SelectItem value="store_1">启智</SelectItem>
                 </SelectContent>
               </Select>
             </div>

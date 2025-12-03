@@ -1,42 +1,53 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { Analytics } from "@vercel/analytics/next"
-import { Toaster } from "@/components/ui/toaster"
-import { ThemeProvider } from "@/components/theme-provider"
-import { validateEnv } from "@/config/env.validator"
-import "./globals.css"
+/**
+ * @fileoverview 根布局组件 - 应用程序的根布局
+ * @description 定义全局布局结构，包括 HTML 框架、主题提供者、全局样式、
+ *              分析工具等。作为所有页面的外层包装，提供统一的 UI 和功能
+ * @page
+ * @module yyc3-admin-system/app/layout
+ * @author YYC³
+ * @version 1.0.0
+ * @created 2025-01-19
+ * @updated 2025-12-01
+ * @copyright Copyright (c) 2025 YYC³
+ * @license MIT
+ */
 
-// ✅ 环境变量验证（仅在构建时执行，不影响客户端渲染）
-validateEnv([
-  "NEXT_PUBLIC_API_BASE_URL",
-  "JWT_SECRET",
-  "YYC3_YY_DB_HOST",
-  "EMAIL_HOST",
-  "BI_HOST",
-  "OLAP_HOST",
-  "REDIS_URL",
-])
+import type React from 'react'
+import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/next'
+import { Toaster } from '@/components/ui/toaster'
+import { ThemeProvider } from '@/components/theme-provider'
+import { validateEnv } from '@/config/env.validator'
+import './globals.css'
+import dynamic from 'next/dynamic'
+
+// ✅ 环境变量验证（开发环境仅验证必需项）
+if (process.env.NODE_ENV === 'production') {
+  validateEnv(['NEXT_PUBLIC_API_BASE_URL', 'JWT_SECRET', 'YYC3_YY_DB_HOST', 'REDIS_URL'])
+}
 
 // Note: Google Fonts removed for offline build support
 // Using Tailwind's default font-sans stack instead
 
 export const metadata: Metadata = {
-  title: "启智商家后台管理系统",
-  description: "KTV商家智能管理平台 - 销售、商品、仓库、报表一体化管理",
-  generator: "v0.app",
-  manifest: "/manifest.json",
+  title: '启智商家后台管理系统',
+  description: 'KTV商家智能管理平台 - 销售、商品、仓库、报表一体化管理',
+  generator: 'v0.app',
+  manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
-    title: "启智商家",
+    statusBarStyle: 'default',
+    title: '启智商家',
     startupImage: [
       {
-        url: "/splash-640x1136.png",
-        media: "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)",
+        url: '/splash-640x1136.png',
+        media:
+          '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
       },
       {
-        url: "/splash-750x1334.png",
-        media: "(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)",
+        url: '/splash-750x1334.png',
+        media:
+          '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)',
       },
     ],
   },
@@ -46,15 +57,18 @@ export const metadata: Metadata = {
 }
 
 export const viewport = {
-  width: "device-width",
+  width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
   ],
 }
+
+// 动态导入客户端组件（移除 ssr: false，Next.js 15+ 不支持在 Server Component 中使用）
+const ClientComponents = dynamic(() => import('@/components/layout/ClientComponents'))
 
 export default function RootLayout({
   children,
@@ -71,30 +85,18 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="启智商家" />
       </head>
-      <body className={`font-sans antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <body className={`font-sans antialiased`} suppressHydrationWarning={true}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
           <Toaster />
         </ThemeProvider>
-        <Analytics />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/sw.js').then(
-                    function(registration) {
-                      console.log('ServiceWorker registration successful');
-                    },
-                    function(err) {
-                      console.log('ServiceWorker registration failed: ', err);
-                    }
-                  );
-                });
-              }
-            `,
-          }}
-        />
+        {/* 客户端组件 - 只在客户端渲染 */}
+        <ClientComponents />
       </body>
     </html>
   )

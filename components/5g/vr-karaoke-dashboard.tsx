@@ -9,7 +9,7 @@ import { VRViewer } from "./vr-viewer"
 import { VRControlPanel } from "./vr-control-panel"
 
 export function VRKaraokeDashboard() {
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     activeRooms: 12,
     totalUsers: 48,
     avgSessionTime: 45,

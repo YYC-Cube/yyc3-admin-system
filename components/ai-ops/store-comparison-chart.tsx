@@ -3,7 +3,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BarChart } from "lucide-react"
 
-export function StoreComparisonChart() {
+interface StoreComparisonChartProps {
+  startDate?: Date;
+  endDate?: Date;
+}
+
+export function StoreComparisonChart({ startDate: _startDate, endDate: _endDate }: StoreComparisonChartProps) {
   return (
     <Card>
       <CardHeader>

@@ -3,9 +3,10 @@ import { opsExecutionTrackerIncentive } from "@/lib/ai-ops/ops-execution-tracker
 
 export const runtime = "nodejs"
 
-export async function GET(request: NextRequest, { params }: { params: { taskId: string } }) {
+export async function GET(_request: NextRequest, { params }: any) {
+  const { taskId } = params;
   try {
-    const taskStatus = await opsExecutionTrackerIncentive.trackTask(params.taskId)
+    const taskStatus = await opsExecutionTrackerIncentive.trackTask(taskId)
 
     return NextResponse.json({
       success: true,

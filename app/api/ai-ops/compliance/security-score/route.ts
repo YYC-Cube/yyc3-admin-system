@@ -3,7 +3,7 @@ import { complianceAuditEngine } from "@/lib/ai-ops/compliance-audit-engine"
 
 export const runtime = "nodejs"
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const securityScore = await complianceAuditEngine.calculateSecurityScore()
 

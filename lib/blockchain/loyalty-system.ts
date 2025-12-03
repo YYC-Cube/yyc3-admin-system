@@ -122,7 +122,7 @@ export class LoyaltyBlockchainSystem implements BlockchainLoyaltySystem {
       return transaction
     } catch (error) {
       console.error("[Blockchain] Issue points failed:", error)
-      throw new Error(`积分发放失败: ${error.message}`)
+      throw new Error(`积分发放失败: ${error instanceof Error ? error.message : String(error)}`)
     }
   }
 
@@ -165,7 +165,7 @@ export class LoyaltyBlockchainSystem implements BlockchainLoyaltySystem {
       return transaction
     } catch (error) {
       console.error("[Blockchain] Transfer points failed:", error)
-      throw new Error(`积分转账失败: ${error.message}`)
+      throw new Error(`积分转账失败: ${error instanceof Error ? error.message : String(error)}`)
     }
   }
 
@@ -212,7 +212,7 @@ export class LoyaltyBlockchainSystem implements BlockchainLoyaltySystem {
       return transaction
     } catch (error) {
       console.error("[Blockchain] Redeem points failed:", error)
-      throw new Error(`积分兑换失败: ${error.message}`)
+      throw new Error(`积分兑换失败: ${error instanceof Error ? error.message : String(error)}`)
     }
   }
 
@@ -303,7 +303,7 @@ export class LoyaltyBlockchainSystem implements BlockchainLoyaltySystem {
         transaction: null as any,
         confirmations: 0,
         blockTimestamp: 0,
-        message: `验证失败: ${error.message}`,
+        message: `验证失败: ${error instanceof Error ? error.message : String(error)}`,
       }
     }
   }
@@ -396,7 +396,7 @@ export class LoyaltyBlockchainSystem implements BlockchainLoyaltySystem {
     }
   }
 
-  private async getTransactionHistoryFromDatabase(memberId: string): Promise<Transaction[]> {
+  private async getTransactionHistoryFromDatabase(_memberId: string): Promise<Transaction[]> {
     // 从本地数据库查询
     // 这里返回模拟数据
     return []

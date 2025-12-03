@@ -1,7 +1,14 @@
-// 订单API服务
+/** 
+ * @file orders.ts
+ * @description 订单API服务 - 处理订单的增删改查、取消、退款和导出等操作
+ * @author YYC³ 
+ * @version 1.0.0 
+ * @created 2025-09-15 
+ */
 
 import { apiClient } from "../client"
-import type { Order, ApiResponse, PaginatedResponse } from "@/lib/types"
+import type { Order } from "../../types"
+import type { ApiResponse, PaginatedResponse } from "../../types/api"
 
 export const orderService = {
   // 获取订单列表

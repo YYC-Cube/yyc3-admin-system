@@ -5,7 +5,6 @@ const ALGORITHM = "aes-256-gcm"
 const KEY_LENGTH = 32
 const IV_LENGTH = 16
 const SALT_LENGTH = 64
-const TAG_LENGTH = 16
 
 export class Encryption {
   private key: Buffer

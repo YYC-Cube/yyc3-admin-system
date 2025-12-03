@@ -14,7 +14,7 @@ import {
 
 export default function LoginScreen({ navigation }: any) {
   const [phone, setPhone] = useState("13103790379")
-  const [password, setPassword] = useState("")
+  const [password, setPassword] = useState("123456")
   const [loading, setLoading] = useState(false)
 
   const handleLogin = async () => {
@@ -33,11 +33,18 @@ export default function LoginScreen({ navigation }: any) {
 
       const data = await response.json()
 
-      if (response.ok) {
-        // 保存token并跳转到主页
+      if (response.ok && data.success) {
+        // 保存token到localStorage
+        if (data.data && data.data.token) {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('token', data.data.token)
+            localStorage.setItem('user', JSON.stringify(data.data.user))
+          }
+        }
+        // 跳转到主页
         navigation.replace("Dashboard")
       } else {
-        Alert.alert("登录失败", data.message || "请检查您的凭据")
+        Alert.alert("登录失败", data.error || "请检查您的凭据")
       }
     } catch (error) {
       Alert.alert("错误", "网络连接失败，请稍后重试")

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>商品数据测试页面</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      color: #2c3e50;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    .results {
+      margin-top: 20px;
+    }
+    .success {
+      color: #27ae60;
+      font-weight: bold;
+    }
+    .error {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    pre {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .steps {
+      background: #e8f4fd;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .steps li {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🛒 商品数据测试页面</h1>
+    
+    <div class="steps">
+      <h3>测试步骤：</h3>
+      <ol>
+        <li>1. 点击按钮测试localStorage中的商品数据</li>
+        <li>2. 清除缓存后重新加载应用查看商品列表</li>
+        <li>3. 访问 http://localhost:3555/dashboard/products/list 验证商品显示</li>
+      </ol>
+    </div>
+    
+    <button id="testButton">🔍 测试商品数据加载</button>
+    <button id="clearButton">🗑️ 清除缓存并重新初始化</button>
+    <button id="viewAppButton">🚀 查看商品列表页面</button>
+    
+    <div class="results" id="results">
+      <p>点击上方按钮开始测试...</p>
+    </div>
+  </div>
+
+  <script>
+    // 模拟storage工具函数
+    const storage = {
+      get(key, defaultValue = null) {
+        const value = localStorage.getItem(key);
+        return value ? JSON.parse(value) : defaultValue;
+      },
+      set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+      },
+      remove(key) {
+        localStorage.removeItem(key);
+      },
+      clear() {
+        localStorage.clear();
+      }
+    };
+
+    // 初始化数据函数
+    function initializeData() {
+      // 导入分类数据
+      const categories = [
+        { "id": "snack", "name": "小吃", "displayOrder": 1, "isDisplay": true },
+        { "id": "drink", "name": "饮料", "displayOrder": 2, "isDisplay": true },
+        { "id": "tobacco", "name": "烟酒", "displayOrder": 3, "isDisplay": true },
+        { "id": "compensation", "name": "客赔物品", "displayOrder": 4, "isDisplay": true },
+        { "id": "other", "name": "其他", "displayOrder": 5, "isDisplay": true }
+      ];
+      storage.set("db_categories", categories);
+      
+      // 导入商品数据 - 添加91条商品
+      const products = [
+        { "id": "PROD17628068887968vopt4luh", "name": "会员卡泡面", "alias": "会员卡泡面", "barcode": [], "categoryId": "snack", "unit": "桶", "originalPrice": 38, "price": 38, "memberPrice": 38, "stock": 100, "minStock": 10, "costPrice": 0, "images": [], "flavors": [], "isGift": false, "allowDiscount": true, "isSale": true, "isRecommend": false, "isLowConsumption": false, "displayOrder": 0, "storeId": "qizhi", "createdAt": "2025-11-10T20:34:48.796Z", "updatedAt": "2025-11-10T20:34:48.797Z" },
+        { "id": "PROD17628068887973a8i7oo03", "name": "现金泡面", "alias": "现金泡面", "barcode": [], "categoryId": "snack", "unit": "桶", "originalPrice": 10, "price": 10, "memberPrice": 38, "stock": 100, "minStock": 10, "costPrice": 0, "images": [], "flavors": [], "isGift": false, "allowDiscount": true, "isSale": true, "isRecommend": false, "isLowConsumption": false, "displayOrder": 0, "storeId": "qizhi", "createdAt": "2025-11-10T20:34:48.797Z", "updatedAt": "2025-11-10T20:34:48.797Z" },
+        { "id": "PROD17628068887971kdc0xh3d", "name": "青岛", "alias": "青岛", "barcode": [], "categoryId": "other", "unit": "听", "originalPrice": 45, "price": 45, "memberPrice": 45, "stock": 100, "minStock": 10, "costPrice": 0, "images": [], "flavors": [], "isGift": false, "allowDiscount": true, "isSale": true, "isRecommend": false, "isLowConsumption": false, "displayOrder": 0, "storeId": "qizhi", "createdAt": "2025-11-10T20:34:48.797Z", "updatedAt": "2025-11-10T20:34:48.797Z" },
+        { "id": "PROD1762806888797o331l2ipu", "name": "黑桃A香槟", "alias": "黑桃A香槟", "barcode": [], "categoryId": "drink", "unit": "瓶", "originalPrice": 299, "price": 299, "memberPrice": 299, "stock": 100, "minStock": 10, "costPrice": 0, "images": [], "flavors": [], "isGift": false, "allowDiscount": true, "isSale": true, "isRecommend": false, "isLowConsumption": false, "displayOrder": 0, "storeId": "qizhi", "createdAt": "2025-11-10T20:34:48.797Z", "updatedAt": "2025-11-10T20:34:48.797Z" },
+        { "id": "PROD1762806888797asymjhr47", "name": "腐竹", "alias": "腐竹", "barcode": [], "categoryId": "other", "unit": "盘", "originalPrice": 48, "price": 48, "memberPrice": 48, "stock": 100, "minStock": 10, "costPrice": 0, "images": [], "flavors": [], "isGift": false, "allowDiscount": true, "isSale": true, "isRecommend": false, "isLowConsumption": false, "displayOrder": 0, "storeId": "qizhi", "createdAt": "2025-11-10T20:34:48.797Z", "updatedAt": "2025-11-10T20:34:48.797Z" }
+      ];
+      
+      // 添加更多商品
+      for (let i = 6; i <= 91; i++) {
+        products.push({
+          id: `PROD_${Date.now()}_${i}`,
+          name: `商品${i}`,
+          alias: `商品${i}`,
+          barcode: [],
+          categoryId: i % 5 === 0 ? "drink" : (i % 5 === 1 ? "snack" : (i % 5 === 2 ? "tobacco" : (i % 5 === 3 ? "compensation" : "other"))),
+          unit: "个",
+          originalPrice: 20 + i,
+          price: 18 + i,
+          memberPrice: 16 + i,
+          stock: 100,
+          minStock: 10,
+          costPrice: 10 + i,
+          images: [],
+          flavors: [],
+          isGift: false,
+          allowDiscount: true,
+          isSale: true,
+          isRecommend: i % 10 === 0,
+          isLowConsumption: false,
+          displayOrder: 0,
+          storeId: "qizhi",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        });
+      }
+      
+      storage.set("db_products", products);
+      return { categories, products };
+    }
+
+    // 测试数据函数
+    function testData() {
+      const results = document.getElementById('results');
+      
+      try {
+        // 获取分类数据
+        const categories = storage.get('db_categories', []);
+        const products = storage.get('db_products', []);
+        
+        let html = `
+          <h2 class="success">✅ 数据加载测试结果</h2>
+          <p>分类数量: <strong>${categories.length}</strong> 个</p>
+          <p>商品数量: <strong>${products.length}</strong> 件</p>
+        `;
+        
+        if (products.length === 0) {
+          html += `
+            <p class="error">❌ 未找到商品数据！请点击"清除缓存并重新初始化"按钮。</p>
+          `;
+        } else {
+          // 显示前3条商品
+          html += `
+            <h3>商品示例 (<strong>前3条</strong>):</h3>
+            <pre>${JSON.stringify(products.slice(0, 3), null, 2)}</pre>
+          `;
+          
+          // 统计各分类商品数量
+          html += `
+            <h3>分类统计:</h3>
+            <pre>`;
+          categories.forEach(cat => {
+            const count = products.filter(p => p.categoryId === cat.id).length;
+            html += `• ${cat.name}: ${count} 件商品\n`;
+          });
+          html += `</pre>`;
+          
+          html += `
+            <p class="success">✅ 数据加载成功！现在可以访问商品列表页面查看完整数据。</p>
+          `;
+        }
+        
+        results.innerHTML = html;
+      } catch (error) {
+        results.innerHTML = `
+          <h2 class="error">❌ 测试失败</h2>
+          <p>错误信息: ${error.message}</p>
+        `;
+      }
+    }
+
+    // 清除缓存并重新初始化
+    function clearAndInitialize() {
+      const results = document.getElementById('results');
+      
+      try {
+        // 清除相关缓存
+        localStorage.removeItem('db_products');
+        localStorage.removeItem('db_categories');
+        localStorage.removeItem('db_members');
+        
+        // 重新初始化数据
+        const { categories, products } = initializeData();
+        
+        results.innerHTML = `
+          <h2 class="success">✅ 缓存清除并重新初始化成功！</h2>
+          <p>已导入 <strong>${categories.length}</strong> 个分类数据</p>
+          <p>已导入 <strong>${products.length}</strong> 件商品数据</p>
+          <p>请刷新应用页面查看商品列表。</p>
+        `;
+        
+        console.log('✅ 数据初始化完成:', { categories: categories.length, products: products.length });
+      } catch (error) {
+        results.innerHTML = `
+          <h2 class="error">❌ 初始化失败</h2>
+          <p>错误信息: ${error.message}</p>
+        `;
+      }
+    }
+
+    // 事件监听
+    document.getElementById('testButton').addEventListener('click', testData);
+    document.getElementById('clearButton').addEventListener('click', clearAndInitialize);
+    document.getElementById('viewAppButton').addEventListener('click', () => {
+      window.location.href = 'http://localhost:3555/dashboard/products/list';
+    });
+  </script>
+</body>
+</html>

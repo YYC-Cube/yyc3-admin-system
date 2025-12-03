@@ -2,14 +2,11 @@
 
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Package, TrendingUp, TrendingDown, ArrowUpDown, Download } from "lucide-react"
+import { Package, TrendingUp, TrendingDown, ArrowUpDown } from "lucide-react"
 import { DataTable } from "@/components/dashboard/data-table"
 import { FilterBar } from "@/components/dashboard/filter-bar"
-import { DateRangePicker } from "@/components/ui/date-range-picker"
+import { useState } from "react"
 
 // 库存变化明细数据
 const stockChanges = [
@@ -18,7 +15,7 @@ const stockChanges = [
     time: "2019-01-10 16:23",
     type: "订单销售",
     change: "出库",
-    store: "巨嗨KTV",
+    store: "启智",
     warehouse: "超市仓",
     category: "休闲食品",
     product: "JELLYBIRD果冻酒36gx2",
@@ -32,7 +29,7 @@ const stockChanges = [
     time: "2019-01-10 10:59",
     type: "库存盘点",
     change: "入库",
-    store: "巨嗨KTV",
+    store: "启智",
     warehouse: "总仓",
     category: "小吃",
     product: "香辣片",
@@ -44,51 +41,72 @@ const stockChanges = [
 ]
 
 export default function WarehouseReportsPage() {
+  // 筛选状态
+  const [filters, setFilters] = useState({
+    dateRange: undefined,
+    store: "all",
+    warehouse: "all",
+    documentType: "all",
+    stockChange: "all",
+    productName: ""
+  })
+
   const columns = [
     { key: "time", label: "操作时间", width: "w-40" },
-    { key: "id", label: "单据编号", width: "w-48" },
-    { key: "type", label: "单据类型", width: "w-28" },
-    { key: "change", label: "库存变化", width: "w-24" },
+    { 
+      key: "id", 
+      label: "单据编号", 
+      width: "w-48",
+      render: (item: any) => <span className="font-mono text-xs">{item.id}</span>
+    },
+    { 
+      key: "type", 
+      label: "单据类型", 
+      width: "w-28",
+      render: (item: any) => <Badge variant="outline">{item.type}</Badge>
+    },
+    { 
+      key: "change", 
+      label: "库存变化", 
+      width: "w-24",
+      render: (item: any) => (
+        <Badge variant={item.change === "入库" ? "default" : "secondary"}>
+          {item.change === "入库" ? (
+            <TrendingUp className="mr-1 h-3 w-3" />
+          ) : (
+            <TrendingDown className="mr-1 h-3 w-3" />
+          )}
+          {item.change}
+        </Badge>
+      )
+    },
     { key: "warehouse", label: "仓库", width: "w-28" },
-    { key: "product", label: "商品信息", width: "w-48" },
-    { key: "quantity", label: "数量", width: "w-24" },
-    { key: "total", label: "进货价合计", width: "w-32" },
-  ]
-
-  const renderCell = (item: any, key: string) => {
-    switch (key) {
-      case "id":
-        return <span className="font-mono text-xs">{item.id}</span>
-      case "type":
-        return <Badge variant="outline">{item.type}</Badge>
-      case "change":
-        return (
-          <Badge variant={item.change === "入库" ? "default" : "secondary"}>
-            {item.change === "入库" ? (
-              <TrendingUp className="mr-1 h-3 w-3" />
-            ) : (
-              <TrendingDown className="mr-1 h-3 w-3" />
-            )}
-            {item.change}
-          </Badge>
-        )
-      case "product":
-        return (
-          <div className="space-y-1">
-            <div className="text-sm font-medium">{item.product}</div>
-            <div className="text-xs text-muted-foreground">
-              {item.category} · {item.unit}
-            </div>
+    { 
+      key: "product", 
+      label: "商品信息", 
+      width: "w-48",
+      render: (item: any) => (
+        <div className="space-y-1">
+          <div className="text-sm font-medium">{item.product}</div>
+          <div className="text-xs text-muted-foreground">
+            {item.category} · {item.unit}
           </div>
-        )
-      case "quantity":
-        return <span className="font-semibold">{item.quantity}</span>
-      case "total":
-        return <span className="font-semibold text-primary">¥{item.total.toFixed(2)}</span>
-      default:
-        return item[key]
-    }
-  }
+        </div>
+      )
+    },
+    { 
+      key: "quantity", 
+      label: "数量", 
+      width: "w-24",
+      render: (item: any) => <span className="font-semibold">{item.quantity}</span>
+    },
+    { 
+      key: "total", 
+      label: "进货价合计", 
+      width: "w-32",
+      render: (total: number) => <span className="font-semibold text-primary">¥{total?.toFixed(2) || '0.00'}</span>
+    },
+  ]
 
   return (
     <div className="space-y-6">
@@ -99,59 +117,57 @@ export default function WarehouseReportsPage() {
       </motion.div>
 
       {/* 筛选栏 */}
-      <FilterBar>
-        <DateRangePicker />
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="选择门店" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部门店</SelectItem>
-            <SelectItem value="store1">巨嗨KTV</SelectItem>
-            <SelectItem value="store2">KTV旗舰店</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="仓库" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部仓库</SelectItem>
-            <SelectItem value="warehouse1">总仓</SelectItem>
-            <SelectItem value="warehouse2">超市仓</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="单据类型" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部类型</SelectItem>
-            <SelectItem value="sale">订单销售</SelectItem>
-            <SelectItem value="purchase">采购进货</SelectItem>
-            <SelectItem value="inventory">库存盘点</SelectItem>
-            <SelectItem value="transfer">库存调拨</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="库存变化" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部</SelectItem>
-            <SelectItem value="in">入库</SelectItem>
-            <SelectItem value="out">出库</SelectItem>
-          </SelectContent>
-        </Select>
-        <Input placeholder="请输入商品名称" className="w-48" />
-        <div className="ml-auto flex gap-2">
-          <Button variant="outline">
-            <Download className="mr-2 h-4 w-4" />
-            导出
-          </Button>
-          <Button>查询</Button>
-        </div>
-      </FilterBar>
+      <FilterBar
+        filters={[
+          {
+            label: "选择门店",
+            options: [
+              { label: "全部门店", value: "all" },
+              { label: "启智", value: "store1" },
+              { label: "KTV旗舰店", value: "store2" }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, store: value })
+          },
+          {
+            label: "仓库",
+            options: [
+              { label: "全部仓库", value: "all" },
+              { label: "总仓", value: "warehouse1" },
+              { label: "超市仓", value: "warehouse2" }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, warehouse: value })
+          },
+          {
+            label: "单据类型",
+            options: [
+              { label: "全部类型", value: "all" },
+              { label: "订单销售", value: "sale" },
+              { label: "采购进货", value: "purchase" },
+              { label: "库存盘点", value: "inventory" },
+              { label: "库存调拨", value: "transfer" }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, documentType: value })
+          },
+          {
+            label: "库存变化",
+            options: [
+              { label: "全部", value: "all" },
+              { label: "入库", value: "in" },
+              { label: "出库", value: "out" }
+            ],
+            onChange: (value: string) => setFilters({ ...filters, stockChange: value })
+          },
+          {
+            label: "商品名称",
+            options: [],
+            onChange: (value: string) => setFilters({ ...filters, productName: value })
+          }
+        ]}
+        onSearch={() => {
+          // 处理搜索逻辑
+          console.log("搜索条件:", filters)
+        }}
+      />
 
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-4">
@@ -210,7 +226,7 @@ export default function WarehouseReportsPage() {
 
       {/* 数据表格 */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-        <DataTable columns={columns} data={stockChanges} renderCell={renderCell} />
+        <DataTable columns={columns} data={stockChanges} />
       </motion.div>
     </div>
   )

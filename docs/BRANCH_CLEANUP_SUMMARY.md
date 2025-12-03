@@ -22,7 +22,9 @@ Analyzed the status of all branches in the repository through GitHub API and Git
 ### 2. 创建的文档 / Created Documentation
 
 #### 📚 docs/BRANCH_CLEANUP_GUIDE.md
+
 完整的分支清理指南，包含：
+
 - 当前分支状态列表
 - 三种清理方法（Web界面、命令行、自动化脚本）
 - 分支管理最佳实践
@@ -30,6 +32,7 @@ Analyzed the status of all branches in the repository through GitHub API and Git
 - 安全提示和恢复方法
 
 Comprehensive branch cleanup guide including:
+
 - Current branch status list
 - Three cleanup methods (Web UI, Command Line, Automation Script)
 - Branch management best practices
@@ -37,7 +40,9 @@ Comprehensive branch cleanup guide including:
 - Safety tips and recovery methods
 
 #### 🚀 scripts/cleanup-branches.sh
+
 自动化清理脚本，特性包括：
+
 - 自动识别已合并分支
 - 干运行模式（预览）
 - 交互式确认
@@ -46,6 +51,7 @@ Comprehensive branch cleanup guide including:
 - 错误处理和安全机制
 
 Automation cleanup script with features:
+
 - Automatic merged branch identification
 - Dry-run mode (preview)
 - Interactive confirmation
@@ -54,7 +60,9 @@ Automation cleanup script with features:
 - Error handling and safety mechanisms
 
 #### 📖 scripts/README_CLEANUP.md
+
 脚本使用文档，包含：
+
 - 完整的使用说明
 - 命令行选项说明
 - 工作流程图
@@ -63,6 +71,7 @@ Automation cleanup script with features:
 - 故障排除指南
 
 Script usage documentation including:
+
 - Complete usage instructions
 - Command line options
 - Workflow diagram
@@ -71,13 +80,16 @@ Script usage documentation including:
 - Troubleshooting guide
 
 #### ⚡ BRANCH_CLEANUP_QUICK_REF.md
+
 快速参考卡片，提供：
+
 - 常用命令快速查找
 - 当前需要清理的分支列表
 - 恢复方法
 - 检查清单
 
 Quick reference card providing:
+
 - Quick lookup for common commands
 - Current list of branches to clean
 - Recovery methods
@@ -116,11 +128,11 @@ The following branches have PRs merged to main and can be safely deleted:
 
 ### 方式 2: 使用 GitHub 网页界面 / Method 2: Using GitHub Web Interface
 
-1. 访问：https://github.com/YYC-Cube/yyc3-admin-system/branches
+1. 访问：<https://github.com/YYC-Cube/yyc3-admin-system/branches>
 2. 找到已合并的分支（通常标有"merged"标签）
 3. 点击分支旁边的删除按钮
 
-Visit: https://github.com/YYC-Cube/yyc3-admin-system/branches
+Visit: <https://github.com/YYC-Cube/yyc3-admin-system/branches>
 Find merged branches (usually labeled "merged")
 Click the delete button next to each branch
 
@@ -247,12 +259,14 @@ cleanup-branches.sh script uses these technologies:
 ## 结论 / Conclusion
 
 本次工作提供了完整的分支管理解决方案，包括：
+
 - 详细的文档
 - 自动化工具
 - 安全机制
 - 最佳实践指南
 
 This work provides a complete branch management solution including:
+
 - Detailed documentation
 - Automation tools
 - Safety mechanisms

@@ -1,27 +1,44 @@
 "use client"
 
 import type React from "react"
-
+import { useRef } from "react"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "../components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
+import { Input } from "../components/ui/input"
+import { Label } from "../components/ui/label"
 import { Store, ArrowRight, Sparkles } from "lucide-react"
 import { useState } from "react"
+import { useAuthStore } from "../lib/store/auth-store"
+import { Alert, AlertDescription } from "../components/ui/alert"
 
 export default function HomePage() {
   const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
+  const phoneRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
+  const [error, setError] = useState<string | null>(null)
+  const { login, isLoading } = useAuthStore()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
-    // 模拟登录延迟
-    setTimeout(() => {
+    setError(null) // 清除之前的错误
+    
+    const phone = phoneRef.current?.value || ""
+    const password = passwordRef.current?.value || ""
+    
+    if (!phone || !password) {
+      setError("请输入手机号和密码")
+      return
+    }
+    
+    const success = await login(phone, password)
+    
+    if (success) {
       router.push("/dashboard")
-    }, 1000)
+    } else {
+      setError("登录失败，请检查手机号和密码是否正确")
+    }
   }
 
   return (
@@ -62,10 +79,18 @@ export default function HomePage() {
 
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
+              {/* 错误提示 */}
+              {error && (
+                <Alert variant="destructive" className="mb-2">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+              
               {/* 手机号输入 */}
               <div className="space-y-2">
                 <Label htmlFor="phone">手机号</Label>
                 <Input
+                  ref={phoneRef}
                   id="phone"
                   type="tel"
                   placeholder="请输入手机号"
@@ -79,6 +104,7 @@ export default function HomePage() {
               <div className="space-y-2">
                 <Label htmlFor="password">密码</Label>
                 <Input
+                  ref={passwordRef}
                   id="password"
                   type="password"
                   placeholder="请输入密码"

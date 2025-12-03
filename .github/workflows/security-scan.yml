@@ -1,0 +1,182 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # 每天凌晨2点运行安全扫描
+    - cron: '0 2 * * *'
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    name: Security Audit
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run npm audit
+        run: |
+          npm audit --audit-level=moderate
+          npm audit --audit-level=high
+          
+      - name: Run ESLint security rules
+        run: |
+          npx eslint . --ext .js,.jsx,.ts,.tsx \
+            --config .eslintrc.security.js \
+            --format=json --output-file=security-report.json
+          
+      - name: Security Score Check
+        run: |
+          node scripts/security-scanner.js --threshold=80 --report=security-report.json
+          
+  dependency-check:
+    runs-on: ubuntu-latest
+    name: Dependency Vulnerability Check
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Install safety
+        run: npm install -g safety
+        
+      - name: Run Safety check
+        run: |
+          safety check --json --output safety-report.json
+          
+      - name: Install Retire.js
+        run: npm install -g retire
+        
+      - name: Run Retire.js
+        run: |
+          retire --outputformat json --outputpath retire-report.json
+          
+  sast-scan:
+    runs-on: ubuntu-latest
+    name: Static Application Security Testing
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install Semgrep
+        run: |
+          python3 -m pip install semgrep
+          
+      - name: Run Semgrep
+        run: |
+          semgrep --config=auto --json --output=semgrep-report.json \
+            --exclude="node_modules/*" \
+            --exclude="coverage/*" \
+            .
+            
+      - name: CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          languages: javascript, typescript
+          
+  container-scan:
+    runs-on: ubuntu-latest
+    name: Container Security Scan
+    
+    if: contains(github.event.head_commit.message, '[container-scan]')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Build Docker image
+        run: |
+          docker build -t yyc3-admin-system:latest .
+          
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'yyc3-admin-system:latest'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+          
+  security-reports:
+    runs-on: ubuntu-latest
+    name: Generate Security Reports
+    
+    needs: [security-audit, dependency-check, sast-scan]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Download security artifacts
+        uses: actions/download-artifact@v4
+        
+      - name: Generate security summary
+        run: |
+          node scripts/generate-security-summary.js
+          
+      - name: Upload security summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: security-summary.md
+          
+  notify-security-team:
+    runs-on: ubuntu-latest
+    name: Notify Security Team
+    
+    needs: [security-audit, dependency-check, sast-scan, security-reports]
+    if: failure()
+    
+    steps:
+      - name: Send security alert
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const securityIssues = [
+              'Security vulnerabilities detected!',
+              'High-severity issues require immediate attention.',
+              'Check the security reports for details.'
+            ];
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Security Alert - Immediate Action Required',
+              body: securityIssues.join('\n'),
+              labels: ['security', 'urgent', 'bug']
+            });

@@ -8,7 +8,7 @@ export interface CacheOptions {
 
 // 缓存装饰器
 export function withCache<T>(key: string | ((...args: any[]) => string), options: CacheOptions = {}) {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (_target: any, _propertyKey: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value
 
     descriptor.value = async function (...args: any[]) {

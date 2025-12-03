@@ -7,16 +7,19 @@
 ### 1.1 核心价值
 
 **商业价值**
+
 - 建立信任体系，提升品牌价值
 - 防止财务数据篡改，降低风险
 - 提升审计效率80%，降低合规成本50%
 
 **技术价值**
+
 - 数据不可篡改，永久保存
 - 审计透明，可追溯
 - 自动化上链，减少人工干预
 
 **合规价值**
+
 - 满足监管要求
 - 降低法律风险
 - 提供可靠的审计证据
@@ -71,6 +74,7 @@
 **功能描述**: 将关键财务交易数据哈希记录到区块链
 
 **关键财务数据**:
+
 - 营业收入（订单支付）
 - 退款记录
 - 采购支出
@@ -79,6 +83,7 @@
 - 其他重要财务操作
 
 **上链策略**:
+
 - 仅上链数据哈希，不上链敏感信息
 - 批量上链，降低Gas费用
 - 异步上链，不影响业务性能
@@ -89,6 +94,7 @@
 **功能描述**: 生成指定时间范围的财务审计报告
 
 **报告内容**:
+
 - 交易总数和总金额
 - 收入/支出分类统计
 - 每日财务明细
@@ -96,6 +102,7 @@
 - 异常交易标记
 
 **验证机制**:
+
 - 对比本地数据哈希与链上哈希
 - 标记被篡改的记录
 - 生成验证报告
@@ -105,6 +112,7 @@
 **功能描述**: 验证财务数据是否被篡改
 
 **验证流程**:
+
 1. 从数据库读取交易记录
 2. 计算当前数据哈希
 3. 从区块链读取原始哈希
@@ -112,6 +120,7 @@
 5. 返回验证结果
 
 **验证结果**:
+
 - ✅ **已验证**: 数据完整，未被篡改
 - ⚠️ **未验证**: 数据未上链或验证失败
 - ❌ **已篡改**: 数据哈希不匹配，存在篡改
@@ -121,28 +130,36 @@
 ### 步骤1: 部署智能合约
 
 \`\`\`bash
+
 # 安装依赖
+
 npm install --save-dev hardhat @openzeppelin/contracts ethers
 
 # 编译合约
+
 npx hardhat compile
 
 # 部署到Polygon Mumbai测试网
+
 npx hardhat run scripts/deploy-financial-audit.js --network mumbai
 
 # 验证合约
+
 npx hardhat verify --network mumbai <CONTRACT_ADDRESS>
 \`\`\`
 
 ### 步骤2: 配置环境变量
 
 \`\`\`env
+
 # 区块链配置
-BLOCKCHAIN_PROVIDER_URL=https://polygon-mumbai.g.alchemy.com/v2/YOUR_API_KEY
+
+BLOCKCHAIN_PROVIDER_URL=<https://polygon-mumbai.g.alchemy.com/v2/YOUR_API_KEY>
 FINANCIAL_AUDIT_CONTRACT_ADDRESS=0x...
 BLOCKCHAIN_PRIVATE_KEY=0x...
 
 # 自动上链配置
+
 AUTO_RECORDING_ENABLED=true
 AUTO_RECORDING_INTERVAL=60000  # 每分钟检查一次
 BATCH_SIZE=100  # 批量上链数量
@@ -176,7 +193,7 @@ async function handlePaymentSuccess(order: Order, payment: Payment) {
   try {
     const record = await financialAuditChain.recordTransaction(transaction)
     console.log('交易已上链:', record.transactionHash)
-    
+
     // 更新数据库上链状态
     await updateBlockchainRecord(payment.id, record)
   } catch (error) {
@@ -288,12 +305,14 @@ if (check.isValid) {
 ### 6.3 成本效益
 
 **年度成本**:
+
 - Gas费用: 约$500（10万笔交易）
 - 服务器成本: $1,200
 - ���发维护: $5,000
 - **总计**: $6,700
 
 **年度收益**:
+
 - 审计成本节省: $20,000
 - 合规风险降低: $30,000
 - 品牌价值提升: $50,000

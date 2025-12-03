@@ -1,0 +1,33 @@
+{
+  "name": "problems-and-diagnostics-toolkit",
+  "version": "1.0.0",
+  "description": "全面的问题诊断和故障排查工具包",
+  "main": "index.js",
+  "scripts": {
+    "diagnose": "node scripts/system-diagnosis.js",
+    "analyze-logs": "node scripts/log-analyzer.js --log-dir=/Users/yanyu/yyc3-admin-system-2/logs",
+    "check-errors": "node scripts/error-checker.js",
+    "performance-check": "node scripts/performance-analyzer.js",
+    "security-scan": "node scripts/security-scanner.js",
+    "full-audit": "node scripts/full-system-audit.js",
+    "interactive": "node scripts/interactive-diagnostics.js"
+  },
+  "keywords": [
+    "diagnostics",
+    "troubleshooting",
+    "problem-solving",
+    "system-health",
+    "error-detection",
+    "performance-monitoring"
+  ],
+  "author": "YYC",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.4",
+    "tree-kill": "^1.2.2",
+    "fs-extra": "^11.1.0",
+    "moment": "^2.29.4",
+    "glob": "^10.3.0"
+  }
+}

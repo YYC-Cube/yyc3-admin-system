@@ -1,5 +1,5 @@
 // AI深度集成 - 深度学习推荐引擎 2.0
-import type { Product, Member, Order } from "@/lib/types"
+import type { Product, Order } from "@/lib/types"
 
 // 用户画像
 export interface UserProfile {
@@ -70,7 +70,7 @@ export class DeepLearningRecommender {
   async buildUserProfile(userId: string): Promise<UserProfile> {
     // 获取用户历史数据
     const orders = await this.getUserOrders(userId)
-    const member = await this.getMemberInfo(userId)
+    // const _member = await this.getMemberInfo(userId) // 暂时注释，避免未使用变量错误
 
     // 分析用户行为
     const behavior = this.analyzeBehavior(orders)
@@ -81,11 +81,7 @@ export class DeepLearningRecommender {
 
     const profile: UserProfile = {
       userId,
-      demographics: {
-        age: member?.age,
-        gender: member?.gender,
-        location: member?.location,
-      },
+      demographics: {}, // Member类型没有demographics相关属性
       preferences,
       behavior,
       embeddings,
@@ -110,10 +106,10 @@ export class DeepLearningRecommender {
         productId: product.id,
         embeddings,
         metadata: {
-          category: product.category,
+          category: (product.category as unknown as string) || 'unknown', // 先转换为unknown再转换为string
           price: product.price,
           popularity: await this.calculatePopularity(product.id),
-          rating: product.rating || 0,
+          rating: 0, // 使用默认值0，因为Product类型没有rating属性
         },
       }
 
@@ -178,26 +174,30 @@ export class DeepLearningRecommender {
   }
 
   // 私有辅助方法
-  private async getUserOrders(userId: string): Promise<Order[]> {
+  private async getUserOrders(_userId: string): Promise<Order[]> {
     // 模拟获取用户订单
     return []
   }
 
-  private async getMemberInfo(userId: string): Promise<Member | null> {
-    // 模拟获取会员信息
-    return null
-  }
+  // private async getMemberInfo(userId: string): Promise<Member | null> {
+  //   // 模拟获取会员信息
+  //   return null
+  // }
 
   private analyzeBehavior(orders: Order[]) {
+    // 确保lastPurchaseDate始终是Date类型
+    const createdAt = orders[0]?.createdAt;
+    const lastPurchaseDate = typeof createdAt === 'string' ? new Date(createdAt) : (createdAt || new Date());
+    
     return {
       purchaseFrequency: orders.length,
       avgOrderValue: orders.reduce((sum, o) => sum + o.totalAmount, 0) / (orders.length || 1),
-      lastPurchaseDate: orders[0]?.createdAt || new Date(),
-      favoriteProducts: [],
+      lastPurchaseDate,
+      favoriteProducts: [] as string[], // 明确指定为字符串数组
     }
   }
 
-  private extractPreferences(orders: Order[]) {
+  private extractPreferences(_orders: Order[]) {
     return {
       categories: ["啤酒", "小吃"],
       priceRange: [10, 100] as [number, number],
@@ -205,7 +205,7 @@ export class DeepLearningRecommender {
     }
   }
 
-  private generateUserEmbeddings(behavior: any, preferences: any): number[] {
+  private generateUserEmbeddings(_behavior: any, _preferences: any): number[] {
     // 简化的向量生成（实际应使用神经网络）
     return Array(128)
       .fill(0)
@@ -214,24 +214,24 @@ export class DeepLearningRecommender {
 
   private extractProductFeatures(product: Product) {
     return {
-      category: product.category,
+      category: String(product.category),
       price: product.price,
       name: product.name,
     }
   }
 
-  private generateProductEmbeddings(features: any): number[] {
+  private generateProductEmbeddings(_features: any): number[] {
     // 简化的向量生成
     return Array(128)
       .fill(0)
       .map(() => Math.random())
   }
 
-  private async calculatePopularity(productId: string): Promise<number> {
+  private async calculatePopularity(_productId: string): Promise<number> {
     return Math.random()
   }
 
-  private async getCandidateProducts(context: RecommendContext): Promise<Product[]> {
+  private async getCandidateProducts(_context: RecommendContext): Promise<Product[]> {
     // 模拟获取候选商品
     return []
   }
@@ -248,7 +248,9 @@ export class DeepLearningRecommender {
 
     // 时段调整
     if (context.timeOfDay === "evening" || context.timeOfDay === "night") {
-      if (product.category === "啤酒" || product.category === "小吃") {
+      // 将ProductCategory转换为字符串进行比较
+      const categoryStr = String(product.category);
+      if (categoryStr === "啤酒" || categoryStr === "小吃") {
         score += 0.3
       }
     }
@@ -265,7 +267,8 @@ export class DeepLearningRecommender {
     let score = 0
 
     // 类别匹配
-    if (userProfile.preferences.categories.includes(product.category)) {
+    const categoryStr = String(product.category);
+    if (userProfile.preferences.categories.includes(categoryStr)) {
       score += 0.5
     }
 
@@ -280,16 +283,18 @@ export class DeepLearningRecommender {
 
   private generateReason(userProfile: UserProfile, product: Product, context: RecommendContext): string {
     const reasons = []
+    const categoryStr = String(product.category);
 
-    if (userProfile.preferences.categories.includes(product.category)) {
-      reasons.push(`您经常购买${product.category}类商品`)
+    if (userProfile.preferences.categories.includes(categoryStr)) {
+      reasons.push(`您经常购买${categoryStr}类商品`)
     }
 
     if (context.timeOfDay === "evening") {
       reasons.push("适合晚间消费")
     }
 
-    if (product.rating && product.rating > 4.5) {
+    // 检查是否有rating属性，如果没有则跳过
+    if ('rating' in product && product.rating && Number(product.rating) > 4.5) {
       reasons.push("高评分商品")
     }
 
@@ -312,11 +317,11 @@ export class DeepLearningRecommender {
     }
   }
 
-  private updateProductVectors(feedback: UserFeedback): void {
+  private updateProductVectors(_feedback: UserFeedback): void {
     // 根据反馈更新商品向量
   }
 
-  private adjustRecommendationStrategy(feedback: UserFeedback): void {
+  private adjustRecommendationStrategy(_feedback: UserFeedback): void {
     // 根据反馈调整推荐策略
   }
 }

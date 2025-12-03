@@ -168,8 +168,7 @@ export class UserBehaviorAnalytics {
   async analyzeUserPath(sessionData: SessionData[]): Promise<PathAnalysis> {
     console.log(`[用户行为分析] 开始路径分析，会话数量: ${sessionData.length}`)
 
-    // 提取所有路径
-    const paths = sessionData.map((session) => session.pages)
+    // 路径分析准备
 
     // 统计常见路径
     const pathFrequency = new Map<string, number>()
@@ -270,7 +269,7 @@ export class UserBehaviorAnalytics {
    * 留存分析
    * 分析用户群组的留存情况
    */
-  async retentionAnalysis(cohort: Cohort, timeRange: TimeRange): Promise<RetentionReport> {
+  async retentionAnalysis(cohort: Cohort, _timeRange: TimeRange): Promise<RetentionReport> {
     console.log(`[用户行为分析] 开始留存分析，群组: ${cohort.name}`)
 
     const cohortSize = cohort.userIds.length
@@ -556,7 +555,7 @@ export class UserBehaviorAnalytics {
     return recommendations
   }
 
-  private generateRetentionInsights(retentionData: RetentionReport["retentionData"], cohortSize: number): string[] {
+  private generateRetentionInsights(retentionData: RetentionReport["retentionData"], _cohortSize: number): string[] {
     const insights: string[] = []
 
     const day1Retention = retentionData.find((d) => d.period === "Day 1")

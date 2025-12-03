@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { outreachAutomationEngine } from "@/lib/ai-ops/outreach-automation-engine"
+import { outreachAutomationEngine, ScriptType, ScriptTone } from "@/lib/ai-ops/outreach-automation-engine"
 
 export const runtime = "nodejs"
 
@@ -9,10 +9,10 @@ export async function POST(request: NextRequest) {
 
     const script = {
       id: scriptId || `script_${Date.now()}`,
-      type: "follow_up" as const,
+      type: ScriptType.FOLLOW_UP,
       content: scriptContent,
       variables: {},
-      tone: "friendly" as const,
+      tone: ScriptTone.FRIENDLY,
       estimatedDuration: 60,
     }
 

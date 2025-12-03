@@ -1,0 +1,439 @@
+{
+  "timestamp": "2025-11-15T07:55:13.523Z",
+  "summary": {
+    "totalErrors": 0,
+    "criticalErrors": 0,
+    "highSeverityErrors": 0,
+    "applicationStatus": "running"
+  },
+  "errors": [],
+  "errorPatterns": {},
+  "systemProcesses": [
+    {
+      "pid": "86597",
+      "user": "yanyu",
+      "cpu": 12.8,
+      "memory": 0.3,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --vscode-crash-reporter-process-type=extensionHost --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "55994",
+      "user": "yanyu",
+      "cpu": 9.5,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper.app/Contents/MacOS/Trae CN Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --vscode-crash-reporter-process-type=fileWatcher --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "55986",
+      "user": "yanyu",
+      "cpu": 8.8,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper.app/Contents/MacOS/Trae CN Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --vscode-crash-reporter-process-type=fileWatcher --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "55985",
+      "user": "yanyu",
+      "cpu": 7.1,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper.app/Contents/MacOS/Trae CN Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --vscode-crash-reporter-process-type=fileWatcher --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "86236",
+      "user": "yanyu",
+      "cpu": 6.2,
+      "memory": 0.2,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --vscode-crash-reporter-process-type=extensionHost --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "86877",
+      "user": "yanyu",
+      "cpu": 3.2,
+      "memory": 0.3,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --vscode-crash-reporter-process-type=extensionHost --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "86476",
+      "user": "yanyu",
+      "cpu": 1.2,
+      "memory": 0.3,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --vscode-crash-reporter-process-type=extensionHost --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "52733",
+      "user": "yanyu",
+      "cpu": 0.6,
+      "memory": 0.1,
+      "command": "next-server (v15.5.6) "
+    },
+    {
+      "pid": "47434",
+      "user": "yanyu",
+      "cpu": 0.4,
+      "memory": 0.1,
+      "command": "next-server (v14.2.25) "
+    },
+    {
+      "pid": "56447",
+      "user": "yanyu",
+      "cpu": 0.3,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper.app/Contents/MacOS/Trae CN Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --vscode-crash-reporter-process-type=ptyHost --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "78040",
+      "user": "yanyu",
+      "cpu": 0.3,
+      "memory": 0.5,
+      "command": "next-server (v15.0.3) "
+    },
+    {
+      "pid": "55982",
+      "user": "yanyu",
+      "cpu": 0.2,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper.app/Contents/MacOS/Trae CN Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --vscode-crash-reporter-process-type=shared-process --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "56441",
+      "user": "yanyu",
+      "cpu": 0.1,
+      "memory": 0.2,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --vscode-crash-reporter-process-type=extensionHost --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "55945",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.4,
+      "command": "/Applications/Comate.app/Contents/Frameworks/Comate Helper (Plugin).app/Contents/MacOS/Comate Helper (Plugin) --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --dns-result-order=ipv4first --inspect-port=0 --user-data-dir=/Users/yanyu/Library/Application Support/Comate --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,1066527522658546368,14589316193812965536,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,MacWebContentsOcclusion,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "55585",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Comate.app/Contents/Frameworks/Comate Helper.app/Contents/MacOS/Comate Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --user-data-dir=/Users/yanyu/Library/Application Support/Comate --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,1066527522658546368,14589316193812965536,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,MacWebContentsOcclusion,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "55584",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Comate.app/Contents/Frameworks/Comate Helper.app/Contents/MacOS/Comate Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --user-data-dir=/Users/yanyu/Library/Application Support/Comate --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,1066527522658546368,14589316193812965536,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,MacWebContentsOcclusion,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "47805",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Applications/Trae CN.app/Contents/Resources/app/extensions/markdown-language-features/dist/serverWorkerMain --node-ipc --clientProcessId=56441"
+    },
+    {
+      "pid": "46917",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper.app/Contents/MacOS/Trae CN Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --vscode-crash-reporter-process-type=fileWatcher --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "36409",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/企业微信.app/Contents/Resources/WeDrive/v14.17.4/bin/node --jitless /Applications/企业微信.app/Contents/Resources/WeDrive/res/node.js -nodelib=/Applications/企业微信.app/Contents/Resources/WeDrive/res/ -wedriveserver=0 --ww-pid=91382"
+    },
+    {
+      "pid": "36406",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.2,
+      "command": "/Applications/企业微信.app/Contents/Resources/WeDrive/v14.17.4/bin/node --jitless --expose-gc --tls-min-v1.0 /Users/yanyu/Library/Containers/com.tencent.WeWorkMac/Data/Library/Application Support/WeMail/patch/5.0.0.34109/wemail_node/main.js -nodelib=/Applications/企业微信.app/Contents/Resources/wemail_resource/wemail_node/ -start-time=784813796 --ww-pid=91382 --ww-version=5.0.0.70535"
+    },
+    {
+      "pid": "47433",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "node /Users/yanyu/娱乐管理/frontend/node_modules/.bin/next dev -p 3133"
+    },
+    {
+      "pid": "83753",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper.app/Contents/MacOS/Trae CN Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --vscode-crash-reporter-process-type=fileWatcher --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "64630",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Applications/Trae CN.app/Contents/Resources/app/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=56441"
+    },
+    {
+      "pid": "58547",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Users/yanyu/.trae-cn/extensions/bradlc.vscode-tailwindcss-0.14.28-universal/dist/tailwindServer.js --node-ipc --clientProcessId=56441"
+    },
+    {
+      "pid": "58188",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "node /Users/yanyu/.cache/npm/_npx/3dfbf5a9eea4a1b3/node_modules/.bin/mcp-server-github"
+    },
+    {
+      "pid": "57221",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/typingsInstaller.js --globalTypingsCacheLocation /Users/yanyu/Library/Caches/typescript/5.3 --enableTelemetry --typesMapLocation /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/typesMap.json --validateDefaultNpmLocation"
+    },
+    {
+      "pid": "56733",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --max-old-space-size=3072 /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/tsserver.js --useInferredProjectPerProjectRoot --enableTelemetry --cancellationPipeName /private/tmp/vscode-typescript501/68187a39da765e7069fa/tscancellation-bce65b6fafd2f07aff4c.tmp* --globalPlugins vue-reactivity-analysis-plugin-pack,vue-typescript-plugin-pack --pluginProbeLocations /Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal,/Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal --locale zh-cn --noGetErrOnBackgroundUpdate --validateDefaultNpmLocation --useNodeIpc"
+    },
+    {
+      "pid": "56732",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --max-old-space-size=3072 /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/tsserver.js --serverMode partialSemantic --useInferredProjectPerProjectRoot --disableAutomaticTypingAcquisition --cancellationPipeName /private/tmp/vscode-typescript501/68187a39da765e7069fa/tscancellation-8f6f1e0ea447b21f6700.tmp* --globalPlugins vue-reactivity-analysis-plugin-pack,vue-typescript-plugin-pack --pluginProbeLocations /Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal,/Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal --locale zh-cn --noGetErrOnBackgroundUpdate --validateDefaultNpmLocation --useNodeIpc"
+    },
+    {
+      "pid": "55999",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper.app/Contents/MacOS/Trae CN Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --vscode-crash-reporter-process-type=event-reporter --user-data-dir=/Users/yanyu/Library/Application Support/Trae CN --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,6671641051618193103,10268929759980958531,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "52687",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "node /Users/yanyu/www/deployments/yyc3-ai-smart-call/node_modules/.bin/../next/dist/bin/next dev"
+    },
+    {
+      "pid": "52656",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "node /opt/homebrew/bin/pnpm run dev"
+    },
+    {
+      "pid": "87048",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "node /Users/yanyu/node_modules/.bin/zai-mcp-server"
+    },
+    {
+      "pid": "89571",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "node monitoring/scripts/unified-monitor.js"
+    },
+    {
+      "pid": "86898",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Users/yanyu/.trae-cn/extensions/bradlc.vscode-tailwindcss-0.14.28-universal/dist/tailwindServer.js --node-ipc --clientProcessId=86877"
+    },
+    {
+      "pid": "86895",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Applications/Trae CN.app/Contents/Resources/app/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=86877"
+    },
+    {
+      "pid": "86892",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Applications/Trae CN.app/Contents/Resources/app/extensions/markdown-language-features/dist/serverWorkerMain --node-ipc --clientProcessId=86877"
+    },
+    {
+      "pid": "86891",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/typingsInstaller.js --globalTypingsCacheLocation /Users/yanyu/Library/Caches/typescript/5.3 --enableTelemetry --typesMapLocation /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/typesMap.json --validateDefaultNpmLocation"
+    },
+    {
+      "pid": "86889",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.5,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --max-old-space-size=3072 /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/tsserver.js --useInferredProjectPerProjectRoot --enableTelemetry --cancellationPipeName /private/tmp/vscode-typescript501/3ee72e3ebbded7b508c4/tscancellation-5933f498132a80521896.tmp* --globalPlugins vue-reactivity-analysis-plugin-pack,vue-typescript-plugin-pack --pluginProbeLocations /Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal,/Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal --locale zh-cn --noGetErrOnBackgroundUpdate --validateDefaultNpmLocation --useNodeIpc"
+    },
+    {
+      "pid": "86888",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --max-old-space-size=3072 /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/tsserver.js --serverMode partialSemantic --useInferredProjectPerProjectRoot --disableAutomaticTypingAcquisition --cancellationPipeName /private/tmp/vscode-typescript501/3ee72e3ebbded7b508c4/tscancellation-1a4bf6bf38e1988a5cda.tmp* --globalPlugins vue-reactivity-analysis-plugin-pack,vue-typescript-plugin-pack --pluginProbeLocations /Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal,/Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal --locale zh-cn --noGetErrOnBackgroundUpdate --validateDefaultNpmLocation --useNodeIpc"
+    },
+    {
+      "pid": "86614",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Applications/Trae CN.app/Contents/Resources/app/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=86597"
+    },
+    {
+      "pid": "86612",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Applications/Trae CN.app/Contents/Resources/app/extensions/markdown-language-features/dist/serverWorkerMain --node-ipc --clientProcessId=86597"
+    },
+    {
+      "pid": "86497",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Users/yanyu/.trae-cn/extensions/bradlc.vscode-tailwindcss-0.14.28-universal/dist/tailwindServer.js --node-ipc --clientProcessId=86476"
+    },
+    {
+      "pid": "86494",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Applications/Trae CN.app/Contents/Resources/app/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=86476"
+    },
+    {
+      "pid": "86489",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Applications/Trae CN.app/Contents/Resources/app/extensions/markdown-language-features/dist/serverWorkerMain --node-ipc --clientProcessId=86476"
+    },
+    {
+      "pid": "86488",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Users/yanyu/.trae-cn/extensions/ms-azuretools.vscode-containers-2.2.0-universal/dist/compose-language-service/lib/server.js --node-ipc --node-ipc --clientProcessId=86476"
+    },
+    {
+      "pid": "86487",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Users/yanyu/.trae-cn/extensions/ms-azuretools.vscode-containers-2.2.0-universal/dist/dockerfile-language-server-nodejs/lib/server.js --node-ipc --node-ipc --clientProcessId=86476"
+    },
+    {
+      "pid": "86300",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Users/yanyu/.trae-cn/extensions/bradlc.vscode-tailwindcss-0.14.28-universal/dist/tailwindServer.js --node-ipc --clientProcessId=86236"
+    },
+    {
+      "pid": "86249",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Applications/Trae CN.app/Contents/Resources/app/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=86236"
+    },
+    {
+      "pid": "86246",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/typingsInstaller.js --globalTypingsCacheLocation /Users/yanyu/Library/Caches/typescript/5.3 --enableTelemetry --typesMapLocation /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/typesMap.json --validateDefaultNpmLocation"
+    },
+    {
+      "pid": "86240",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.2,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --max-old-space-size=3072 /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/tsserver.js --useInferredProjectPerProjectRoot --enableTelemetry --cancellationPipeName /private/tmp/vscode-typescript501/d44462f487357af82712/tscancellation-5e1f64080a30e7a30146.tmp* --globalPlugins vue-reactivity-analysis-plugin-pack,vue-typescript-plugin-pack --pluginProbeLocations /Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal,/Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal --locale zh-cn --noGetErrOnBackgroundUpdate --validateDefaultNpmLocation --useNodeIpc"
+    },
+    {
+      "pid": "86239",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Trae CN.app/Contents/Frameworks/Trae CN Helper (Plugin).app/Contents/MacOS/Trae CN Helper (Plugin) --max-old-space-size=3072 /Users/yanyu/.trae-cn/extensions/ms-vscode.vscode-typescript-next-5.3.20230808-universal/node_modules/typescript/lib/tsserver.js --serverMode partialSemantic --useInferredProjectPerProjectRoot --disableAutomaticTypingAcquisition --cancellationPipeName /private/tmp/vscode-typescript501/d44462f487357af82712/tscancellation-b03860393359cdbd5c56.tmp* --globalPlugins vue-reactivity-analysis-plugin-pack,vue-typescript-plugin-pack --pluginProbeLocations /Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal,/Users/yanyu/.trae-cn/extensions/vue.volar-3.1.3-universal --locale zh-cn --noGetErrOnBackgroundUpdate --validateDefaultNpmLocation --useNodeIpc"
+    },
+    {
+      "pid": "78029",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "node /Users/yanyu/Documents/企业框架/YYC³ AI Call/node_modules/.bin/../.pnpm/next@15.0.3_@babel+core@7.28.5_@playwright+test@1.56.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/next/dist/bin/next dev -p 3123"
+    },
+    {
+      "pid": "58728",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper.app/Contents/MacOS/Code Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --user-data-dir=/Users/yanyu/Library/Application Support/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,11502927387604692627,6451615869677593460,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "57994",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper.app/Contents/MacOS/Code Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=zh-CN --service-sandbox-type=none --user-data-dir=/Users/yanyu/Library/Application Support/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,11502927387604692627,6451615869677593460,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,FontationsLinuxSystemFonts,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version"
+    },
+    {
+      "pid": "56070",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Comate.app/Contents/Frameworks/Comate Helper (Plugin).app/Contents/MacOS/Comate Helper (Plugin) /Users/yanyu/.comate/extensions/dbaeumer.vscode-eslint-3.0.16/server/out/eslintServer.js --node-ipc --clientProcessId=55945"
+    },
+    {
+      "pid": "55974",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0.1,
+      "command": "/Applications/Comate.app/Contents/Frameworks/Comate Helper (Plugin).app/Contents/MacOS/Comate Helper (Plugin) /Users/yanyu/.comate/extensions/streetsidesoftware.code-spell-checker-4.2.6/packages/_server/dist/main.cjs --node-ipc --clientProcessId=55945"
+    },
+    {
+      "pid": "55967",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Comate.app/Contents/Frameworks/Comate Helper (Plugin).app/Contents/MacOS/Comate Helper (Plugin) /Users/yanyu/.comate/extensions/mtxr.sqltools-0.28.5/dist/languageserver.js --node-ipc --clientProcessId=55945"
+    },
+    {
+      "pid": "55966",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Comate.app/Contents/Frameworks/Comate Helper (Plugin).app/Contents/MacOS/Comate Helper (Plugin) /Users/yanyu/.comate/extensions/formulahendry.auto-rename-tag-0.1.10/packages/server/dist/serverMain.js --node-ipc --clientProcessId=55945"
+    },
+    {
+      "pid": "55951",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Comate.app/Contents/Frameworks/Comate Helper (Plugin).app/Contents/MacOS/Comate Helper (Plugin) /Applications/Comate.app/Contents/Resources/app/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=55945"
+    },
+    {
+      "pid": "55947",
+      "user": "yanyu",
+      "cpu": 0,
+      "memory": 0,
+      "command": "/Applications/Comate.app/Contents/Frameworks/Comate Helper (Plugin).app/Contents/MacOS/Comate Helper (Plugin) --dns-result-order=ipv4first comate-engine/node_modules/@comate/preview-browser/bundle.js --experimental-default-type=module --experimental-json-modules"
+    }
+  ],
+  "applicationStatus": {
+    "isRunning": true,
+    "statusCode": 200,
+    "lastCheck": "2025-11-15T07:55:13.523Z"
+  },
+  "alerts": []
+}

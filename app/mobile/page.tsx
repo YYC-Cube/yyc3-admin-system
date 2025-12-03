@@ -3,6 +3,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -11,6 +12,7 @@ import { Search, ShoppingCart, User, Home, Package, BarChart3, Settings, Bell, M
 
 export default function MobilePage() {
   const [showMenu, setShowMenu] = useState(false)
+  const router = useRouter()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
@@ -57,19 +59,29 @@ export default function MobilePage() {
             </div>
 
             <nav className="space-y-2">
-              {[
-                { icon: Home, label: "首页" },
-                { icon: Package, label: "商品管理" },
-                { icon: ShoppingCart, label: "订单管理" },
-                { icon: User, label: "会员管理" },
-                { icon: BarChart3, label: "数据分析" },
-                { icon: Settings, label: "系统设置" },
-              ].map((item, index) => (
-                <Button key={index} variant="ghost" className="w-full justify-start">
-                  <item.icon className="mr-2 h-4 w-4" />
-                  {item.label}
-                </Button>
-              ))}
+              {
+                [
+                  { icon: Home, label: "首页", path: "/mobile" },
+                  { icon: Package, label: "商品管理", path: "/dashboard/products/list" },
+                  { icon: ShoppingCart, label: "订单管理", path: "/dashboard/orders" },
+                  { icon: User, label: "会员管理", path: "/dashboard/members" },
+                  { icon: BarChart3, label: "数据分析", path: "/dashboard/reports/business" },
+                  { icon: Settings, label: "系统设置", path: "/dashboard/settings" },
+                ].map((item, index) => (
+                  <Button 
+                    key={index} 
+                    variant="ghost" 
+                    className="w-full justify-start"
+                    onClick={() => {
+                      setShowMenu(false);
+                      router.push(item.path);
+                    }}
+                  >
+                    <item.icon className="mr-2 h-4 w-4" />
+                    {item.label}
+                  </Button>
+                ))
+              }
             </nav>
           </div>
         </motion.div>
@@ -104,19 +116,25 @@ export default function MobilePage() {
         <Card className="p-4 mb-6">
           <h2 className="font-semibold mb-4">快捷操作</h2>
           <div className="grid grid-cols-4 gap-4">
-            {[
-              { icon: "📦", label: "新增商品" },
-              { icon: "🛒", label: "创建订单" },
-              { icon: "👥", label: "会员管理" },
-              { icon: "📊", label: "查看报表" },
+            {
+            [
+              { icon: "📦", label: "新增商品", path: "/dashboard/products/list" },
+              { icon: "🛒", label: "创建订单", path: "/dashboard/orders" },
+              { icon: "👥", label: "会员管理", path: "/dashboard/members" },
+              { icon: "📊", label: "查看报表", path: "/dashboard/reports/business" },
             ].map((action, index) => (
-              <button key={index} className="flex flex-col items-center gap-2">
+              <button 
+                key={index} 
+                className="flex flex-col items-center gap-2"
+                onClick={() => router.push(action.path)}
+              >
                 <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center text-2xl">
                   {action.icon}
                 </div>
                 <span className="text-xs text-center">{action.label}</span>
               </button>
-            ))}
+            ))
+          }
           </div>
         </Card>
 
@@ -143,17 +161,24 @@ export default function MobilePage() {
       {/* 底部导航 */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t">
         <div className="grid grid-cols-4 gap-1 p-2">
-          {[
-            { icon: Home, label: "首页" },
-            { icon: Package, label: "商品" },
-            { icon: BarChart3, label: "报表" },
-            { icon: User, label: "我的" },
-          ].map((item, index) => (
-            <Button key={index} variant="ghost" className="flex-col h-auto py-2">
-              <item.icon className="h-5 w-5 mb-1" />
-              <span className="text-xs">{item.label}</span>
-            </Button>
-          ))}
+          {
+            [
+              { icon: Home, label: "首页", path: "/mobile" },
+              { icon: Package, label: "商品", path: "/dashboard/products/list" },
+              { icon: BarChart3, label: "报表", path: "/dashboard/reports/business" },
+              { icon: User, label: "我的", path: "/dashboard/members" },
+            ].map((item, index) => (
+              <Button 
+                key={index} 
+                variant="ghost" 
+                className="flex-col h-auto py-2"
+                onClick={() => router.push(item.path)}
+              >
+                <item.icon className="h-5 w-5 mb-1" />
+                <span className="text-xs">{item.label}</span>
+              </Button>
+            ))
+          }
         </div>
       </nav>
     </div>

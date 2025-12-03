@@ -53,7 +53,7 @@ export class ProductRepository {
   }
 
   // 创建商品
-  async create(product: Omit<Product, "id" | "createdAt" | "updatedAt">): Promise<Product> {
+  async create(product: Omit<Product, "id" | "createdAt" | "updatedAt">): Promise<Product | null> {
     const sql = `
       INSERT INTO products (
         name, alias, category, unit, original_price, price, member_price,
@@ -70,9 +70,7 @@ export class ProductRepository {
       product.memberPrice || product.price,
       product.stock || 0,
       product.minStock || 0,
-      product.image || "",
-      product.description || "",
-      product.status || "active",
+      product.images || "",
     ]
 
     const result = await query<any>(sql, params)
@@ -104,10 +102,7 @@ export class ProductRepository {
       fields.push("stock = ?")
       params.push(product.stock)
     }
-    if (product.status !== undefined) {
-      fields.push("status = ?")
-      params.push(product.status)
-    }
+    // 移除对不存在的status属性的引用
 
     if (fields.length === 0) {
       return this.findById(id)

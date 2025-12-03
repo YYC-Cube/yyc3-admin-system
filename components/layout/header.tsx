@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Menu, Search, User } from "lucide-react"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -39,8 +40,9 @@ export function Header({ onMenuClick }: HeaderProps) {
         </div>
       </div>
 
-      {/* 右侧:通知和用户菜单 */}
+      {/* 右侧:主题切换、通知和用户菜单 */}
       <div className="flex items-center gap-3">
+        <ThemeToggle />
         <NotificationCenter />
 
         {/* 用户菜单 */}

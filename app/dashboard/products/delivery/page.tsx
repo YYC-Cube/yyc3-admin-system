@@ -17,7 +17,7 @@ import { FilterBar } from "@/components/dashboard/filter-bar"
 const deliveryRules = [
   {
     id: 1,
-    store: "巨嗨测试1",
+    store: "启智",
     priority: "0",
     name: "买轩尼诗送2瓶绿茶,3瓶娃哈哈矿泉水",
     product: "轩尼诗",
@@ -27,7 +27,7 @@ const deliveryRules = [
   },
   {
     id: 2,
-    store: "巨嗨测试1",
+    store: "启智",
     priority: "0",
     name: "青岛纯生330ml买一箱送一箱",
     product: "青岛纯生330ml",
@@ -37,7 +37,7 @@ const deliveryRules = [
   },
   {
     id: 3,
-    store: "巨嗨测试1",
+    store: "启智",
     priority: "0",
     name: "买一瓶马爹利XO任选5瓶饮料",
     product: "马爹利XO",
@@ -51,41 +51,39 @@ export default function DeliveryPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const columns = [
-    { key: "priority", label: "优先级", width: "w-20" },
-    { key: "store", label: "门店", width: "w-32" },
-    { key: "name", label: "规则名称", width: "w-64" },
-    { key: "product", label: "适用商品", width: "w-40" },
-    { key: "minQuantity", label: "起购数", width: "w-24" },
-    { key: "type", label: "配送方式", width: "w-28" },
-    { key: "gifts", label: "配送商品", width: "w-48" },
-    { key: "actions", label: "操作", width: "w-32" },
+    { 
+      key: "priority", 
+      label: "优先级", 
+      render: (value: string) => <Badge variant="outline">{value}</Badge>
+    },
+    { key: "store", label: "门店" },
+    { key: "name", label: "规则名称" },
+    { key: "product", label: "适用商品" },
+    { 
+      key: "minQuantity", 
+      label: "起购数", 
+      render: (value: number) => <span className="font-semibold text-primary">{value}</span>
+    },
+    { 
+      key: "type", 
+      label: "配送方式", 
+      render: (value: string) => <Badge variant={value === "固定配送" ? "default" : "secondary"}>{value}</Badge>
+    },
+    { key: "gifts", label: "配送商品" }
   ]
 
-  const renderCell = (item: any, key: string) => {
-    switch (key) {
-      case "priority":
-        return <Badge variant="outline">{item.priority}</Badge>
-      case "type":
-        return <Badge variant={item.type === "固定配送" ? "default" : "secondary"}>{item.type}</Badge>
-      case "minQuantity":
-        return <span className="font-semibold text-primary">{item.minQuantity}</span>
-      case "actions":
-        return (
-          <div className="flex gap-2">
-            <Button variant="ghost" size="sm">
-              <Edit className="mr-1 h-3 w-3" />
-              修改
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Trash2 className="mr-1 h-3 w-3" />
-              删除
-            </Button>
-          </div>
-        )
-      default:
-        return item[key]
-    }
-  }
+  const renderActions = (_row: any) => (
+    <div className="flex gap-2">
+      <Button variant="ghost" size="sm">
+        <Edit className="mr-1 h-3 w-3" />
+        修改
+      </Button>
+      <Button variant="ghost" size="sm">
+        <Trash2 className="mr-1 h-3 w-3" />
+        删除
+      </Button>
+    </div>
+  )
 
   return (
     <div className="space-y-6">
@@ -116,7 +114,7 @@ export default function DeliveryPage() {
                         <SelectValue placeholder="选择门店" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="store1">巨嗨测试1</SelectItem>
+                        <SelectItem value="store1">启智</SelectItem>
                         <SelectItem value="store2">KTV旗舰店</SelectItem>
                       </SelectContent>
                     </Select>
@@ -240,30 +238,19 @@ export default function DeliveryPage() {
       </motion.div>
 
       {/* 筛选栏 */}
-      <FilterBar>
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="选择门店" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部门店</SelectItem>
-            <SelectItem value="store1">巨嗨测试1</SelectItem>
-            <SelectItem value="store2">KTV旗舰店</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="配送方式" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部方式</SelectItem>
-            <SelectItem value="fixed">固定配送</SelectItem>
-            <SelectItem value="manual">手工配送</SelectItem>
-          </SelectContent>
-        </Select>
-        <Input placeholder="请输入规则名称" className="w-64" />
-        <Button className="ml-auto">查询</Button>
-      </FilterBar>
+      <FilterBar 
+        filters={[
+          {
+            label: '选择门店',
+            options: [
+              { label: '全部门店', value: 'all' },
+              { label: '启智', value: 'store1' }
+            ],
+            onChange: (value) => console.log('门店筛选:', value)
+          }
+        ]}
+        onSearch={(value) => console.log('搜索:', value)}
+      />
 
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-3">
@@ -309,7 +296,7 @@ export default function DeliveryPage() {
 
       {/* 数据表格 */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-        <DataTable columns={columns} data={deliveryRules} renderCell={renderCell} />
+        <DataTable columns={columns} data={deliveryRules} actions={renderActions} />
       </motion.div>
     </div>
   )

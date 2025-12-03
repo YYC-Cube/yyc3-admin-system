@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge"
 const stockData = [
   {
     id: "1",
-    store: "巨嗨KTV",
+    store: "启智",
     warehouse: "超市仓",
     name: "青岛纯生330ml",
     category: "啤酒",
@@ -27,7 +27,7 @@ const stockData = [
   },
   {
     id: "2",
-    store: "巨嗨KTV",
+    store: "启智",
     warehouse: "超市仓",
     name: "JELLYBIRD果冻酒36gx2",
     category: "休闲食品",
@@ -40,7 +40,7 @@ const stockData = [
   },
   {
     id: "3",
-    store: "巨嗨KTV",
+    store: "启智",
     warehouse: "厨房仓",
     name: "小果盘",
     category: "果盘",
@@ -147,7 +147,7 @@ export default function StockPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">全部门店</SelectItem>
-                  <SelectItem value="store1">巨嗨KTV</SelectItem>
+                  <SelectItem value="store1">启智</SelectItem>
                 </SelectContent>
               </Select>
 

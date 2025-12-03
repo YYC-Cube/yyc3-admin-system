@@ -3,7 +3,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { TrendingUp } from "lucide-react"
 
-export function ProfitTrendChart() {
+interface ProfitTrendChartProps {
+  storeId?: string;
+}
+
+export function ProfitTrendChart({ storeId: _storeId }: ProfitTrendChartProps) {
   return (
     <Card>
       <CardHeader>

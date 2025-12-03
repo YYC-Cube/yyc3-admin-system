@@ -1,0 +1,16 @@
+#!/bin/bash
+# 问题诊断工具全局启动器
+
+# 设置诊断工具路径
+DIAGNOSTICS_DIR="/Users/yanyu/yyc3-admin-system-2/problems_and_diagnostics"
+PROJECT_ROOT="/Users/yanyu/yyc3-admin-system-2"
+
+# 检查诊断工具目录
+if [[ ! -d "$DIAGNOSTICS_DIR" ]]; then
+    echo -e "\033[0;31m❌ 诊断工具目录不存在: $DIAGNOSTICS_DIR\033[0m"
+    exit 1
+fi
+
+# 切换到诊断工具目录并执行
+cd "$DIAGNOSTICS_DIR"
+exec ./diagnose.sh "$@"

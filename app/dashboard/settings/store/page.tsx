@@ -37,7 +37,7 @@ export default function StoreSettingsPage() {
             <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="storeName">门店名称</Label>
-                <Input id="storeName" placeholder="请输入门店名称" defaultValue="巨嗨KTV" />
+                <Input id="storeName" placeholder="请输入门店名称" defaultValue="启智" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="storePhone">联系电话</Label>

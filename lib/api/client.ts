@@ -1,12 +1,12 @@
 // API客户端封装
 
-import type { ApiResponse, PaginatedResponse } from "@/lib/types"
+import type { ApiResponse, PaginatedResponse } from "../types/api"
 
 class ApiClient {
   private baseUrl: string
   private token: string | null = null
 
-  constructor(baseUrl = "/api") {
+  constructor(baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "/api") {
     this.baseUrl = baseUrl
     // 从localStorage获取token
     if (typeof window !== "undefined") {
@@ -40,7 +40,7 @@ class ApiClient {
     }
 
     if (this.token) {
-      headers["Authorization"] = `Bearer ${this.token}`
+      (headers as Record<string, string>)["Authorization"] = `Bearer ${this.token}`
     }
 
     try {

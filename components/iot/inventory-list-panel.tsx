@@ -21,7 +21,7 @@ interface InventoryItem {
 }
 
 export function InventoryListPanel() {
-  const [items, setItems] = useState<InventoryItem[]>([
+  const [items] = useState<InventoryItem[]>([
     {
       productId: "PROD_001",
       productName: "茅台飞天53度500ml",

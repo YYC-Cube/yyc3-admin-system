@@ -612,12 +612,15 @@ export class OutreachAutomationEngine {
     return `尊敬的${customer.name}，我们诚挚邀请您参加${event.name}活动。活动时间：${event.date}。期待您的光临！`
   }
 
-  private generateIncentive(customer: Member, event: any): string {
+  private generateIncentive(customer: Member, _event: any): string {
     // 根据客户等级生成不同的激励
-    if (customer.level === "vip") {
+    const levelStr = String(customer.level);
+    if (levelStr === "vip") {
       return "VIP专属：活动期间享受8折优惠+赠送精美礼品"
-    } else if (customer.level === "loyal") {
+    } else if (levelStr === "loyal") {
       return "忠诚客户专享：活动期间享受9折优惠"
+    } else if (levelStr === "new") {
+      return "新客户福利：首次下单立减50元"
     }
     return "活动期间享受特别优惠"
   }
