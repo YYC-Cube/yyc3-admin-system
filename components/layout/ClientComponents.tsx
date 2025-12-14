@@ -22,7 +22,7 @@ export default function ClientComponents() {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js').then(
-          function(registration) {
+          function(_registration) {
             console.log('ServiceWorker registration successful');
           },
           function(err) {

@@ -51,7 +51,7 @@ export default function MobilePage() {
         >
           <div className="p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500" />
+              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500" ></div>
               <div>
                 <div className="font-semibold">管理员</div>
                 <div className="text-sm text-muted-foreground">admin@ktv.com</div>

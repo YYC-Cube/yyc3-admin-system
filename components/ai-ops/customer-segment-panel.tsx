@@ -32,7 +32,7 @@ export function CustomerSegmentPanel({ segments = [] }: CustomerSegmentPanelProp
           {(segments || []).map((segment) => (
             <div key={segment.id} className="flex items-center justify-between p-4 border rounded-lg">
               <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: segment.color }} />
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: segment.color }} ></div>
                 <div>
                   <div className="font-medium">{segment.name}</div>
                   <div className="text-sm text-muted-foreground">

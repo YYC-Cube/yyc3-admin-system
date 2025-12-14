@@ -59,13 +59,11 @@ export class PerformanceBenchmark {
     
     for (let i = 0; i < iterations; i++) {
       try {
-        const memoryBefore = process.memoryUsage();
         const startTime = performance.now();
         
         await apiCall();
         
         const endTime = performance.now();
-        const memoryAfter = process.memoryUsage();
         
         results.push(endTime - startTime);
         
@@ -105,7 +103,7 @@ export class PerformanceBenchmark {
     const startTime = performance.now();
     
     try {
-      const html = await fetcher();
+      await fetcher();
       const endTime = performance.now();
 
       // 模拟Web性能指标计算
@@ -205,8 +203,6 @@ export class PerformanceBenchmark {
    * 保存基线数据
    */
   private saveBaselineData(): void {
-    const baselineFile = './performance-baseline.json';
-    
     try {
       const baselineObject: Record<string, any> = {};
       this.baselineData.forEach((value, key) => {
