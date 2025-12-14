@@ -32,6 +32,10 @@ jobs:
           npm audit --audit-level=moderate
           npm audit --audit-level=high
           
+      - name: Check for node-forge vulnerability
+        run: |
+          npm run security:check-node-forge
+          
       - name: Run ESLint security rules
         run: |
           npx eslint . --ext .js,.jsx,.ts,.tsx \
