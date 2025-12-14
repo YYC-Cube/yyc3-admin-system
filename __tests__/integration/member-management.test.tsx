@@ -1974,4 +1974,12 @@ describe('会员管理模块集成测试', () => {
 
     it('应该正确处理姓名过滤', async () => {
       const MockMemberManagementPage = createMockMemberManagementPage()
-      render(<MockMemberManagement
+      render(<MockMemberManagementPage />)
+
+      const nameFilter = screen.getByTestId('name-filter')
+      await user.type(nameFilter, '张三')
+      
+      expect(nameFilter).toHaveValue('张三')
+    })
+  })
+})
