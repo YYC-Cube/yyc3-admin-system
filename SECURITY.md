@@ -11,6 +11,36 @@ The following versions of YYC3 Admin System are currently being supported with s
 
 ## Known Vulnerabilities and Mitigations
 
+### ✅ Recently Fixed Vulnerabilities
+
+#### Storybook Environment Variable Exposure (GHSA-8452-54wp-rmv6)
+
+**Status**: ✅ Fixed (2025-12-22)
+
+**Description**: 
+Storybook manager bundle may expose environment variables during build, leading to potential information disclosure.
+
+**Impact**: 
+HIGH (CVSS 7.3) - Could expose sensitive configuration data, API keys, and secrets
+
+**Fix**:
+- ✅ Upgraded storybook from 10.0.0-10.1.9 to 10.1.10
+- ✅ Applied via `npm audit fix`
+- ✅ Verified with comprehensive testing (440 tests passed)
+- ✅ Current status: 0 vulnerabilities
+
+**Affected Versions**:
+- storybook 10.0.0 - 10.1.9
+
+**Fixed Version**:
+- storybook >= 10.1.10
+
+**References**:
+- GitHub Advisory: https://github.com/advisories/GHSA-8452-54wp-rmv6
+- Detailed Report: [docs/security/STORYBOOK_VULNERABILITY_FIX.md](docs/security/STORYBOOK_VULNERABILITY_FIX.md)
+
+---
+
 ### Node-forge ASN.1 Validator Vulnerability (CVE-2024-48939)
 
 **Status**: ✅ Mitigated (Preventive measures in place)
