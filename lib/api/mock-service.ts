@@ -5,6 +5,18 @@
  * @author YYC
  * @version 1.0.0
  * @created 2024-10-15
+ * 
+ * ⚠️ 安全警告:
+ * 1. 本文件仅用于开发和测试环境
+ * 2. 包含弱密码（123456）仅供测试使用
+ * 3. 生产环境必须使用真实的身份验证系统
+ * 4. 生产环境必须实现：
+ *    - 密码哈希（bcrypt, argon2等）
+ *    - 盐值（salt）
+ *    - 安全的会话管理
+ *    - JWT token 签名验证
+ *    - 账户锁定机制
+ *    - 多因素认证（MFA）
  */
 
 import type { ApiResponse, PaginatedResponse } from '../types/api';
@@ -254,10 +266,17 @@ export class MockService {
 
   /**
    * 模拟用户登录
+   * 
+   * ⚠️ 安全警告:
+   * - 此函数仅用于开发和测试环境
+   * - 生产环境必须使用真实的身份验证系统
+   * - 不要在生产环境使用弱密码（如 "123456"）
+   * - 必须实现密码哈希、盐值和安全存储
    */
   login(username: string, password: string): Promise<ApiResponse<{ token: string; user: any }>> {
     const user = mockUsers.find(u => u.username === username);
-    // 简单模拟：admin/123456, cashier1/123456, waiter1/123456
+    // ⚠️ 测试用弱密码：admin/123456, cashier1/123456, waiter1/123456
+    // 生产环境必须替换为真实的密码验证系统
     if (user && password === '123456') {
       return Promise.resolve({
         success: true,
