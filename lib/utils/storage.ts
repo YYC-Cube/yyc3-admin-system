@@ -259,7 +259,7 @@ export const mockDatabase = new DatabaseManager()
 
 export const mockDB = {
   get<T>(key: string): T[] | null {
-    const value = storage.get<T[]>(`db_${key}`, null)
+    const value = storage.get<T[]>(`db_${key}`, undefined)
     // 如果值不存在,返回null而非空数组
     return value
   },

@@ -198,7 +198,7 @@ export function VRRoomSelector({ onRoomSelect }: VRRoomSelectorProps) {
                     {getRoomTypeLabel(room.type)}
                   </Badge>
                 </div>
-                <div className={`w-3 h-3 rounded-full ${room.status === "active" ? "bg-green-500" : "bg-gray-400"}`} />
+                <div className={`w-3 h-3 rounded-full ${room.status === "active" ? "bg-green-500" : "bg-gray-400"}`} ></div>
               </div>
 
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -215,9 +215,9 @@ export function VRRoomSelector({ onRoomSelect }: VRRoomSelectorProps) {
               </div>
 
               <div className="flex gap-2">
-                <div className={`h-1 flex-1 rounded ${getRoomTypeColor(room.type)}`} />
-                <div className="h-1 flex-1 rounded bg-muted" />
-                <div className="h-1 flex-1 rounded bg-muted" />
+                <div className={`h-1 flex-1 rounded ${getRoomTypeColor(room.type)}`} ></div>
+                <div className="h-1 flex-1 rounded bg-muted" ></div>
+                <div className="h-1 flex-1 rounded bg-muted" ></div>
               </div>
             </div>
           </Card>

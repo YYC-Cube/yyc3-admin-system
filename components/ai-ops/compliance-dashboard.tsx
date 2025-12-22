@@ -143,7 +143,7 @@ export default function ComplianceDashboard() {
                       <span className="text-sm text-muted-foreground">{value}/100</span>
                     </div>
                     <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <div className="h-full bg-primary transition-all" style={{ width: `${value}%` }} />
+                      <div className="h-full bg-primary transition-all" style={{ width: `${value}%` }} ></div>
                     </div>
                   </div>
                 ))}

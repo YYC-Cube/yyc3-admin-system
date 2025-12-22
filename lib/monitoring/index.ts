@@ -152,5 +152,3 @@ if (typeof window === 'undefined' && !global.monitoringSystemInitialized) {
     MonitoringSystem.initialize().catch(console.error);
   }
 }
-
-export { MonitoringSystem };
