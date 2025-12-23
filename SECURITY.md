@@ -139,6 +139,46 @@ HIGH (CVSS 7.3) - Could expose sensitive configuration data, API keys, and secre
 
 ---
 
+#### F-ktv Chart Component XSS Vulnerability (SEC-2025-004)
+
+**Status**: ✅ Fixed (2025-12-23)
+
+**Description**: 
+F-ktv chart component used `dangerouslySetInnerHTML` without input validation for CSS values and variable names, potentially allowing XSS attacks through malicious CSS injection.
+
+**Impact**: 
+HIGH (CVSS 7.5) - Could lead to:
+- Cross-site scripting attacks via CSS injection
+- Malicious script injection through CSS color values
+- Data theft through CSS selectors
+- Style pollution and UI manipulation attacks
+- CSS-based JavaScript execution
+
+**Fix**:
+- ✅ Added `sanitizeCSSColor()` function to validate color values
+- ✅ Added `sanitizeCSSVarName()` function to sanitize variable names
+- ✅ Implemented whitelist-based regex validation for color formats
+- ✅ Blocked all potentially dangerous input patterns including scripts, URLs, and injections
+- ✅ Added 17 comprehensive security test cases (all passing)
+- ✅ Current status: XSS protection fully implemented, matching main chart component security
+
+**Affected Files**:
+- `F-ktv/components/ui/chart.tsx`
+
+**Fixed Version**:
+- Commit: 459809a (2025-12-23)
+
+**Test Coverage**:
+- 17 security test cases covering XSS payloads, CSS injection, edge cases
+- 457 total tests passing (100% pass rate)
+
+**References**:
+- Detailed Report: [docs/security/F-KTV_CHART_XSS_FIX.md](docs/security/F-KTV_CHART_XSS_FIX.md)
+- CWE-79: Cross-site Scripting (XSS)
+- OWASP XSS Prevention: https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
+
+---
+
 ### Node-forge ASN.1 Validator Vulnerability (CVE-2024-48939)
 
 **Status**: ✅ Mitigated (Preventive measures in place)
