@@ -13,6 +13,104 @@ The following versions of YYC3 Admin System are currently being supported with s
 
 ### ✅ Recently Fixed Vulnerabilities
 
+#### Hardcoded Sensitive Credentials (SEC-2025-001)
+
+**Status**: ✅ Fixed (2025-12-22)
+
+**Description**: 
+Configuration file `env.sync.ts` contained hardcoded sensitive credentials including database passwords, JWT secrets, payment API keys, and encryption keys.
+
+**Impact**: 
+CRITICAL (CVSS 9.8) - Could lead to:
+- Complete database compromise
+- Unauthorized payment transactions
+- JWT token forgery and identity theft
+- Encryption key exposure
+- Email system hijacking
+
+**Fix**:
+- ✅ Removed all hardcoded credentials from source code
+- ✅ Replaced with empty strings and environment variable references
+- ✅ Added comprehensive security warnings and documentation
+- ✅ Provided production deployment guidelines
+- ✅ Current status: No hardcoded credentials in codebase
+
+**Affected Files**:
+- `env.sync.ts`
+
+**Fixed Version**:
+- Commit: fbc30a8 (2025-12-22)
+
+**References**:
+- Detailed Report: [docs/security/CRITICAL_FIXES_2025-12-22.md](docs/security/CRITICAL_FIXES_2025-12-22.md)
+- CWE-798: Use of Hard-coded Credentials
+
+---
+
+#### XSS Vulnerability in Chart Component (SEC-2025-002)
+
+**Status**: ✅ Fixed (2025-12-22)
+
+**Description**: 
+Chart component used `dangerouslySetInnerHTML` without input validation, potentially allowing XSS attacks through malicious CSS injection.
+
+**Impact**: 
+HIGH (CVSS 7.5) - Could lead to:
+- Cross-site scripting attacks
+- Malicious script injection
+- Data theft through CSS selectors
+- Style pollution attacks
+
+**Fix**:
+- ✅ Added `sanitizeCSSColor()` function to validate color values
+- ✅ Added `sanitizeCSSVarName()` function to sanitize variable names
+- ✅ Implemented whitelist-based regex validation
+- ✅ Blocked all potentially dangerous input patterns
+- ✅ Current status: XSS protection fully implemented
+
+**Affected Files**:
+- `components/ui/chart.tsx`
+
+**Fixed Version**:
+- Commit: fbc30a8 (2025-12-22)
+
+**References**:
+- Detailed Report: [docs/security/CRITICAL_FIXES_2025-12-22.md](docs/security/CRITICAL_FIXES_2025-12-22.md)
+- CWE-79: Cross-site Scripting (XSS)
+
+---
+
+#### Weak Test Passwords Without Warnings (SEC-2025-003)
+
+**Status**: ✅ Fixed (2025-12-22)
+
+**Description**: 
+Test files contained weak passwords (123456) without adequate security warnings, risking production misuse.
+
+**Impact**: 
+MEDIUM (CVSS 5.0) - Could lead to:
+- Weak passwords being used in production
+- Security awareness gaps
+- Easy account compromise
+
+**Fix**:
+- ✅ Added comprehensive security warnings to all test files
+- ✅ Clearly marked test-only credentials
+- ✅ Provided production environment security guidelines
+- ✅ Documented required security implementations
+
+**Affected Files**:
+- `lib/api/mock-service.ts`
+- `app/api/auth/login/route.ts`
+
+**Fixed Version**:
+- Commit: 54d27c8 (2025-12-22)
+
+**References**:
+- Detailed Report: [docs/security/CRITICAL_FIXES_2025-12-22.md](docs/security/CRITICAL_FIXES_2025-12-22.md)
+
+---
+
 #### Storybook Environment Variable Exposure (GHSA-8452-54wp-rmv6)
 
 **Status**: ✅ Fixed (2025-12-22)

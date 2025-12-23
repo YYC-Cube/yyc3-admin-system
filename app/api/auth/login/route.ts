@@ -1,12 +1,28 @@
+/**
+ * 登录API路由
+ * 
+ * ⚠️ 安全警告 - 开发和测试环境配置:
+ * 1. 本文件包含测试用的弱密码（123456）
+ * 2. 仅用于开发和测试环境，不适用于生产环境
+ * 3. 生产环境必须实现以下安全措施：
+ *    - 使用 bcrypt/argon2 进行密码哈希
+ *    - 实现账户锁定机制（防暴力破解）
+ *    - 使用 jsonwebtoken 库生成真实的 JWT
+ *    - 实现密码复杂度要求
+ *    - 添加验证码/CAPTCHA
+ *    - 实现多因素认证（MFA）
+ *    - 记录登录日志和异常行为
+ *    - 使用 HTTPS 传输
+ */
 import { NextRequest, NextResponse } from "next/server"
 import type { User, ApiResponse } from "@/lib/types"
 import { UserRole, Permission } from "@/lib/types"
 
-// 模拟用户数据（实际应该从数据库查询）
+// ⚠️ 模拟用户数据（仅用于测试，生产环境应该从数据库查询并验证密码哈希）
 const MOCK_USERS: Array<{ phone: string; password: string; user: User }> = [
   {
     phone: "13103790379",
-    password: "123456",
+    password: "123456", // ⚠️ 测试密码，生产环境必须使用密码哈希
     user: {
       id: "1",
       name: "管理员",
@@ -20,7 +36,7 @@ const MOCK_USERS: Array<{ phone: string; password: string; user: User }> = [
   },
   {
     phone: "13800138000",
-    password: "123456",
+    password: "123456", // ⚠️ 测试密码，生产环境必须使用密码哈希
     user: {
       id: "2",
       name: "操作员",
@@ -34,9 +50,9 @@ const MOCK_USERS: Array<{ phone: string; password: string; user: User }> = [
   },
 ]
 
-// 生成JWT Token（简化版，实际应该使用jsonwebtoken库）
+// ⚠️ 生成JWT Token（简化版，生产环境必须使用 jsonwebtoken 库）
 const generateToken = (userId: string): string => {
-  // 简化的Token生成逻辑
+  // 简化的Token生成逻辑，生产环境必须使用真实的JWT签名
   const payload = {
     userId,
     exp: Math.floor(Date.now() / 1000) + 3600, // 1小时过期
@@ -93,7 +109,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 查找用户
+    // ⚠️ 查找用户（生产环境必须验证密码哈希，而不是明文比较）
     const userData = MOCK_USERS.find(
       (user) => user.phone === phone && user.password === password
     )
