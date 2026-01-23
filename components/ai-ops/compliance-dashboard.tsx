@@ -1,12 +1,13 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Shield, AlertTriangle, CheckCircle, FileText, TrendingUp, Activity } from "lucide-react"
-import { motion } from "framer-motion"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Shield, AlertTriangle, CheckCircle, FileText, TrendingUp, Activity } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 export default function ComplianceDashboard() {
   const [securityScore, setSecurityScore] = useState<any>(null)
@@ -18,13 +19,13 @@ export default function ComplianceDashboard() {
 
   const fetchSecurityScore = async () => {
     try {
-      const response = await fetch("/api/ai-ops/compliance/security-score")
+      const response = await fetch('/api/ai-ops/compliance/security-score')
       const result = await response.json()
       if (result.success) {
         setSecurityScore(result.data)
       }
     } catch (error) {
-      console.error("获取安全评分失败:", error)
+      console.error('获取安全评分失败:', error)
     } finally {
       setLoading(false)
     }
@@ -32,21 +33,21 @@ export default function ComplianceDashboard() {
 
   const generateReport = async () => {
     try {
-      const response = await fetch("/api/ai-ops/compliance/report", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/ai-ops/compliance/report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
           endDate: new Date().toISOString(),
-          scope: "全系统",
+          scope: '全系统',
         }),
       })
       const result = await response.json()
       if (result.success) {
-        alert("审计报告生成成功")
+        alert('审计报告生成成功')
       }
     } catch (error) {
-      console.error("生成报告失败:", error)
+      console.error('生成报告失败:', error)
     }
   }
 
@@ -58,7 +59,11 @@ export default function ComplianceDashboard() {
     <div className="space-y-6">
       {/* 关键指标 */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">安全评分</CardTitle>
@@ -67,15 +72,19 @@ export default function ComplianceDashboard() {
             <CardContent>
               <div className="text-2xl font-bold">{securityScore?.overall || 0}/100</div>
               <p className="text-xs text-muted-foreground mt-1">
-                <Badge variant={securityScore?.trend === "improving" ? "default" : "secondary"}>
-                  {securityScore?.trend === "improving" ? "改善中" : "稳定"}
+                <Badge variant={securityScore?.trend === 'improving' ? 'default' : 'secondary'}>
+                  {securityScore?.trend === 'improving' ? '改善中' : '稳定'}
                 </Badge>
               </p>
             </CardContent>
           </Card>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">合规评分</CardTitle>
@@ -90,7 +99,11 @@ export default function ComplianceDashboard() {
           </Card>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">风险等级</CardTitle>
@@ -105,7 +118,11 @@ export default function ComplianceDashboard() {
           </Card>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">审计日志</CardTitle>
@@ -143,7 +160,10 @@ export default function ComplianceDashboard() {
                       <span className="text-sm text-muted-foreground">{value}/100</span>
                     </div>
                     <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <div className="h-full bg-primary transition-all" style={{ width: `${value}%` }} />
+                      <div
+                        className="h-full bg-primary transition-all"
+                        style={{ width: `${value}%` }}
+                      />
                     </div>
                   </div>
                 ))}
@@ -152,7 +172,10 @@ export default function ComplianceDashboard() {
                 <h4 className="text-sm font-medium">改进建议</h4>
                 <ul className="space-y-1">
                   {securityScore?.recommendations?.map((rec: string, index: number) => (
-                    <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
+                    <li
+                      key={index}
+                      className="text-sm text-muted-foreground flex items-start gap-2"
+                    >
                       <TrendingUp className="h-4 w-4 mt-0.5 flex-shrink-0" />
                       <span>{rec}</span>
                     </li>
@@ -238,7 +261,9 @@ export default function ComplianceDashboard() {
                     <Activity className="h-4 w-4 text-muted-foreground" />
                     <div>
                       <p className="text-sm font-medium">数据导出</p>
-                      <p className="text-xs text-muted-foreground">manager@example.com - 15分钟前</p>
+                      <p className="text-xs text-muted-foreground">
+                        manager@example.com - 15分钟前
+                      </p>
                     </div>
                   </div>
                   <Badge variant="outline">成功</Badge>

@@ -1,16 +1,17 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Users, TrendingUp, Target, Repeat } from "lucide-react"
-import { UserProfilePanel } from "@/components/bigdata/user-profile-panel"
-import { PathAnalysisPanel } from "@/components/bigdata/path-analysis-panel"
-import { FunnelAnalysisPanel } from "@/components/bigdata/funnel-analysis-panel"
-import { RetentionAnalysisPanel } from "@/components/bigdata/retention-analysis-panel"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Users, TrendingUp, Target, Repeat } from 'lucide-react'
+import { UserProfilePanel } from '@/components/bigdata/user-profile-panel'
+import { PathAnalysisPanel } from '@/components/bigdata/path-analysis-panel'
+import { FunnelAnalysisPanel } from '@/components/bigdata/funnel-analysis-panel'
+import { RetentionAnalysisPanel } from '@/components/bigdata/retention-analysis-panel'
 
 export function UserBehaviorDashboard() {
-  const [activeTab, setActiveTab] = useState("profile")
+  const [activeTab, setActiveTab] = useState('profile')
 
   // 模拟关键指标
   const metrics = {
@@ -52,7 +53,9 @@ export function UserBehaviorDashboard() {
             <Repeat className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{Math.floor(metrics.avgSessionDuration / 60)}分钟</div>
+            <div className="text-2xl font-bold">
+              {Math.floor(metrics.avgSessionDuration / 60)}分钟
+            </div>
             <p className="text-xs text-muted-foreground">+15.2% 较上月</p>
           </CardContent>
         </Card>

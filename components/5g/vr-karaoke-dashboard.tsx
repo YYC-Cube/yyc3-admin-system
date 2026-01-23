@@ -1,12 +1,13 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Headset, Users, Zap, TrendingUp } from "lucide-react"
-import { VRRoomSelector } from "./vr-room-selector"
-import { VRViewer } from "./vr-viewer"
-import { VRControlPanel } from "./vr-control-panel"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Headset, Users, Zap, TrendingUp } from 'lucide-react'
+import { VRRoomSelector } from './vr-room-selector'
+import { VRViewer } from './vr-viewer'
+import { VRControlPanel } from './vr-control-panel'
 
 export function VRKaraokeDashboard() {
   const [stats, setStats] = useState({

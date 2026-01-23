@@ -1,8 +1,9 @@
-"use client"
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Users } from "lucide-react"
+import * as React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Users } from 'lucide-react'
 
 interface CustomerSegment {
   id: string
@@ -29,8 +30,11 @@ export function CustomerSegmentPanel({ segments }: CustomerSegmentPanelProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {segments.map((segment) => (
-            <div key={segment.id} className="flex items-center justify-between p-4 border rounded-lg">
+          {segments.map(segment => (
+            <div
+              key={segment.id}
+              className="flex items-center justify-between p-4 border rounded-lg"
+            >
               <div className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: segment.color }} />
                 <div>

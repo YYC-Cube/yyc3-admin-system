@@ -1,12 +1,13 @@
-"use client"
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { AlertTriangle, AlertCircle, Info } from "lucide-react"
+import * as React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { AlertTriangle, AlertCircle, Info } from 'lucide-react'
 
 interface EnergyAlert {
   id: string
-  type: "critical" | "warning" | "info"
+  type: 'critical' | 'warning' | 'info'
   title: string
   message: string
   timestamp: string
@@ -19,11 +20,11 @@ interface EnergyAlertsPanelProps {
 export function EnergyAlertsPanel({ alerts }: EnergyAlertsPanelProps) {
   const getIcon = (type: string) => {
     switch (type) {
-      case "critical":
+      case 'critical':
         return <AlertTriangle className="h-5 w-5 text-red-500" />
-      case "warning":
+      case 'warning':
         return <AlertCircle className="h-5 w-5 text-yellow-500" />
-      case "info":
+      case 'info':
         return <Info className="h-5 w-5 text-blue-500" />
       default:
         return null
@@ -32,14 +33,14 @@ export function EnergyAlertsPanel({ alerts }: EnergyAlertsPanelProps) {
 
   const getBadgeVariant = (type: string) => {
     switch (type) {
-      case "critical":
-        return "destructive"
-      case "warning":
-        return "default"
-      case "info":
-        return "secondary"
+      case 'critical':
+        return 'destructive'
+      case 'warning':
+        return 'default'
+      case 'info':
+        return 'secondary'
       default:
-        return "outline"
+        return 'outline'
     }
   }
 
@@ -51,14 +52,18 @@ export function EnergyAlertsPanel({ alerts }: EnergyAlertsPanelProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {alerts.map((alert) => (
+          {alerts.map(alert => (
             <div key={alert.id} className="flex items-start gap-3 p-3 border rounded-lg">
               {getIcon(alert.type)}
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between">
                   <h4 className="font-semibold">{alert.title}</h4>
                   <Badge variant={getBadgeVariant(alert.type)}>
-                    {alert.type === "critical" ? "严重" : alert.type === "warning" ? "警告" : "提示"}
+                    {alert.type === 'critical'
+                      ? '严重'
+                      : alert.type === 'warning'
+                        ? '警告'
+                        : '提示'}
                   </Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">{alert.message}</p>

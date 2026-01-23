@@ -1,19 +1,22 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { CalendarIcon, TrendingUp, TrendingDown, DollarSign } from "lucide-react"
-import { format } from "date-fns"
-import { zhCN } from "date-fns/locale"
-import { CostBreakdownChart } from "./cost-breakdown-chart"
-import { ProfitTrendChart } from "./profit-trend-chart"
-import { StoreComparisonChart } from "./store-comparison-chart"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { CalendarIcon, TrendingUp, TrendingDown, DollarSign } from 'lucide-react'
+import { format } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
+import { CostBreakdownChart } from './cost-breakdown-chart'
+import { ProfitTrendChart } from './profit-trend-chart'
+import { StoreComparisonChart } from './store-comparison-chart'
 
 export function ProfitDashboard() {
-  const [startDate, setStartDate] = useState<Date>(new Date(new Date().setDate(new Date().getDate() - 30)))
+  const [startDate, setStartDate] = useState<Date>(
+    new Date(new Date().setDate(new Date().getDate() - 30))
+  )
   const [endDate, setEndDate] = useState<Date>(new Date())
   const [loading, setLoading] = useState(false)
   const [report, setReport] = useState<any>(null)
@@ -21,11 +24,11 @@ export function ProfitDashboard() {
   const loadReport = async () => {
     setLoading(true)
     try {
-      const response = await fetch("/api/ai-ops/profit/report", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/ai-ops/profit/report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          storeId: "1", // 默认门店
+          storeId: '1', // 默认门店
           startDate: startDate.toISOString(),
           endDate: endDate.toISOString(),
         }),
@@ -36,7 +39,7 @@ export function ProfitDashboard() {
         setReport(data)
       }
     } catch (error) {
-      console.error("[v0] 加载盈亏报告失败:", error)
+      console.error('[v0] 加载盈亏报告失败:', error)
     } finally {
       setLoading(false)
     }
@@ -58,11 +61,15 @@ export function ProfitDashboard() {
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-[240px] justify-start bg-transparent">
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {format(startDate, "PPP", { locale: zhCN })}
+                {format(startDate, 'PPP', { locale: zhCN })}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
-              <Calendar mode="single" selected={startDate} onSelect={(date) => date && setStartDate(date)} />
+              <Calendar
+                mode="single"
+                selected={startDate}
+                onSelect={date => date && setStartDate(date)}
+              />
             </PopoverContent>
           </Popover>
 
@@ -72,16 +79,20 @@ export function ProfitDashboard() {
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-[240px] justify-start bg-transparent">
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {format(endDate, "PPP", { locale: zhCN })}
+                {format(endDate, 'PPP', { locale: zhCN })}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
-              <Calendar mode="single" selected={endDate} onSelect={(date) => date && setEndDate(date)} />
+              <Calendar
+                mode="single"
+                selected={endDate}
+                onSelect={date => date && setEndDate(date)}
+              />
             </PopoverContent>
           </Popover>
 
           <Button onClick={loadReport} disabled={loading}>
-            {loading ? "加载中..." : "查询"}
+            {loading ? '加载中...' : '查询'}
           </Button>
         </CardContent>
       </Card>
@@ -119,7 +130,9 @@ export function ProfitDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">¥{report.netProfit.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground mt-1">净利润率: {report.netMargin.toFixed(2)}%</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  净利润率: {report.netMargin.toFixed(2)}%
+                </p>
               </CardContent>
             </Card>
 

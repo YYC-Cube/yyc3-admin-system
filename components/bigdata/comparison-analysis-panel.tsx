@@ -1,8 +1,18 @@
-"use client"
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
-import { BarChart3 } from "lucide-react"
+import * as React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from 'recharts'
+import { BarChart3 } from 'lucide-react'
 
 interface ComparisonData {
   name: string
@@ -16,7 +26,11 @@ interface ComparisonAnalysisPanelProps {
   group2Name: string
 }
 
-export function ComparisonAnalysisPanel({ data, group1Name, group2Name }: ComparisonAnalysisPanelProps) {
+export function ComparisonAnalysisPanel({
+  data,
+  group1Name,
+  group2Name,
+}: ComparisonAnalysisPanelProps) {
   return (
     <Card>
       <CardHeader>

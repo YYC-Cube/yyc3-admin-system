@@ -10,8 +10,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 async function getDashboardData() {
   // 模拟API调用，实际应该从数据库获取
   // 使用Next.js缓存策略
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/api/dashboard`, {
-    next: { revalidate: 60 }, // 缓存60秒
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000"}/api/dashboard`, {
+    // 使用缓存策略，生产环境可以调整
+    next: { revalidate: 60 },
   })
 
   if (!res.ok) {

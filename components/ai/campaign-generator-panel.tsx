@@ -1,20 +1,32 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { Sparkles, Target, Calendar, DollarSign } from "lucide-react"
-import type { CustomerSegment, BusinessGoal, MarketingCampaign, GoalType } from "@/lib/ai/marketing-assistant"
-import { marketingAssistant } from "@/lib/ai/marketing-assistant"
+import * as React from 'react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Badge } from '@/components/ui/badge'
+import { Sparkles, Target, Calendar, DollarSign } from 'lucide-react'
+import type {
+  CustomerSegment,
+  BusinessGoal,
+  MarketingCampaign,
+  GoalType,
+} from '@/lib/ai/marketing-assistant'
+import { marketingAssistant } from '@/lib/ai/marketing-assistant'
 
 export function CampaignGeneratorPanel() {
-  const [selectedSegment, setSelectedSegment] = useState<string>("")
-  const [goalType, setGoalType] = useState<GoalType>("increase_revenue" as GoalType)
+  const [selectedSegment, setSelectedSegment] = useState<string>('')
+  const [goalType, setGoalType] = useState<GoalType>('increase_revenue' as GoalType)
   const [targetValue, setTargetValue] = useState<number>(50000)
   const [timeframe, setTimeframe] = useState<number>(30)
   const [generatedCampaign, setGeneratedCampaign] = useState<MarketingCampaign | null>(null)
@@ -23,31 +35,31 @@ export function CampaignGeneratorPanel() {
   // 模拟客户细分数据
   const segments: CustomerSegment[] = [
     {
-      id: "vip",
-      name: "VIP客户",
-      description: "高价值、高频次、近期活跃的核心客户",
+      id: 'vip',
+      name: 'VIP客户',
+      description: '高价值、高频次、近期活跃的核心客户',
       criteria: { minSpending: 5000, minVisits: 10 },
       memberCount: 342,
       avgLifetimeValue: 15000,
-      characteristics: ["高消费", "高频次", "高忠诚度"],
+      characteristics: ['高消费', '高频次', '高忠诚度'],
     },
     {
-      id: "loyal",
-      name: "忠诚客户",
-      description: "中高价值、高频次的稳定客户",
+      id: 'loyal',
+      name: '忠诚客户',
+      description: '中高价值、高频次的稳定客户',
       criteria: { minSpending: 2000, minVisits: 8 },
       memberCount: 1256,
       avgLifetimeValue: 8000,
-      characteristics: ["中高消费", "高频次", "稳定"],
+      characteristics: ['中高消费', '高频次', '稳定'],
     },
     {
-      id: "potential",
-      name: "潜力客户",
-      description: "消费能力强但频次较低的客户",
+      id: 'potential',
+      name: '潜力客户',
+      description: '消费能力强但频次较低的客户',
       criteria: { minSpending: 3000, maxVisits: 5 },
       memberCount: 892,
       avgLifetimeValue: 6000,
-      characteristics: ["高消费", "低频次", "有增长潜力"],
+      characteristics: ['高消费', '低频次', '有增长潜力'],
     },
   ]
 
@@ -58,7 +70,7 @@ export function CampaignGeneratorPanel() {
 
     // 模拟生成过程
     setTimeout(() => {
-      const segment = segments.find((s) => s.id === selectedSegment)
+      const segment = segments.find(s => s.id === selectedSegment)
       if (!segment) return
 
       const businessGoal: BusinessGoal = {
@@ -98,7 +110,7 @@ export function CampaignGeneratorPanel() {
                   <SelectValue placeholder="选择目标客户群" />
                 </SelectTrigger>
                 <SelectContent>
-                  {segments.map((segment) => (
+                  {segments.map(segment => (
                     <SelectItem key={segment.id} value={segment.id}>
                       {segment.name} ({segment.memberCount}人)
                     </SelectItem>
@@ -110,7 +122,7 @@ export function CampaignGeneratorPanel() {
             {/* 业务目标 */}
             <div className="space-y-2">
               <Label>业务目标</Label>
-              <Select value={goalType} onValueChange={(value) => setGoalType(value as GoalType)}>
+              <Select value={goalType} onValueChange={value => setGoalType(value as GoalType)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -132,7 +144,7 @@ export function CampaignGeneratorPanel() {
               <Input
                 type="number"
                 value={targetValue}
-                onChange={(e) => setTargetValue(Number(e.target.value))}
+                onChange={e => setTargetValue(Number(e.target.value))}
                 placeholder="50000"
               />
             </div>
@@ -146,13 +158,17 @@ export function CampaignGeneratorPanel() {
               <Input
                 type="number"
                 value={timeframe}
-                onChange={(e) => setTimeframe(Number(e.target.value))}
+                onChange={e => setTimeframe(Number(e.target.value))}
                 placeholder="30"
               />
             </div>
 
-            <Button onClick={handleGenerate} disabled={!selectedSegment || generating} className="w-full">
-              {generating ? "AI生成中..." : "生成营销方案"}
+            <Button
+              onClick={handleGenerate}
+              disabled={!selectedSegment || generating}
+              className="w-full"
+            >
+              {generating ? 'AI生成中...' : '生成营销方案'}
             </Button>
           </div>
         </div>
@@ -161,7 +177,11 @@ export function CampaignGeneratorPanel() {
       {/* 右侧：生成结果 */}
       <Card className="p-6">
         {generatedCampaign ? (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
             <div>
               <h3 className="text-lg font-semibold">{generatedCampaign.content.title}</h3>
               <Badge className="mt-2">{generatedCampaign.type}</Badge>
@@ -175,7 +195,9 @@ export function CampaignGeneratorPanel() {
 
               <div>
                 <Label className="text-sm text-muted-foreground">优惠内容</Label>
-                <p className="mt-1 text-lg font-semibold text-primary">{generatedCampaign.content.offer}</p>
+                <p className="mt-1 text-lg font-semibold text-primary">
+                  {generatedCampaign.content.offer}
+                </p>
               </div>
 
               <div>
@@ -196,7 +218,9 @@ export function CampaignGeneratorPanel() {
                 </div>
                 <div>
                   <Label className="text-sm text-muted-foreground">预期ROI</Label>
-                  <p className="text-xl font-bold text-green-500">{generatedCampaign.expectedROI.toFixed(1)}x</p>
+                  <p className="text-xl font-bold text-green-500">
+                    {generatedCampaign.expectedROI.toFixed(1)}x
+                  </p>
                 </div>
               </div>
 

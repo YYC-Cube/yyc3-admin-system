@@ -1,17 +1,25 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Radio, Wifi, WifiOff, Activity, MapPin, Settings } from "lucide-react"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Radio, Wifi, WifiOff, Activity, MapPin, Settings } from 'lucide-react'
 
 interface RFIDReader {
   readerId: string
-  type: "fixed" | "handheld"
+  type: 'fixed' | 'handheld'
   location: string
-  status: "online" | "offline" | "error"
+  status: 'online' | 'offline' | 'error'
   lastHeartbeat: number
   tagsRead: number
   signalStrength?: number
@@ -20,37 +28,37 @@ interface RFIDReader {
 export function RFIDReadersPanel() {
   const [readers, setReaders] = useState<RFIDReader[]>([
     {
-      readerId: "READER_001",
-      type: "fixed",
-      location: "仓库入口",
-      status: "online",
+      readerId: 'READER_001',
+      type: 'fixed',
+      location: '仓库入口',
+      status: 'online',
       lastHeartbeat: Date.now(),
       tagsRead: 1245,
       signalStrength: 95,
     },
     {
-      readerId: "READER_002",
-      type: "fixed",
-      location: "A区货架",
-      status: "online",
+      readerId: 'READER_002',
+      type: 'fixed',
+      location: 'A区货架',
+      status: 'online',
       lastHeartbeat: Date.now() - 30000,
       tagsRead: 856,
       signalStrength: 88,
     },
     {
-      readerId: "READER_003",
-      type: "fixed",
-      location: "B区货架",
-      status: "offline",
+      readerId: 'READER_003',
+      type: 'fixed',
+      location: 'B区货架',
+      status: 'offline',
       lastHeartbeat: Date.now() - 600000,
       tagsRead: 432,
       signalStrength: 0,
     },
     {
-      readerId: "READER_004",
-      type: "handheld",
-      location: "移动设备",
-      status: "online",
+      readerId: 'READER_004',
+      type: 'handheld',
+      location: '移动设备',
+      status: 'online',
       lastHeartbeat: Date.now() - 10000,
       tagsRead: 234,
       signalStrength: 92,
@@ -59,21 +67,21 @@ export function RFIDReadersPanel() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "online":
+      case 'online':
         return (
           <Badge variant="default" className="bg-green-500">
             <Wifi className="h-3 w-3 mr-1" />
             在线
           </Badge>
         )
-      case "offline":
+      case 'offline':
         return (
           <Badge variant="secondary">
             <WifiOff className="h-3 w-3 mr-1" />
             离线
           </Badge>
         )
-      case "error":
+      case 'error':
         return (
           <Badge variant="destructive">
             <Activity className="h-3 w-3 mr-1" />
@@ -86,7 +94,7 @@ export function RFIDReadersPanel() {
   }
 
   const getTypeBadge = (type: string) => {
-    return type === "fixed" ? (
+    return type === 'fixed' ? (
       <Badge variant="outline">固定式</Badge>
     ) : (
       <Badge variant="outline" className="bg-blue-50">
@@ -133,7 +141,7 @@ export function RFIDReadersPanel() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {readers.map((reader) => (
+              {readers.map(reader => (
                 <TableRow key={reader.readerId}>
                   <TableCell>
                     <div className="flex items-center gap-2">
@@ -155,28 +163,32 @@ export function RFIDReadersPanel() {
                     <span className="font-medium">{reader.tagsRead.toLocaleString()}</span>
                   </TableCell>
                   <TableCell>
-                    {reader.status === "online" ? (
+                    {reader.status === 'online' ? (
                       <div className="flex items-center gap-2">
                         <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
                           <div
                             className={`h-full ${
                               reader.signalStrength! > 80
-                                ? "bg-green-500"
+                                ? 'bg-green-500'
                                 : reader.signalStrength! > 50
-                                  ? "bg-orange-500"
-                                  : "bg-red-500"
+                                  ? 'bg-orange-500'
+                                  : 'bg-red-500'
                             }`}
                             style={{ width: `${reader.signalStrength}%` }}
                           />
                         </div>
-                        <span className="text-sm text-muted-foreground">{reader.signalStrength}%</span>
+                        <span className="text-sm text-muted-foreground">
+                          {reader.signalStrength}%
+                        </span>
                       </div>
                     ) : (
                       <span className="text-sm text-muted-foreground">-</span>
                     )}
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm text-muted-foreground">{formatLastSeen(reader.lastHeartbeat)}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {formatLastSeen(reader.lastHeartbeat)}
+                    </span>
                   </TableCell>
                 </TableRow>
               ))}

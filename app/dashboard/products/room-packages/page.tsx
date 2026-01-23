@@ -1,49 +1,62 @@
-"use client"
+'use client'
 
-import { motion } from "framer-motion"
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Plus, Edit, Trash2, Copy, Clock, DollarSign, Package } from "lucide-react"
-import { DataTable } from "@/components/dashboard/data-table"
-import { FilterBar } from "@/components/dashboard/filter-bar"
+import * as React from 'react'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Badge } from '@/components/ui/badge'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Plus, Edit, Trash2, Copy, Clock, DollarSign, Package } from 'lucide-react'
+import { DataTable } from '@/components/dashboard/data-table'
+import { FilterBar } from '@/components/dashboard/filter-bar'
 
 // 开房套餐数据
 const roomPackages = [
   {
     id: 1,
-    store: "巨嗨KTV",
-    type: "酒水套餐",
-    name: "酒水套餐",
+    store: '巨嗨KTV',
+    type: '酒水套餐',
+    name: '酒水套餐',
     duration: 1500,
-    image: "/refreshing-beer.png",
+    image: '/refreshing-beer.png',
   },
   {
     id: 2,
-    store: "巨嗨KTV",
-    type: "团购套餐",
-    name: "实惠开房套餐",
+    store: '巨嗨KTV',
+    type: '团购套餐',
+    name: '实惠开房套餐',
     duration: 1500,
-    image: "/jelly.jpg",
+    image: '/jelly.jpg',
   },
   {
     id: 3,
-    store: "巨嗨KTV",
-    type: "最低消费套餐",
-    name: "最低消费套餐",
+    store: '巨嗨KTV',
+    type: '最低消费套餐',
+    name: '最低消费套餐',
     duration: 1500,
     image: null,
   },
   {
     id: 4,
-    store: "巨嗨KTV",
-    type: "时间套餐",
-    name: "10分钟套餐",
+    store: '巨嗨KTV',
+    type: '时间套餐',
+    name: '10分钟套餐',
     duration: 1500,
     image: null,
   },
@@ -52,54 +65,58 @@ const roomPackages = [
 export default function RoomPackagesPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [filters, setFilters] = useState({
-    store: "all",
-    type: "all",
-    name: "",
+    store: 'all',
+    type: 'all',
+    name: '',
   })
 
   const columns = [
-    { key: "image", label: "图片", width: "w-20" },
-    { key: "store", label: "门店", width: "w-32" },
-    { key: "type", label: "套餐类型", width: "w-32" },
-    { key: "name", label: "套餐名称", width: "w-48" },
-    { key: "duration", label: "时长/分钟", width: "w-28" },
-    { key: "actions", label: "操作", width: "w-48" },
+    { key: 'image', label: '图片', width: 'w-20' },
+    { key: 'store', label: '门店', width: 'w-32' },
+    { key: 'type', label: '套餐类型', width: 'w-32' },
+    { key: 'name', label: '套餐名称', width: 'w-48' },
+    { key: 'duration', label: '时长/分钟', width: 'w-28' },
+    { key: 'actions', label: '操作', width: 'w-48' },
   ]
 
   const renderCell = (item: any, key: string) => {
     switch (key) {
-      case "image":
+      case 'image':
         return item.image ? (
-          <img src={item.image || "/placeholder.svg"} alt={item.name} className="h-12 w-12 rounded-lg object-cover" />
+          <img
+            src={item.image || '/placeholder.svg'}
+            alt={item.name}
+            className="h-12 w-12 rounded-lg object-cover"
+          />
         ) : (
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
             <Package className="h-6 w-6 text-muted-foreground" />
           </div>
         )
-      case "type":
+      case 'type':
         return (
           <Badge
             variant={
-              item.type === "酒水套餐"
-                ? "default"
-                : item.type === "团购套餐"
-                  ? "secondary"
-                  : item.type === "时间套餐"
-                    ? "outline"
-                    : "destructive"
+              item.type === '酒水套餐'
+                ? 'default'
+                : item.type === '团购套餐'
+                  ? 'secondary'
+                  : item.type === '时间套餐'
+                    ? 'outline'
+                    : 'destructive'
             }
           >
             {item.type}
           </Badge>
         )
-      case "duration":
+      case 'duration':
         return (
           <div className="flex items-center gap-1 text-sm">
             <Clock className="h-3 w-3 text-muted-foreground" />
             <span>{item.duration}</span>
           </div>
         )
-      case "actions":
+      case 'actions':
         return (
           <div className="flex gap-2">
             <Button variant="ghost" size="sm">
@@ -124,11 +141,17 @@ export default function RoomPackagesPage() {
   return (
     <div className="space-y-6">
       {/* 页面标题 */}
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground">开房套餐名称</h1>
-            <p className="mt-2 text-muted-foreground">设置不同类型的开房套餐，包含时间套餐、酒水套餐等</p>
+            <p className="mt-2 text-muted-foreground">
+              设置不同类型的开房套餐，包含时间套餐、酒水套餐等
+            </p>
           </div>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
@@ -204,7 +227,10 @@ export default function RoomPackagesPage() {
 
       {/* 筛选栏 */}
       <FilterBar>
-        <Select value={filters.store} onValueChange={(value) => setFilters({ ...filters, store: value })}>
+        <Select
+          value={filters.store}
+          onValueChange={value => setFilters({ ...filters, store: value })}
+        >
           <SelectTrigger className="w-40">
             <SelectValue placeholder="选择门店" />
           </SelectTrigger>
@@ -215,7 +241,10 @@ export default function RoomPackagesPage() {
           </SelectContent>
         </Select>
 
-        <Select value={filters.type} onValueChange={(value) => setFilters({ ...filters, type: value })}>
+        <Select
+          value={filters.type}
+          onValueChange={value => setFilters({ ...filters, type: value })}
+        >
           <SelectTrigger className="w-40">
             <SelectValue placeholder="套餐类型" />
           </SelectTrigger>
@@ -231,7 +260,7 @@ export default function RoomPackagesPage() {
         <Input
           placeholder="请输入套餐名称"
           value={filters.name}
-          onChange={(e) => setFilters({ ...filters, name: e.target.value })}
+          onChange={e => setFilters({ ...filters, name: e.target.value })}
           className="w-64"
         />
 
@@ -240,7 +269,11 @@ export default function RoomPackagesPage() {
 
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-3">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">套餐总数</CardTitle>
@@ -253,7 +286,11 @@ export default function RoomPackagesPage() {
           </Card>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">热门套餐</CardTitle>
@@ -266,10 +303,16 @@ export default function RoomPackagesPage() {
           </Card>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">套餐销售额</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                套餐销售额
+              </CardTitle>
               <DollarSign className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
@@ -281,7 +324,11 @@ export default function RoomPackagesPage() {
       </div>
 
       {/* 数据表格 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+      >
         <DataTable columns={columns} data={roomPackages} renderCell={renderCell} />
       </motion.div>
     </div>

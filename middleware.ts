@@ -1,46 +1,9 @@
 import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
-import { edgeCacheSystem } from "./lib/edge/cache-system"
-import { csrfProtection } from "./lib/security/csrf-protection"
 
-export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+// 暂时精简中间件逻辑，避免 Edge Runtime 与 Node.js crypto 不兼容导致接口 500/白屏。
+// 后续如需恢复 CSRF 与边缘缓存，可在确保所有依赖都兼容 Edge Runtime 后再启用。
 
-  if (pathname.startsWith("/api/")) {
-    // 生成CSRF token（GET请求）
-    if (request.method === "GET") {
-      const tokenResponse = csrfProtection.generateTokenMiddleware()(request)
-      if (tokenResponse) return tokenResponse
-    }
-
-    // 验证CSRF token（POST/PUT/DELETE/PATCH请求）
-    if (["POST", "PUT", "DELETE", "PATCH"].includes(request.method)) {
-      const validationResponse = csrfProtection.validateTokenMiddleware()(request)
-      if (validationResponse.status === 403) {
-        return validationResponse
-      }
-    }
-
-    // API路由缓存
-    const cacheKey = `api:${pathname}:${request.nextUrl.search}`
-
-    // 尝试从边缘缓存获取
-    const cached = await edgeCacheSystem.getData(cacheKey)
-    if (cached) {
-      return NextResponse.json(cached, {
-        headers: {
-          "X-Cache": "HIT",
-          "X-Cache-Time": new Date().toISOString(),
-        },
-      })
-    }
-
-    // 继续处理请求
-    const response = NextResponse.next()
-    response.headers.set("X-Cache", "MISS")
-    return response
-  }
-
+export function middleware() {
   return NextResponse.next()
 }
 

@@ -1,13 +1,20 @@
-"use client"
-import { Languages } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { useI18n } from "@/lib/hooks/use-i18n"
+'use client'
+
+import * as React from 'react'
+import { Languages } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { useI18n } from '@/lib/hooks/use-i18n'
 
 const languages = [
-  { code: "zh-CN", name: "简体中文" },
-  { code: "en-US", name: "English" },
-  { code: "ja-JP", name: "日本語" },
+  { code: 'zh-CN', name: '简体中文' },
+  { code: 'en-US', name: 'English' },
+  { code: 'ja-JP', name: '日本語' },
 ] as const
 
 export function LanguageToggle() {
@@ -22,11 +29,11 @@ export function LanguageToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {languages.map((lang) => (
+        {languages.map(lang => (
           <DropdownMenuItem
             key={lang.code}
             onClick={() => setLocale(lang.code)}
-            className={locale === lang.code ? "bg-accent" : ""}
+            className={locale === lang.code ? 'bg-accent' : ''}
           >
             {lang.name}
           </DropdownMenuItem>

@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Users, Gift, TrendingUp, UserPlus, Edit, Trash2, DollarSign } from "lucide-react"

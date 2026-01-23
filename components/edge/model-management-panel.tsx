@@ -1,11 +1,12 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Download, RefreshCw, Trash2, CheckCircle, XCircle } from "lucide-react"
-import { motion } from "framer-motion"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Download, RefreshCw, Trash2, CheckCircle, XCircle } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 interface Model {
   id: string
@@ -19,26 +20,26 @@ interface Model {
 export function ModelManagementPanel() {
   const [models] = useState<Model[]>([
     {
-      id: "product-classifier",
-      name: "商品分类模型",
-      version: "1.0.0",
-      type: "classification",
+      id: 'product-classifier',
+      name: '商品分类模型',
+      version: '1.0.0',
+      type: 'classification',
       size: 5242880,
       loaded: true,
     },
     {
-      id: "demand-predictor",
-      name: "需求预测模型",
-      version: "1.0.0",
-      type: "regression",
+      id: 'demand-predictor',
+      name: '需求预测模型',
+      version: '1.0.0',
+      type: 'regression',
       size: 2097152,
       loaded: false,
     },
     {
-      id: "recommendation-engine",
-      name: "推荐引擎模型",
-      version: "1.0.0",
-      type: "recommendation",
+      id: 'recommendation-engine',
+      name: '推荐引擎模型',
+      version: '1.0.0',
+      type: 'recommendation',
       size: 10485760,
       loaded: true,
     },
@@ -49,15 +50,15 @@ export function ModelManagementPanel() {
   }
 
   const handleLoadModel = async (modelId: string) => {
-    console.log("加载模型:", modelId)
+    console.log('加载模型:', modelId)
   }
 
   const handleUnloadModel = async (modelId: string) => {
-    console.log("卸载模型:", modelId)
+    console.log('卸载模型:', modelId)
   }
 
   const handleUpdateModel = async (modelId: string) => {
-    console.log("更新模型:", modelId)
+    console.log('更新模型:', modelId)
   }
 
   return (
@@ -86,7 +87,7 @@ export function ModelManagementPanel() {
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
                   <h3 className="font-semibold">{model.name}</h3>
-                  <Badge variant={model.loaded ? "default" : "secondary"}>
+                  <Badge variant={model.loaded ? 'default' : 'secondary'}>
                     {model.loaded ? (
                       <>
                         <CheckCircle className="h-3 w-3 mr-1" />

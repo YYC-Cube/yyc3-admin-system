@@ -1,8 +1,17 @@
-"use client"
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
-import { DollarSign } from "lucide-react"
+import * as React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  ScatterChart,
+  Scatter,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts'
+import { DollarSign } from 'lucide-react'
 
 interface ElasticityData {
   price: number
@@ -29,7 +38,7 @@ export function PriceElasticityPanel({ data, elasticity }: PriceElasticityPanelP
           <p className="text-sm text-muted-foreground">价格弹性系数</p>
           <p className="text-2xl font-bold">{elasticity.toFixed(2)}</p>
           <p className="text-sm text-muted-foreground mt-1">
-            {Math.abs(elasticity) > 1 ? "需求富有弹性" : "需求缺乏弹性"}
+            {Math.abs(elasticity) > 1 ? '需求富有弹性' : '需求缺乏弹性'}
           </p>
         </div>
 
@@ -38,7 +47,7 @@ export function PriceElasticityPanel({ data, elasticity }: PriceElasticityPanelP
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="price" name="价格" />
             <YAxis dataKey="demand" name="需求量" />
-            <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
             <Scatter data={data} fill="hsl(var(--primary))" />
           </ScatterChart>
         </ResponsiveContainer>

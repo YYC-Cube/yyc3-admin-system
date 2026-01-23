@@ -1,12 +1,13 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertTriangle, CheckCircle, XCircle } from "lucide-react"
-import { trafficPredictionSystem } from "@/lib/ai/traffic-prediction"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react'
+import { trafficPredictionSystem } from '@/lib/ai/traffic-prediction'
 
 export function AnomalyAlertPanel() {
   const [alerts, setAlerts] = useState<any[]>([])
@@ -20,7 +21,7 @@ export function AnomalyAlertPanel() {
       const anomaly = trafficPredictionSystem.detectAnomalies(realTimeTraffic, expectedTraffic)
 
       if (anomaly) {
-        setAlerts((prev) => [anomaly, ...prev.slice(0, 9)])
+        setAlerts(prev => [anomaly, ...prev.slice(0, 9)])
       }
     }, 10000)
 
@@ -29,24 +30,24 @@ export function AnomalyAlertPanel() {
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case "high":
-        return "destructive"
-      case "medium":
-        return "default"
-      case "low":
-        return "secondary"
+      case 'high':
+        return 'destructive'
+      case 'medium':
+        return 'default'
+      case 'low':
+        return 'secondary'
       default:
-        return "default"
+        return 'default'
     }
   }
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
-      case "high":
+      case 'high':
         return <XCircle className="h-4 w-4" />
-      case "medium":
+      case 'medium':
         return <AlertTriangle className="h-4 w-4" />
-      case "low":
+      case 'low':
         return <CheckCircle className="h-4 w-4" />
       default:
         return null
@@ -86,17 +87,20 @@ export function AnomalyAlertPanel() {
                         <AlertDescription className="mt-2 space-y-2">
                           <div className="grid grid-cols-2 gap-2 text-sm">
                             <div>
-                              <span className="text-muted-foreground">实际客流:</span> {alert.actualTraffic}
+                              <span className="text-muted-foreground">实际客流:</span>{' '}
+                              {alert.actualTraffic}
                             </div>
                             <div>
-                              <span className="text-muted-foreground">预期客流:</span> {alert.expectedTraffic}
+                              <span className="text-muted-foreground">预期客流:</span>{' '}
+                              {alert.expectedTraffic}
                             </div>
                             <div>
-                              <span className="text-muted-foreground">偏差:</span> {(alert.deviation * 100).toFixed(1)}%
+                              <span className="text-muted-foreground">偏差:</span>{' '}
+                              {(alert.deviation * 100).toFixed(1)}%
                             </div>
                             <div>
-                              <span className="text-muted-foreground">时间:</span>{" "}
-                              {new Date(alert.timestamp).toLocaleTimeString("zh-CN")}
+                              <span className="text-muted-foreground">时间:</span>{' '}
+                              {new Date(alert.timestamp).toLocaleTimeString('zh-CN')}
                             </div>
                           </div>
                           {alert.possibleReasons.length > 0 && (

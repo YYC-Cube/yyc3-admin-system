@@ -1,20 +1,21 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Zap, TrendingDown, AlertTriangle } from "lucide-react"
-import { EnergyConsumptionChart } from "./energy-consumption-chart"
-import { DeviceEnergyList } from "./device-energy-list"
-import { OptimizationPanel } from "./optimization-panel"
-import { EnergyAlertsPanel } from "./energy-alerts-panel"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Zap, TrendingDown, AlertTriangle } from 'lucide-react'
+import { EnergyConsumptionChart } from './energy-consumption-chart'
+import { DeviceEnergyList } from './device-energy-list'
+import { OptimizationPanel } from './optimization-panel'
+import { EnergyAlertsPanel } from './energy-alerts-panel'
 
 export function SmartEnergyDashboard() {
   const [stats, setStats] = useState({
     totalEnergy: 1250.5,
     totalCost: 750.3,
     averagePower: 15200,
-    trend: "decreasing" as const,
+    trend: 'decreasing' as const,
     trendPercent: -12.5,
     alerts: 3,
   })
@@ -42,7 +43,7 @@ export function SmartEnergyDashboard() {
           <CardContent>
             <div className="text-2xl font-bold">¥{stats.totalCost.toFixed(2)}</div>
             <p className="text-xs text-green-500 mt-1">
-              {stats.trend === "decreasing" ? "↓" : "↑"} {Math.abs(stats.trendPercent)}% vs 上月
+              {stats.trend === 'decreasing' ? '↓' : '↑'} {Math.abs(stats.trendPercent)}% vs 上月
             </p>
           </CardContent>
         </Card>

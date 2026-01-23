@@ -1,12 +1,13 @@
-"use client"
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Lightbulb, Wind, Volume2 } from "lucide-react"
+import * as React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
+import { Lightbulb, Wind, Volume2 } from 'lucide-react'
 
 interface DeviceEnergy {
   name: string
-  type: "lighting" | "ac" | "audio"
+  type: 'lighting' | 'ac' | 'audio'
   consumption: number
   percentage: number
 }
@@ -18,11 +19,11 @@ interface DeviceEnergyListProps {
 export function DeviceEnergyList({ devices }: DeviceEnergyListProps) {
   const getIcon = (type: string) => {
     switch (type) {
-      case "lighting":
+      case 'lighting':
         return <Lightbulb className="h-5 w-5" />
-      case "ac":
+      case 'ac':
         return <Wind className="h-5 w-5" />
-      case "audio":
+      case 'audio':
         return <Volume2 className="h-5 w-5" />
       default:
         return null

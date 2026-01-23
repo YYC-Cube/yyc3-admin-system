@@ -1,14 +1,15 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Video, Mic, Users, Plus } from "lucide-react"
-import { motion } from "framer-motion"
-import { realtimeVideoSystem, type VideoRoom } from "@/lib/5g/realtime-video-system"
-import { CreateRoomDialog } from "./create-room-dialog"
-import { VideoRoomView } from "./video-room-view"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Video, Mic, Users, Plus } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { realtimeVideoSystem, type VideoRoom } from '@/lib/5g/realtime-video-system'
+import { CreateRoomDialog } from './create-room-dialog'
+import { VideoRoomView } from './video-room-view'
 
 export function VideoRoomDashboard() {
   const [rooms, setRooms] = useState<VideoRoom[]>([])
@@ -20,9 +21,9 @@ export function VideoRoomDashboard() {
     loadRooms()
 
     // 监听房间事件
-    realtimeVideoSystem.on("room-created", loadRooms)
-    realtimeVideoSystem.on("room-joined", loadRooms)
-    realtimeVideoSystem.on("room-left", loadRooms)
+    realtimeVideoSystem.on('room-created', loadRooms)
+    realtimeVideoSystem.on('room-joined', loadRooms)
+    realtimeVideoSystem.on('room-left', loadRooms)
 
     return () => {
       realtimeVideoSystem.removeAllListeners()
@@ -42,12 +43,18 @@ export function VideoRoomDashboard() {
     <div className="space-y-6">
       {/* 统计卡片 */}
       <div className="grid gap-4 md:grid-cols-3">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
           <Card className="p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">活跃房间</p>
-                <p className="text-3xl font-bold mt-2">{rooms.filter((r) => r.status === "active").length}</p>
+                <p className="text-3xl font-bold mt-2">
+                  {rooms.filter(r => r.status === 'active').length}
+                </p>
               </div>
               <div className="h-12 w-12 rounded-full bg-blue-500/10 flex items-center justify-center">
                 <Video className="h-6 w-6 text-blue-500" />
@@ -56,12 +63,18 @@ export function VideoRoomDashboard() {
           </Card>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
           <Card className="p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">在线用户</p>
-                <p className="text-3xl font-bold mt-2">{rooms.reduce((sum, r) => sum + r.participants.length, 0)}</p>
+                <p className="text-3xl font-bold mt-2">
+                  {rooms.reduce((sum, r) => sum + r.participants.length, 0)}
+                </p>
               </div>
               <div className="h-12 w-12 rounded-full bg-green-500/10 flex items-center justify-center">
                 <Users className="h-6 w-6 text-green-500" />
@@ -70,7 +83,11 @@ export function VideoRoomDashboard() {
           </Card>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
           <Card className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -112,8 +129,8 @@ export function VideoRoomDashboard() {
                   <h3 className="font-semibold text-lg">{room.name}</h3>
                   <p className="text-sm text-muted-foreground">房间ID: {room.id}</p>
                 </div>
-                <Badge variant={room.status === "active" ? "default" : "secondary"}>
-                  {room.status === "active" ? "活跃" : "空闲"}
+                <Badge variant={room.status === 'active' ? 'default' : 'secondary'}>
+                  {room.status === 'active' ? '活跃' : '空闲'}
                 </Badge>
               </div>
 
@@ -148,7 +165,11 @@ export function VideoRoomDashboard() {
       </div>
 
       {/* 创建房间对话框 */}
-      <CreateRoomDialog open={showCreateDialog} onOpenChange={setShowCreateDialog} onRoomCreated={loadRooms} />
+      <CreateRoomDialog
+        open={showCreateDialog}
+        onOpenChange={setShowCreateDialog}
+        onRoomCreated={loadRooms}
+      />
     </div>
   )
 }

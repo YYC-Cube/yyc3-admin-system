@@ -1,16 +1,28 @@
-"use client"
+'use client'
 
-import type React from "react"
+import * as React from 'react'
 
-import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { realtimeVideoSystem, type RoomConfig } from "@/lib/5g/realtime-video-system"
-import { toast } from "sonner"
+import { useState } from 'react'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import { realtimeVideoSystem, type RoomConfig } from '@/lib/5g/realtime-video-system'
+import { toast } from 'sonner'
 
 interface CreateRoomDialogProps {
   open: boolean
@@ -22,10 +34,10 @@ export function CreateRoomDialog({ open, onOpenChange, onRoomCreated }: CreateRo
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState<RoomConfig>({
     roomId: `room-${Date.now()}`,
-    roomName: "",
+    roomName: '',
     maxParticipants: 10,
-    videoQuality: "high",
-    audioQuality: "high",
+    videoQuality: 'high',
+    audioQuality: 'high',
     enableRecording: false,
     enableEffects: true,
   })
@@ -34,7 +46,7 @@ export function CreateRoomDialog({ open, onOpenChange, onRoomCreated }: CreateRo
     e.preventDefault()
 
     if (!formData.roomName.trim()) {
-      toast.error("请输入房间名称")
+      toast.error('请输入房间名称')
       return
     }
 
@@ -42,23 +54,23 @@ export function CreateRoomDialog({ open, onOpenChange, onRoomCreated }: CreateRo
 
     try {
       await realtimeVideoSystem.createRoom(formData)
-      toast.success("房间创建成功")
+      toast.success('房间创建成功')
       onRoomCreated()
       onOpenChange(false)
 
       // 重置表单
       setFormData({
         roomId: `room-${Date.now()}`,
-        roomName: "",
+        roomName: '',
         maxParticipants: 10,
-        videoQuality: "high",
-        audioQuality: "high",
+        videoQuality: 'high',
+        audioQuality: 'high',
         enableRecording: false,
         enableEffects: true,
       })
     } catch (error) {
-      console.error("创建房间失败:", error)
-      toast.error("创建房间失败")
+      console.error('创建房间失败:', error)
+      toast.error('创建房间失败')
     } finally {
       setLoading(false)
     }
@@ -78,7 +90,7 @@ export function CreateRoomDialog({ open, onOpenChange, onRoomCreated }: CreateRo
               id="roomName"
               placeholder="请输入房间名称"
               value={formData.roomName}
-              onChange={(e) => setFormData({ ...formData, roomName: e.target.value })}
+              onChange={e => setFormData({ ...formData, roomName: e.target.value })}
               required
             />
           </div>
@@ -87,7 +99,9 @@ export function CreateRoomDialog({ open, onOpenChange, onRoomCreated }: CreateRo
             <Label htmlFor="maxParticipants">最大人数</Label>
             <Select
               value={formData.maxParticipants.toString()}
-              onValueChange={(value) => setFormData({ ...formData, maxParticipants: Number.parseInt(value) })}
+              onValueChange={value =>
+                setFormData({ ...formData, maxParticipants: Number.parseInt(value) })
+              }
             >
               <SelectTrigger id="maxParticipants">
                 <SelectValue />
@@ -141,7 +155,7 @@ export function CreateRoomDialog({ open, onOpenChange, onRoomCreated }: CreateRo
             <Switch
               id="enableRecording"
               checked={formData.enableRecording}
-              onCheckedChange={(checked) => setFormData({ ...formData, enableRecording: checked })}
+              onCheckedChange={checked => setFormData({ ...formData, enableRecording: checked })}
             />
           </div>
 
@@ -150,16 +164,21 @@ export function CreateRoomDialog({ open, onOpenChange, onRoomCreated }: CreateRo
             <Switch
               id="enableEffects"
               checked={formData.enableEffects}
-              onCheckedChange={(checked) => setFormData({ ...formData, enableEffects: checked })}
+              onCheckedChange={checked => setFormData({ ...formData, enableEffects: checked })}
             />
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              disabled={loading}
+            >
               取消
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? "创建中..." : "创建房间"}
+              {loading ? '创建中...' : '创建房间'}
             </Button>
           </DialogFooter>
         </form>

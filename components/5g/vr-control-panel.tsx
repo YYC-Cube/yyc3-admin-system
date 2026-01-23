@@ -1,18 +1,19 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Lightbulb, Volume2, Users, Settings } from "lucide-react"
+import * as React from 'react'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { Slider } from '@/components/ui/slider'
+import { Switch } from '@/components/ui/switch'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Lightbulb, Volume2, Users, Settings } from 'lucide-react'
 
 interface VRControlPanelProps {
   roomId: string
 }
 
-export function VRControlPanel({ roomId }: VRControlPanelProps) {
+export function VRControlPanel({ roomId: _roomId }: VRControlPanelProps) {
   const [lighting, setLighting] = useState({
     ambient: 30,
     spotlight: 80,
@@ -76,7 +77,7 @@ export function VRControlPanel({ roomId }: VRControlPanelProps) {
           <Switch
             id="color-mode"
             checked={lighting.colorMode}
-            onCheckedChange={(checked) => setLighting({ ...lighting, colorMode: checked })}
+            onCheckedChange={checked => setLighting({ ...lighting, colorMode: checked })}
           />
         </div>
 
@@ -113,7 +114,7 @@ export function VRControlPanel({ roomId }: VRControlPanelProps) {
           <Switch
             id="spatial-audio"
             checked={audio.spatialAudio}
-            onCheckedChange={(checked) => setAudio({ ...audio, spatialAudio: checked })}
+            onCheckedChange={checked => setAudio({ ...audio, spatialAudio: checked })}
           />
         </div>
 
@@ -140,7 +141,7 @@ export function VRControlPanel({ roomId }: VRControlPanelProps) {
           <Switch
             id="voice-chat"
             checked={users.voiceChat}
-            onCheckedChange={(checked) => setUsers({ ...users, voiceChat: checked })}
+            onCheckedChange={checked => setUsers({ ...users, voiceChat: checked })}
           />
         </div>
 
@@ -149,7 +150,7 @@ export function VRControlPanel({ roomId }: VRControlPanelProps) {
           <Switch
             id="hand-tracking"
             checked={users.handTracking}
-            onCheckedChange={(checked) => setUsers({ ...users, handTracking: checked })}
+            onCheckedChange={checked => setUsers({ ...users, handTracking: checked })}
           />
         </div>
 
@@ -161,7 +162,10 @@ export function VRControlPanel({ roomId }: VRControlPanelProps) {
       <TabsContent value="settings" className="space-y-4">
         <div className="space-y-2">
           <Label>渲染质量</Label>
-          <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+          <select
+            aria-label="渲染质量"
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+          >
             <option value="low">低</option>
             <option value="medium">中</option>
             <option value="high" selected>
@@ -173,7 +177,10 @@ export function VRControlPanel({ roomId }: VRControlPanelProps) {
 
         <div className="space-y-2">
           <Label>抗锯齿</Label>
-          <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+          <select
+            aria-label="抗锯齿"
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+          >
             <option value="none">关闭</option>
             <option value="fxaa">FXAA</option>
             <option value="msaa" selected>
@@ -184,7 +191,10 @@ export function VRControlPanel({ roomId }: VRControlPanelProps) {
 
         <div className="space-y-2">
           <Label>帧率限制</Label>
-          <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+          <select
+            aria-label="帧率限制"
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+          >
             <option value="60">60 FPS</option>
             <option value="90" selected>
               90 FPS

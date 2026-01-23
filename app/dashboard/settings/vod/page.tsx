@@ -1,16 +1,17 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Save, Monitor } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "sonner"
+import * as React from 'react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Save, Monitor } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Switch } from '@/components/ui/switch'
+import { Textarea } from '@/components/ui/textarea'
+import { toast } from 'sonner'
 
 // VOD在线设置页面
 export default function VODSettingsPage() {
@@ -18,39 +19,39 @@ export default function VODSettingsPage() {
     // 大厅公视配置
     hallBroadcast: {
       enabled: true,
-      channel1: "230.1.1.10",
-      channel2: "",
+      channel1: '230.1.1.10',
+      channel2: '',
     },
     // 智能灯光配置
     lighting: {
       enabled: true,
       autoControl: true,
-      comPort: "/dev/ttyS2",
-      deviceType: "6",
+      comPort: '/dev/ttyS2',
+      deviceType: '6',
     },
     // 开房播放设置
     roomPlayback: {
       enabled: true,
-      videoPath: "/vod/opening/",
+      videoPath: '/vod/opening/',
       autoPlay: true,
     },
     // 开机播放设置
     bootPlayback: {
       enabled: true,
-      videoPath: "/vod/boot/",
+      videoPath: '/vod/boot/',
       autoPlay: true,
     },
     // 包厢配置
     roomConfig: {
-      pacConfig: "",
-      roomConfig: "电影模块=开启",
-      dajianpanConfig: "",
+      pacConfig: '',
+      roomConfig: '电影模块=开启',
+      dajianpanConfig: '',
     },
   })
 
   const handleSave = () => {
     // 保存设置逻辑
-    toast.success("设置保存成功")
+    toast.success('设置保存成功')
   }
 
   return (
@@ -72,7 +73,11 @@ export default function VODSettingsPage() {
       </motion.div>
 
       {/* 设置选项卡 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
         <Tabs defaultValue="broadcast" className="space-y-4">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="broadcast">
@@ -98,7 +103,7 @@ export default function VODSettingsPage() {
                   <Switch
                     id="broadcast-enabled"
                     checked={settings.hallBroadcast.enabled}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setSettings({
                         ...settings,
                         hallBroadcast: { ...settings.hallBroadcast, enabled: checked },
@@ -111,7 +116,7 @@ export default function VODSettingsPage() {
                   <Input
                     id="channel1"
                     value={settings.hallBroadcast.channel1}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSettings({
                         ...settings,
                         hallBroadcast: { ...settings.hallBroadcast, channel1: e.target.value },
@@ -119,14 +124,16 @@ export default function VODSettingsPage() {
                     }
                     placeholder="例如: 230.1.1.10"
                   />
-                  <p className="text-sm text-muted-foreground">转播盒1的转播地址，默认为230.1.1.10</p>
+                  <p className="text-sm text-muted-foreground">
+                    转播盒1的转播地址，默认为230.1.1.10
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="channel2">转播地址2</Label>
                   <Input
                     id="channel2"
                     value={settings.hallBroadcast.channel2}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSettings({
                         ...settings,
                         hallBroadcast: { ...settings.hallBroadcast, channel2: e.target.value },
@@ -153,7 +160,7 @@ export default function VODSettingsPage() {
                   <Switch
                     id="lighting-enabled"
                     checked={settings.lighting.enabled}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setSettings({
                         ...settings,
                         lighting: { ...settings.lighting, enabled: checked },
@@ -166,7 +173,7 @@ export default function VODSettingsPage() {
                   <Switch
                     id="auto-control"
                     checked={settings.lighting.autoControl}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setSettings({
                         ...settings,
                         lighting: { ...settings.lighting, autoControl: checked },
@@ -179,7 +186,7 @@ export default function VODSettingsPage() {
                   <Input
                     id="com-port"
                     value={settings.lighting.comPort}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSettings({
                         ...settings,
                         lighting: { ...settings.lighting, comPort: e.target.value },
@@ -193,7 +200,7 @@ export default function VODSettingsPage() {
                   <Input
                     id="device-type"
                     value={settings.lighting.deviceType}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSettings({
                         ...settings,
                         lighting: { ...settings.lighting, deviceType: e.target.value },
@@ -219,7 +226,7 @@ export default function VODSettingsPage() {
                   <Switch
                     id="room-play-enabled"
                     checked={settings.roomPlayback.enabled}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setSettings({
                         ...settings,
                         roomPlayback: { ...settings.roomPlayback, enabled: checked },
@@ -232,7 +239,7 @@ export default function VODSettingsPage() {
                   <Input
                     id="room-video-path"
                     value={settings.roomPlayback.videoPath}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSettings({
                         ...settings,
                         roomPlayback: { ...settings.roomPlayback, videoPath: e.target.value },
@@ -261,7 +268,7 @@ export default function VODSettingsPage() {
                   <Switch
                     id="boot-play-enabled"
                     checked={settings.bootPlayback.enabled}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setSettings({
                         ...settings,
                         bootPlayback: { ...settings.bootPlayback, enabled: checked },
@@ -274,7 +281,7 @@ export default function VODSettingsPage() {
                   <Input
                     id="boot-video-path"
                     value={settings.bootPlayback.videoPath}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSettings({
                         ...settings,
                         bootPlayback: { ...settings.bootPlayback, videoPath: e.target.value },
@@ -300,7 +307,7 @@ export default function VODSettingsPage() {
                   <Textarea
                     id="pac-config"
                     value={settings.roomConfig.pacConfig}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSettings({
                         ...settings,
                         roomConfig: { ...settings.roomConfig, pacConfig: e.target.value },
@@ -315,7 +322,7 @@ export default function VODSettingsPage() {
                   <Textarea
                     id="room-config"
                     value={settings.roomConfig.roomConfig}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSettings({
                         ...settings,
                         roomConfig: { ...settings.roomConfig, roomConfig: e.target.value },
@@ -330,7 +337,7 @@ export default function VODSettingsPage() {
                   <Textarea
                     id="dajianpan-config"
                     value={settings.roomConfig.dajianpanConfig}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSettings({
                         ...settings,
                         roomConfig: { ...settings.roomConfig, dajianpanConfig: e.target.value },

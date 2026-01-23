@@ -1,12 +1,13 @@
 // 权限守卫组件
 
-"use client"
+'use client'
 
-import type { ReactNode } from "react"
-import { useAuthStore } from "@/lib/store/auth-store"
-import type { Permission } from "@/lib/types"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertCircle } from "lucide-react"
+import * as React from 'react'
+import type { ReactNode } from 'react'
+import { useAuthStore } from '@/lib/store/auth-store'
+import type { Permission } from '@/lib/types'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { AlertCircle } from 'lucide-react'
 
 interface PermissionGuardProps {
   children: ReactNode

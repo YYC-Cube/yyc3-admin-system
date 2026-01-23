@@ -1,22 +1,39 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Slider } from "@/components/ui/slider"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Lightbulb, Wind, Volume2, Settings, Music, Sun, Moon, Heart, PartyPopper } from "lucide-react"
-import { LightingMode, ACMode, SceneMode } from "@/lib/iot/smart-room-control"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Slider } from '@/components/ui/slider'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  Lightbulb,
+  Wind,
+  Volume2,
+  Settings,
+  Music,
+  Sun,
+  Moon,
+  Heart,
+  PartyPopper,
+} from 'lucide-react'
+import { LightingMode, ACMode, SceneMode } from '@/lib/iot/smart-room-control'
 
 interface Room {
   id: string
   name: string
   floor: number
   capacity: number
-  status: "available" | "occupied" | "maintenance"
+  status: 'available' | 'occupied' | 'maintenance'
 }
 
 interface RoomControlCardProps {
@@ -38,25 +55,25 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
   const [isControlling, setIsControlling] = useState(false)
 
   const statusColors = {
-    available: "bg-green-500",
-    occupied: "bg-blue-500",
-    maintenance: "bg-yellow-500",
+    available: 'bg-green-500',
+    occupied: 'bg-blue-500',
+    maintenance: 'bg-yellow-500',
   }
 
   const statusLabels = {
-    available: "空闲",
-    occupied: "使用中",
-    maintenance: "维护中",
+    available: '空闲',
+    occupied: '使用中',
+    maintenance: '维护中',
   }
 
   const handleLightingChange = async (mode: LightingMode, brightness: number) => {
     setIsControlling(true)
     try {
       const response = await fetch(`/api/iot/rooms/${room.id}/control`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: "lighting",
+          action: 'lighting',
           mode,
           brightness,
         }),
@@ -65,7 +82,7 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
         setLighting({ mode, brightness })
       }
     } catch (error) {
-      console.error("Failed to control lighting:", error)
+      console.error('Failed to control lighting:', error)
     } finally {
       setIsControlling(false)
     }
@@ -75,10 +92,10 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
     setIsControlling(true)
     try {
       const response = await fetch(`/api/iot/rooms/${room.id}/control`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: "ac",
+          action: 'ac',
           temperature,
           mode,
         }),
@@ -87,7 +104,7 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
         setAc({ temperature, mode })
       }
     } catch (error) {
-      console.error("Failed to control AC:", error)
+      console.error('Failed to control AC:', error)
     } finally {
       setIsControlling(false)
     }
@@ -97,10 +114,10 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
     setIsControlling(true)
     try {
       const response = await fetch(`/api/iot/rooms/${room.id}/control`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: "audio",
+          action: 'audio',
           volume,
           equalizer: { bass: 0, mid: 0, treble: 0 },
         }),
@@ -109,7 +126,7 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
         setAudio({ volume })
       }
     } catch (error) {
-      console.error("Failed to control audio:", error)
+      console.error('Failed to control audio:', error)
     } finally {
       setIsControlling(false)
     }
@@ -119,10 +136,10 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
     setIsControlling(true)
     try {
       const response = await fetch(`/api/iot/rooms/${room.id}/control`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: "scene",
+          action: 'scene',
           scene,
         }),
       })
@@ -130,7 +147,7 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
         // 场景模式会自动设置所有设备
       }
     } catch (error) {
-      console.error("Failed to set scene:", error)
+      console.error('Failed to set scene:', error)
     } finally {
       setIsControlling(false)
     }
@@ -181,20 +198,20 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
                 onValueChange={([value]) => handleLightingChange(lighting.mode, value)}
                 max={100}
                 step={1}
-                disabled={isControlling || room.status === "maintenance"}
+                disabled={isControlling || room.status === 'maintenance'}
               />
               <div className="flex gap-2">
                 {[
-                  { mode: LightingMode.BRIGHT, label: "明亮" },
-                  { mode: LightingMode.DIM, label: "昏暗" },
-                  { mode: LightingMode.PARTY, label: "派对" },
+                  { mode: LightingMode.BRIGHT, label: '明亮' },
+                  { mode: LightingMode.DIM, label: '昏暗' },
+                  { mode: LightingMode.PARTY, label: '派对' },
                 ].map(({ mode, label }) => (
                   <Button
                     key={mode}
                     size="sm"
-                    variant={lighting.mode === mode ? "default" : "outline"}
+                    variant={lighting.mode === mode ? 'default' : 'outline'}
                     onClick={() => handleLightingChange(mode, lighting.brightness)}
-                    disabled={isControlling || room.status === "maintenance"}
+                    disabled={isControlling || room.status === 'maintenance'}
                   >
                     {label}
                   </Button>
@@ -217,12 +234,12 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
                 min={16}
                 max={30}
                 step={1}
-                disabled={isControlling || room.status === "maintenance"}
+                disabled={isControlling || room.status === 'maintenance'}
               />
               <Select
                 value={ac.mode}
-                onValueChange={(value) => handleAcChange(ac.temperature, value as ACMode)}
-                disabled={isControlling || room.status === "maintenance"}
+                onValueChange={value => handleAcChange(ac.temperature, value as ACMode)}
+                disabled={isControlling || room.status === 'maintenance'}
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -250,7 +267,7 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
                 onValueChange={([value]) => handleAudioChange(value)}
                 max={100}
                 step={1}
-                disabled={isControlling || room.status === "maintenance"}
+                disabled={isControlling || room.status === 'maintenance'}
               />
             </div>
           </TabsContent>
@@ -258,12 +275,12 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
           <TabsContent value="scenes" className="space-y-2 mt-4">
             <div className="grid grid-cols-2 gap-2">
               {[
-                { scene: SceneMode.WELCOME, label: "欢迎", desc: "明亮舒适" },
-                { scene: SceneMode.KARAOKE, label: "K歌", desc: "动感氛围" },
-                { scene: SceneMode.MOVIE, label: "电影", desc: "昏暗安静" },
-                { scene: SceneMode.PARTY, label: "派对", desc: "热烈欢快" },
-                { scene: SceneMode.RELAX, label: "放松", desc: "温馨浪漫" },
-                { scene: SceneMode.GOODBYE, label: "告别", desc: "明亮整洁" },
+                { scene: SceneMode.WELCOME, label: '欢迎', desc: '明亮舒适' },
+                { scene: SceneMode.KARAOKE, label: 'K歌', desc: '动感氛围' },
+                { scene: SceneMode.MOVIE, label: '电影', desc: '昏暗安静' },
+                { scene: SceneMode.PARTY, label: '派对', desc: '热烈欢快' },
+                { scene: SceneMode.RELAX, label: '放松', desc: '温馨浪漫' },
+                { scene: SceneMode.GOODBYE, label: '告别', desc: '明亮整洁' },
               ].map(({ scene, label, desc }) => {
                 const Icon = sceneIcons[scene]
                 return (
@@ -272,7 +289,7 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
                     variant="outline"
                     className="h-auto flex-col items-start p-3 bg-transparent"
                     onClick={() => handleSceneChange(scene)}
-                    disabled={isControlling || room.status === "maintenance"}
+                    disabled={isControlling || room.status === 'maintenance'}
                   >
                     <div className="flex items-center gap-2 mb-1">
                       <Icon className="h-4 w-4" />
@@ -286,7 +303,7 @@ export function RoomControlCard({ room }: RoomControlCardProps) {
           </TabsContent>
         </Tabs>
 
-        {room.status === "maintenance" && (
+        {room.status === 'maintenance' && (
           <div className="flex items-center gap-2 text-sm text-yellow-600 bg-yellow-50 p-2 rounded">
             <Settings className="h-4 w-4" />
             <span>房间维护中，设备控制已禁用</span>

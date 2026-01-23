@@ -1,12 +1,20 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Plus, Search, Edit, Trash2, Music } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import * as React from 'react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Plus, Search, Edit, Trash2, Music } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import {
   Dialog,
   DialogContent,
@@ -14,39 +22,45 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { toast } from "sonner"
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Badge } from '@/components/ui/badge'
+import { toast } from 'sonner'
 
 // 轮播歌曲设置页面
 export default function CarouselSongsPage() {
   const [carousels, setCarousels] = useState([
     {
-      id: "1",
-      storeId: "store_1",
-      storeName: "巨嗨KTV",
-      roomIds: ["all"],
-      roomNames: "全部包厢",
-      type: "custom",
-      typeName: "自定义曲目",
+      id: '1',
+      storeId: 'store_1',
+      storeName: '巨嗨KTV',
+      roomIds: ['all'],
+      roomNames: '全部包厢',
+      type: 'custom',
+      typeName: '自定义曲目',
       songCount: 40,
-      updatedAt: "2025-01-15 10:30:00",
+      updatedAt: '2025-01-15 10:30:00',
       songs: [
-        { id: "s1", name: "告白气球", artist: "周杰伦", version: "原人原唱" },
-        { id: "s2", name: "晴天", artist: "周杰伦", version: "原人原唱" },
+        { id: 's1', name: '告白气球', artist: '周杰伦', version: '原人原唱' },
+        { id: 's2', name: '晴天', artist: '周杰伦', version: '原人原唱' },
       ],
     },
   ])
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingCarousel, setEditingCarousel] = useState<any>(null)
 
   const filteredCarousels = carousels.filter(
-    (carousel) =>
+    carousel =>
       carousel.storeName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      carousel.typeName.toLowerCase().includes(searchTerm.toLowerCase()),
+      carousel.typeName.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const handleAdd = () => {
@@ -60,15 +74,15 @@ export default function CarouselSongsPage() {
   }
 
   const handleDelete = (id: string) => {
-    setCarousels(carousels.filter((c) => c.id !== id))
-    toast.success("删除成功")
+    setCarousels(carousels.filter(c => c.id !== id))
+    toast.success('删除成功')
   }
 
   const getTypeBadge = (type: string) => {
     const typeMap: Record<string, { label: string; variant: any }> = {
-      hd: { label: "高清歌曲", variant: "default" },
-      ranking: { label: "排行歌曲", variant: "secondary" },
-      custom: { label: "自定义曲目", variant: "outline" },
+      hd: { label: '高清歌曲', variant: 'default' },
+      ranking: { label: '排行歌曲', variant: 'secondary' },
+      custom: { label: '自定义曲目', variant: 'outline' },
     }
     const config = typeMap[type] || typeMap.custom
     return <Badge variant={config.variant}>{config.label}</Badge>
@@ -93,7 +107,11 @@ export default function CarouselSongsPage() {
       </motion.div>
 
       {/* 提示信息 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
         <Card className="border-blue-200 bg-blue-50">
           <CardContent className="pt-6">
             <div className="flex items-start gap-3">
@@ -110,7 +128,11 @@ export default function CarouselSongsPage() {
       </motion.div>
 
       {/* 搜索栏 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
         <Card>
           <CardContent className="pt-6">
             <div className="relative">
@@ -118,7 +140,7 @@ export default function CarouselSongsPage() {
               <Input
                 placeholder="搜索门店、轮播类型..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="pl-9"
               />
             </div>
@@ -127,7 +149,11 @@ export default function CarouselSongsPage() {
       </motion.div>
 
       {/* 轮播设置列表 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
         <Card>
           <CardHeader>
             <CardTitle>轮播设置列表 ({filteredCarousels.length})</CardTitle>
@@ -145,7 +171,7 @@ export default function CarouselSongsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredCarousels.map((carousel) => (
+                {filteredCarousels.map(carousel => (
                   <TableRow key={carousel.id}>
                     <TableCell className="font-medium">{carousel.storeName}</TableCell>
                     <TableCell>{carousel.roomNames}</TableCell>
@@ -174,7 +200,7 @@ export default function CarouselSongsPage() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>{editingCarousel ? "编辑轮播设置" : "新增轮播设置"}</DialogTitle>
+            <DialogTitle>{editingCarousel ? '编辑轮播设置' : '新增轮播设置'}</DialogTitle>
             <DialogDescription>配置包厢的轮播歌曲设置</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -234,7 +260,7 @@ export default function CarouselSongsPage() {
             </Button>
             <Button
               onClick={() => {
-                toast.success(editingCarousel ? "修改成功" : "添加成功")
+                toast.success(editingCarousel ? '修改成功' : '添加成功')
                 setIsDialogOpen(false)
               }}
             >

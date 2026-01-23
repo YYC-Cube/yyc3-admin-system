@@ -1,10 +1,11 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Plus, Users, Clock } from "lucide-react"
+import * as React from 'react'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Plus, Users, Clock } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -12,19 +13,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 interface VRRoom {
   id: string
   name: string
-  type: "luxury" | "standard" | "party" | "romantic" | "theme"
+  type: 'luxury' | 'standard' | 'party' | 'romantic' | 'theme'
   users: number
   capacity: number
   duration: number
-  status: "active" | "idle"
+  status: 'active' | 'idle'
 }
 
 interface VRRoomSelectorProps {
@@ -34,39 +41,39 @@ interface VRRoomSelectorProps {
 export function VRRoomSelector({ onRoomSelect }: VRRoomSelectorProps) {
   const [rooms, setRooms] = useState<VRRoom[]>([
     {
-      id: "vr-1",
-      name: "豪华包厢A",
-      type: "luxury",
+      id: 'vr-1',
+      name: '豪华包厢A',
+      type: 'luxury',
       users: 4,
       capacity: 8,
       duration: 45,
-      status: "active",
+      status: 'active',
     },
     {
-      id: "vr-2",
-      name: "标准包厢B",
-      type: "standard",
+      id: 'vr-2',
+      name: '标准包厢B',
+      type: 'standard',
       users: 2,
       capacity: 6,
       duration: 30,
-      status: "active",
+      status: 'active',
     },
     {
-      id: "vr-3",
-      name: "派对包厢C",
-      type: "party",
+      id: 'vr-3',
+      name: '派对包厢C',
+      type: 'party',
       users: 0,
       capacity: 12,
       duration: 0,
-      status: "idle",
+      status: 'idle',
     },
   ])
 
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null)
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [newRoom, setNewRoom] = useState({
-    name: "",
-    type: "standard" as VRRoom["type"],
+    name: '',
+    type: 'standard' as VRRoom['type'],
     capacity: 6,
   })
 
@@ -83,32 +90,32 @@ export function VRRoomSelector({ onRoomSelect }: VRRoomSelectorProps) {
       users: 0,
       capacity: newRoom.capacity,
       duration: 0,
-      status: "idle",
+      status: 'idle',
     }
 
     setRooms([...rooms, room])
     setIsCreateDialogOpen(false)
-    setNewRoom({ name: "", type: "standard", capacity: 6 })
+    setNewRoom({ name: '', type: 'standard', capacity: 6 })
   }
 
-  const getRoomTypeLabel = (type: VRRoom["type"]) => {
+  const getRoomTypeLabel = (type: VRRoom['type']) => {
     const labels = {
-      luxury: "豪华",
-      standard: "标准",
-      party: "派对",
-      romantic: "浪漫",
-      theme: "主题",
+      luxury: '豪华',
+      standard: '标准',
+      party: '派对',
+      romantic: '浪漫',
+      theme: '主题',
     }
     return labels[type]
   }
 
-  const getRoomTypeColor = (type: VRRoom["type"]) => {
+  const getRoomTypeColor = (type: VRRoom['type']) => {
     const colors = {
-      luxury: "bg-yellow-500",
-      standard: "bg-blue-500",
-      party: "bg-purple-500",
-      romantic: "bg-pink-500",
-      theme: "bg-green-500",
+      luxury: 'bg-yellow-500',
+      standard: 'bg-blue-500',
+      party: 'bg-purple-500',
+      romantic: 'bg-pink-500',
+      theme: 'bg-green-500',
     }
     return colors[type]
   }
@@ -136,14 +143,14 @@ export function VRRoomSelector({ onRoomSelect }: VRRoomSelectorProps) {
                   id="room-name"
                   placeholder="输入包厢名称"
                   value={newRoom.name}
-                  onChange={(e) => setNewRoom({ ...newRoom, name: e.target.value })}
+                  onChange={e => setNewRoom({ ...newRoom, name: e.target.value })}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="room-type">包厢类型</Label>
                 <Select
                   value={newRoom.type}
-                  onValueChange={(value: VRRoom["type"]) => setNewRoom({ ...newRoom, type: value })}
+                  onValueChange={(value: VRRoom['type']) => setNewRoom({ ...newRoom, type: value })}
                 >
                   <SelectTrigger id="room-type">
                     <SelectValue />
@@ -165,7 +172,9 @@ export function VRRoomSelector({ onRoomSelect }: VRRoomSelectorProps) {
                   min="2"
                   max="20"
                   value={newRoom.capacity}
-                  onChange={(e) => setNewRoom({ ...newRoom, capacity: Number.parseInt(e.target.value) })}
+                  onChange={e =>
+                    setNewRoom({ ...newRoom, capacity: Number.parseInt(e.target.value) })
+                  }
                 />
               </div>
             </div>
@@ -182,11 +191,11 @@ export function VRRoomSelector({ onRoomSelect }: VRRoomSelectorProps) {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {rooms.map((room) => (
+        {rooms.map(room => (
           <Card
             key={room.id}
             className={`p-4 cursor-pointer transition-all hover:shadow-lg ${
-              selectedRoom === room.id ? "ring-2 ring-primary" : ""
+              selectedRoom === room.id ? 'ring-2 ring-primary' : ''
             }`}
             onClick={() => handleRoomClick(room.id)}
           >
@@ -198,7 +207,9 @@ export function VRRoomSelector({ onRoomSelect }: VRRoomSelectorProps) {
                     {getRoomTypeLabel(room.type)}
                   </Badge>
                 </div>
-                <div className={`w-3 h-3 rounded-full ${room.status === "active" ? "bg-green-500" : "bg-gray-400"}`} />
+                <div
+                  className={`w-3 h-3 rounded-full ${room.status === 'active' ? 'bg-green-500' : 'bg-gray-400'}`}
+                />
               </div>
 
               <div className="flex items-center gap-4 text-sm text-muted-foreground">

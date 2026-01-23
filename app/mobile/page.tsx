@@ -1,13 +1,25 @@
 // 移动端首页
 
-"use client"
+'use client'
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Search, ShoppingCart, User, Home, Package, BarChart3, Settings, Bell, Menu, X } from "lucide-react"
+import * as React from 'react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import {
+  Search,
+  ShoppingCart,
+  User,
+  Home,
+  Package,
+  BarChart3,
+  Settings,
+  Bell,
+  Menu,
+  X,
+} from 'lucide-react'
 
 export default function MobilePage() {
   const [showMenu, setShowMenu] = useState(false)
@@ -58,12 +70,12 @@ export default function MobilePage() {
 
             <nav className="space-y-2">
               {[
-                { icon: Home, label: "首页" },
-                { icon: Package, label: "商品管理" },
-                { icon: ShoppingCart, label: "订单管理" },
-                { icon: User, label: "会员管理" },
-                { icon: BarChart3, label: "数据分析" },
-                { icon: Settings, label: "系统设置" },
+                { icon: Home, label: '首页' },
+                { icon: Package, label: '商品管理' },
+                { icon: ShoppingCart, label: '订单管理' },
+                { icon: User, label: '会员管理' },
+                { icon: BarChart3, label: '数据分析' },
+                { icon: Settings, label: '系统设置' },
               ].map((item, index) => (
                 <Button key={index} variant="ghost" className="w-full justify-start">
                   <item.icon className="mr-2 h-4 w-4" />
@@ -80,10 +92,10 @@ export default function MobilePage() {
         {/* 统计卡片 */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           {[
-            { label: "今日销售", value: "¥12,580", change: "+12.5%" },
-            { label: "今日订单", value: "156", change: "+8.3%" },
-            { label: "活跃会员", value: "1,234", change: "+5.2%" },
-            { label: "库存预警", value: "23", change: "-15.6%" },
+            { label: '今日销售', value: '¥12,580', change: '+12.5%' },
+            { label: '今日订单', value: '156', change: '+8.3%' },
+            { label: '活跃会员', value: '1,234', change: '+5.2%' },
+            { label: '库存预警', value: '23', change: '-15.6%' },
           ].map((stat, index) => (
             <motion.div
               key={index}
@@ -105,10 +117,10 @@ export default function MobilePage() {
           <h2 className="font-semibold mb-4">快捷操作</h2>
           <div className="grid grid-cols-4 gap-4">
             {[
-              { icon: "📦", label: "新增商品" },
-              { icon: "🛒", label: "创建订单" },
-              { icon: "👥", label: "会员管理" },
-              { icon: "📊", label: "查看报表" },
+              { icon: '📦', label: '新增商品' },
+              { icon: '🛒', label: '创建订单' },
+              { icon: '👥', label: '会员管理' },
+              { icon: '📊', label: '查看报表' },
             ].map((action, index) => (
               <button key={index} className="flex flex-col items-center gap-2">
                 <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center text-2xl">
@@ -125,7 +137,10 @@ export default function MobilePage() {
           <h2 className="font-semibold mb-4">最近订单</h2>
           <div className="space-y-3">
             {[1, 2, 3].map((_, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+              <div
+                key={index}
+                className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
+              >
                 <div>
                   <div className="font-medium">订单 #12345{index}</div>
                   <div className="text-sm text-muted-foreground">包厢 A101</div>
@@ -144,10 +159,10 @@ export default function MobilePage() {
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t">
         <div className="grid grid-cols-4 gap-1 p-2">
           {[
-            { icon: Home, label: "首页" },
-            { icon: Package, label: "商品" },
-            { icon: BarChart3, label: "报表" },
-            { icon: User, label: "我的" },
+            { icon: Home, label: '首页' },
+            { icon: Package, label: '商品' },
+            { icon: BarChart3, label: '报表' },
+            { icon: User, label: '我的' },
           ].map((item, index) => (
             <Button key={index} variant="ghost" className="flex-col h-auto py-2">
               <item.icon className="h-5 w-5 mb-1" />

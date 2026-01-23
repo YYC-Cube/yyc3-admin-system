@@ -1,20 +1,27 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
-import { Slider } from "@/components/ui/slider"
-import { dynamicPricingEngine } from "@/lib/ai/dynamic-pricing"
-import { Loader2 } from "lucide-react"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+import { Slider } from '@/components/ui/slider'
+import { dynamicPricingEngine } from '@/lib/ai/dynamic-pricing'
+import { Loader2 } from 'lucide-react'
 
 export function PriceOptimizationPanel() {
-  const [roomType, setRoomType] = useState<"small" | "medium" | "large" | "vip">("medium")
+  const [roomType, setRoomType] = useState<'small' | 'medium' | 'large' | 'vip'>('medium')
   const [demandLevel, setDemandLevel] = useState([0.6])
-  const [minPrice, setMinPrice] = useState("50")
-  const [maxPrice, setMaxPrice] = useState("500")
+  const [minPrice, setMinPrice] = useState('50')
+  const [maxPrice, setMaxPrice] = useState('500')
   const [optimizing, setOptimizing] = useState(false)
   const [result, setResult] = useState<any>(null)
 
@@ -22,8 +29,8 @@ export function PriceOptimizationPanel() {
     setOptimizing(true)
     try {
       const timeSlot = {
-        startTime: "18:00",
-        endTime: "22:00",
+        startTime: '18:00',
+        endTime: '22:00',
         dayOfWeek: new Date().getDay(),
       }
 
@@ -39,7 +46,7 @@ export function PriceOptimizationPanel() {
 
       setResult(optimalPrice)
     } catch (error) {
-      console.error("[v0] 价格优化失败:", error)
+      console.error('[v0] 价格优化失败:', error)
     } finally {
       setOptimizing(false)
     }
@@ -76,11 +83,11 @@ export function PriceOptimizationPanel() {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>最低价格</Label>
-              <Input type="number" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} />
+              <Input type="number" value={minPrice} onChange={e => setMinPrice(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label>最高价格</Label>
-              <Input type="number" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} />
+              <Input type="number" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} />
             </div>
           </div>
 
@@ -107,7 +114,9 @@ export function PriceOptimizationPanel() {
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">预期入住率</span>
-                  <span className="font-medium">{(result.expectedOccupancy * 100).toFixed(1)}%</span>
+                  <span className="font-medium">
+                    {(result.expectedOccupancy * 100).toFixed(1)}%
+                  </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">预期收益</span>

@@ -1,9 +1,10 @@
-"use client"
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { AlertTriangle, Users } from "lucide-react"
+import * as React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Progress } from '@/components/ui/progress'
+import { AlertTriangle, Users } from 'lucide-react'
 
 interface ChurnCustomer {
   id: string
@@ -29,7 +30,7 @@ export function ChurnPredictionPanel({ customers }: ChurnPredictionPanelProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {customers.map((customer) => (
+          {customers.map(customer => (
             <div key={customer.id} className="p-4 border rounded-lg space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">

@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 // 移动端仪表盘页面
 import { useEffect, useState } from "react"
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl } from "react-native"

@@ -1,9 +1,16 @@
-"use client"
+'use client'
 
-import type React from "react"
+import * as React from 'react'
 
-import { motion } from "framer-motion"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { motion } from 'framer-motion'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 
 interface Column {
   key: string
@@ -24,7 +31,7 @@ export function DataTable({ columns, data, actions, onRowClick }: DataTableProps
       <Table>
         <TableHeader>
           <TableRow>
-            {columns.map((column) => (
+            {columns.map(column => (
               <TableHead key={column.key}>{column.label}</TableHead>
             ))}
             {actions && <TableHead className="w-[80px]">操作</TableHead>}
@@ -50,12 +57,14 @@ export function DataTable({ columns, data, actions, onRowClick }: DataTableProps
                 className="group cursor-pointer hover:bg-muted/50"
                 onClick={() => onRowClick?.(row)}
               >
-                {columns.map((column) => (
+                {columns.map(column => (
                   <TableCell key={column.key}>
                     {column.render ? column.render(row[column.key], row) : row[column.key]}
                   </TableCell>
                 ))}
-                {actions && <TableCell onClick={(e) => e.stopPropagation()}>{actions(row)}</TableCell>}
+                {actions && (
+                  <TableCell onClick={e => e.stopPropagation()}>{actions(row)}</TableCell>
+                )}
               </motion.tr>
             ))
           )}

@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import type React from "react"
+import * as React from 'react'
 
-import { useRef, useState } from "react"
+import { useRef, useState } from 'react'
 
 interface TouchGesturesProps {
   onSwipeLeft?: () => void
@@ -41,7 +41,7 @@ export function TouchGestures({
     } else if (e.touches.length === 2 && onPinch) {
       const distance = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY,
+        e.touches[0].clientY - e.touches[1].clientY
       )
       setInitialDistance(distance)
     }
@@ -51,7 +51,7 @@ export function TouchGestures({
     if (e.touches.length === 2 && onPinch && initialDistance) {
       const distance = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY,
+        e.touches[0].clientY - e.touches[1].clientY
       )
       const scale = distance / initialDistance
       onPinch(scale)
@@ -88,7 +88,13 @@ export function TouchGestures({
   }
 
   return (
-    <div ref={ref} className={className} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+    <div
+      ref={ref}
+      className={className}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       {children}
     </div>
   )

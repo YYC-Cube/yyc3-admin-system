@@ -1,10 +1,15 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { TrendingUp, TrendingDown, DollarSign } from "lucide-react"
-import { dynamicPricingEngine, type OptimalPrice, type DemandForecast } from "@/lib/ai/dynamic-pricing"
+import * as React from 'react'
+import { useEffect, useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { TrendingUp, TrendingDown, DollarSign } from 'lucide-react'
+import {
+  dynamicPricingEngine,
+  type OptimalPrice,
+  type DemandForecast,
+} from '@/lib/ai/dynamic-pricing'
 
 export function DynamicPricingDashboard() {
   const [priceRecommendations, setPriceRecommendations] = useState<OptimalPrice[]>([])
@@ -17,17 +22,26 @@ export function DynamicPricingDashboard() {
   async function loadPriceRecommendations() {
     try {
       const timeSlot = {
-        startTime: "18:00",
-        endTime: "22:00",
+        startTime: '18:00',
+        endTime: '22:00',
         dayOfWeek: new Date().getDay(),
       }
 
-      const roomTypes: Array<"small" | "medium" | "large" | "vip"> = ["small", "medium", "large", "vip"]
+      const roomTypes: Array<'small' | 'medium' | 'large' | 'vip'> = [
+        'small',
+        'medium',
+        'large',
+        'vip',
+      ]
       const recommendations: OptimalPrice[] = []
 
       for (const roomType of roomTypes) {
         // 预测需求
-        const demand: DemandForecast = await dynamicPricingEngine.predictDemand(timeSlot, roomType, [])
+        const demand: DemandForecast = await dynamicPricingEngine.predictDemand(
+          timeSlot,
+          roomType,
+          []
+        )
 
         // 优化价格
         const optimalPrice = await dynamicPricingEngine.optimizePrice(
@@ -38,7 +52,7 @@ export function DynamicPricingDashboard() {
             maxPrice: 500,
             minMargin: 0.3,
             maxDiscount: 0.3,
-          },
+          }
         )
 
         recommendations.push(optimalPrice)
@@ -46,7 +60,7 @@ export function DynamicPricingDashboard() {
 
       setPriceRecommendations(recommendations)
     } catch (error) {
-      console.error("[v0] 加载价格推荐失败:", error)
+      console.error('[v0] 加载价格推荐失败:', error)
     } finally {
       setLoading(false)
     }
@@ -58,13 +72,13 @@ export function DynamicPricingDashboard() {
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-      {priceRecommendations.map((rec) => (
+      {priceRecommendations.map(rec => (
         <Card key={rec.roomType}>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium flex items-center justify-between">
               <span>{getRoomTypeName(rec.roomType)}</span>
-              <Badge variant={rec.expectedOccupancy > 0.7 ? "default" : "secondary"}>
-                {rec.expectedOccupancy > 0.7 ? "高需求" : "正常"}
+              <Badge variant={rec.expectedOccupancy > 0.7 ? 'default' : 'secondary'}>
+                {rec.expectedOccupancy > 0.7 ? '高需求' : '正常'}
               </Badge>
             </CardTitle>
             <CardDescription className="text-xs">{rec.reasoning}</CardDescription>
@@ -105,10 +119,10 @@ export function DynamicPricingDashboard() {
 
 function getRoomTypeName(type: string): string {
   const names: Record<string, string> = {
-    small: "小包厢",
-    medium: "中包厢",
-    large: "大包厢",
-    vip: "VIP包厢",
+    small: '小包厢',
+    medium: '中包厢',
+    large: '大包厢',
+    vip: 'VIP包厢',
   }
   return names[type] || type
 }

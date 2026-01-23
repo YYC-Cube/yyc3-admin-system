@@ -1,9 +1,10 @@
-"use client"
+'use client'
 
-import { motion } from "framer-motion"
-import { Menu, Search, User } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import * as React from 'react'
+import { motion } from 'framer-motion'
+import { Menu, Search, User } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,8 +12,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { NotificationCenter } from "@/components/notifications/notification-center"
+} from '@/components/ui/dropdown-menu'
+import { NotificationCenter } from '@/components/notifications/notification-center'
 
 interface HeaderProps {
   onMenuClick: () => void
@@ -35,7 +36,11 @@ export function Header({ onMenuClick }: HeaderProps) {
 
         <div className="relative hidden md:block">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input type="search" placeholder="搜索功能、订单、商品..." className="w-64 pl-9 lg:w-96" />
+          <Input
+            type="search"
+            placeholder="搜索功能、订单、商品..."
+            className="w-64 pl-9 lg:w-96"
+          />
         </div>
       </div>
 

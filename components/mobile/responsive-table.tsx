@@ -1,9 +1,16 @@
-"use client"
+'use client'
 
-import type React from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Card, CardContent } from "@/components/ui/card"
-import { useMobile } from "@/hooks/use-mobile"
+import * as React from 'react'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Card, CardContent } from '@/components/ui/card'
+import { useMobile } from '@/hooks/use-mobile'
 
 interface Column {
   key: string
@@ -17,16 +24,16 @@ interface ResponsiveTableProps {
   keyField?: string
 }
 
-export function ResponsiveTable({ columns, data, keyField = "id" }: ResponsiveTableProps) {
+export function ResponsiveTable({ columns, data, keyField = 'id' }: ResponsiveTableProps) {
   const isMobile = useMobile()
 
   if (isMobile) {
     return (
       <div className="space-y-4">
-        {data.map((row) => (
+        {data.map(row => (
           <Card key={row[keyField]}>
             <CardContent className="p-4">
-              {columns.map((column) => (
+              {columns.map(column => (
                 <div key={column.key} className="flex justify-between py-2 border-b last:border-0">
                   <span className="font-medium text-sm text-muted-foreground">{column.label}</span>
                   <span className="text-sm">
@@ -46,15 +53,15 @@ export function ResponsiveTable({ columns, data, keyField = "id" }: ResponsiveTa
       <Table>
         <TableHeader>
           <TableRow>
-            {columns.map((column) => (
+            {columns.map(column => (
               <TableHead key={column.key}>{column.label}</TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((row) => (
+          {data.map(row => (
             <TableRow key={row[keyField]}>
-              {columns.map((column) => (
+              {columns.map(column => (
                 <TableCell key={column.key}>
                   {column.render ? column.render(row[column.key], row) : row[column.key]}
                 </TableCell>

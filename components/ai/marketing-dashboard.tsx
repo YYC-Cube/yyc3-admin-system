@@ -1,13 +1,14 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Card } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CustomerSegmentPanel } from "./customer-segment-panel"
-import { CampaignGeneratorPanel } from "./campaign-generator-panel"
-import { CampaignPerformancePanel } from "./campaign-performance-panel"
-import { Users, Target, TrendingUp, Zap } from "lucide-react"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { Card } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { CustomerSegmentPanel } from './customer-segment-panel'
+import { CampaignGeneratorPanel } from './campaign-generator-panel'
+import { CampaignPerformancePanel } from './campaign-performance-panel'
+import { Users, Target, TrendingUp, Zap } from 'lucide-react'
 
 export function MarketingDashboard() {
   const [stats, setStats] = useState({
@@ -29,32 +30,32 @@ export function MarketingDashboard() {
 
   const statCards = [
     {
-      title: "总客户数",
+      title: '总客户数',
       value: stats.totalCustomers.toLocaleString(),
       icon: Users,
-      color: "text-blue-500",
-      bgColor: "bg-blue-500/10",
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-500/10',
     },
     {
-      title: "客户细分",
+      title: '客户细分',
       value: stats.segments,
       icon: Target,
-      color: "text-green-500",
-      bgColor: "bg-green-500/10",
+      color: 'text-green-500',
+      bgColor: 'bg-green-500/10',
     },
     {
-      title: "活跃活动",
+      title: '活跃活动',
       value: stats.activeCampaigns,
       icon: Zap,
-      color: "text-orange-500",
-      bgColor: "bg-orange-500/10",
+      color: 'text-orange-500',
+      bgColor: 'bg-orange-500/10',
     },
     {
-      title: "平均ROI",
+      title: '平均ROI',
       value: `${stats.avgROI.toFixed(1)}x`,
       icon: TrendingUp,
-      color: "text-purple-500",
-      bgColor: "bg-purple-500/10",
+      color: 'text-purple-500',
+      bgColor: 'bg-purple-500/10',
     },
   ]
 

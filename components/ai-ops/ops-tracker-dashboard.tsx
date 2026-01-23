@@ -1,12 +1,13 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { AlertTriangle, TrendingUp, Users, Award } from "lucide-react"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { AlertTriangle, TrendingUp, Users, Award } from 'lucide-react'
 
 export function OpsTrackerDashboard() {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState('overview')
 
   // 模拟数据
   const stats = {
@@ -69,7 +70,8 @@ export function OpsTrackerDashboard() {
               ¥{(stats.totalBonus - stats.totalPenalty).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
-              奖励 ¥{stats.totalBonus.toLocaleString()} - 惩罚 ¥{stats.totalPenalty.toLocaleString()}
+              奖励 ¥{stats.totalBonus.toLocaleString()} - 惩罚 ¥
+              {stats.totalPenalty.toLocaleString()}
             </p>
           </CardContent>
         </Card>

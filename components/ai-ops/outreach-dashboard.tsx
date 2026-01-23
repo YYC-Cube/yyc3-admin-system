@@ -1,13 +1,14 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Card } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Phone, MessageSquare, Mail, Users } from "lucide-react"
-import { FollowUpPanel } from "@/components/ai-ops/follow-up-panel"
-import { SMSPanel } from "@/components/ai-ops/sms-panel"
-import { CallPanel } from "@/components/ai-ops/call-panel"
-import { ContactHistoryPanel } from "@/components/ai-ops/contact-history-panel"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { Card } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Phone, MessageSquare, Mail, Users } from 'lucide-react'
+import { FollowUpPanel } from '@/components/ai-ops/follow-up-panel'
+import { SMSPanel } from '@/components/ai-ops/sms-panel'
+import { CallPanel } from '@/components/ai-ops/call-panel'
+import { ContactHistoryPanel } from '@/components/ai-ops/contact-history-panel'
 
 export function OutreachDashboard() {
   const [stats, setStats] = useState({
@@ -24,7 +25,7 @@ export function OutreachDashboard() {
   const fetchStats = async () => {
     try {
       // 获取待跟进数量
-      const followUpRes = await fetch("/api/ai-ops/outreach/follow-up")
+      const followUpRes = await fetch('/api/ai-ops/outreach/follow-up')
       const followUpData = await followUpRes.json()
 
       setStats({
@@ -34,7 +35,7 @@ export function OutreachDashboard() {
         responseRate: 68, // 模拟数据
       })
     } catch (error) {
-      console.error("[v0] Failed to fetch stats:", error)
+      console.error('[v0] Failed to fetch stats:', error)
     }
   }
 

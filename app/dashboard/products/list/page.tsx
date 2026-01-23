@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Search, Plus, Download, Edit, Trash2, ImageIcon } from "lucide-react"

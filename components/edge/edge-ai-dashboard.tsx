@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { useState, useEffect } from "react"
 import { Card } from "@/components/ui/card"
 import { Brain, Zap, Shield, TrendingDown } from "lucide-react"

@@ -1,17 +1,18 @@
-"use client"
+'use client'
 
-import { useEffect, useRef, useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Play, Pause, RotateCcw, Maximize2 } from "lucide-react"
-import { arConcertSystem } from "@/lib/5g/ar-concert-system"
+import * as React from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Play, Pause, RotateCcw, Maximize2 } from 'lucide-react'
+import { arConcertSystem } from '@/lib/5g/ar-concert-system'
 
 export function ARSceneViewer() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [sceneLoaded, setSceneLoaded] = useState(false)
-  const [currentScene, setCurrentScene] = useState<string>("concert-001")
+  const [currentScene, setCurrentScene] = useState<string>('concert-001')
 
   useEffect(() => {
     const initializeAR = async () => {
@@ -20,7 +21,7 @@ export function ARSceneViewer() {
         await arConcertSystem.loadARScene(currentScene)
 
         // 创建虚拟歌手
-        const singer = await arConcertSystem.createVirtualSinger("singer-001", "虚拟偶像小美")
+        const singer = await arConcertSystem.createVirtualSinger('singer-001', '虚拟偶像小美')
 
         // 渲染虚拟歌手
         await arConcertSystem.renderVirtualSinger(singer, {
@@ -33,14 +34,14 @@ export function ARSceneViewer() {
         const canvas = arConcertSystem.getRendererElement()
         if (canvas && containerRef.current) {
           containerRef.current.appendChild(canvas)
-          canvas.style.width = "100%"
-          canvas.style.height = "100%"
-          canvas.style.borderRadius = "0.5rem"
+          canvas.style.width = '100%'
+          canvas.style.height = '100%'
+          canvas.style.borderRadius = '0.5rem'
         }
 
         setSceneLoaded(true)
       } catch (error) {
-        console.error("[v0] AR场景初始化失败:", error)
+        console.error('[v0] AR场景初始化失败:', error)
       }
     }
 
@@ -57,7 +58,7 @@ export function ARSceneViewer() {
       setIsPlaying(false)
     } else {
       arConcertSystem.startRendering()
-      arConcertSystem.playAnimation("singer-001", "dance")
+      arConcertSystem.playAnimation('singer-001', 'dance')
       setIsPlaying(true)
     }
   }
@@ -77,8 +78,12 @@ export function ARSceneViewer() {
           <p className="text-sm text-muted-foreground mt-1">实时渲染的AR虚拟演唱会场景</p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant={sceneLoaded ? "default" : "secondary"}>{sceneLoaded ? "场景已加载" : "加载中..."}</Badge>
-          <Badge variant={isPlaying ? "default" : "secondary"}>{isPlaying ? "播放中" : "已暂停"}</Badge>
+          <Badge variant={sceneLoaded ? 'default' : 'secondary'}>
+            {sceneLoaded ? '场景已加载' : '加载中...'}
+          </Badge>
+          <Badge variant={isPlaying ? 'default' : 'secondary'}>
+            {isPlaying ? '播放中' : '已暂停'}
+          </Badge>
         </div>
       </div>
 

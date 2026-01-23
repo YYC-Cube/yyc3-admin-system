@@ -1,12 +1,20 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Plus, Search, Edit, Trash2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import * as React from 'react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Plus, Search, Edit, Trash2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import {
   Dialog,
   DialogContent,
@@ -14,28 +22,30 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { toast } from "sonner"
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { toast } from 'sonner'
 
 // 商品口味管理页面
 export default function ProductFlavorsPage() {
   const [flavors, setFlavors] = useState([
-    { id: "1", name: "微辣", displayOrder: 1, createdAt: "2025-01-15" },
-    { id: "2", name: "中辣", displayOrder: 2, createdAt: "2025-01-15" },
-    { id: "3", name: "特辣", displayOrder: 3, createdAt: "2025-01-15" },
-    { id: "4", name: "泰国味", displayOrder: 4, createdAt: "2025-01-15" },
+    { id: '1', name: '微辣', displayOrder: 1, createdAt: '2025-01-15' },
+    { id: '2', name: '中辣', displayOrder: 2, createdAt: '2025-01-15' },
+    { id: '3', name: '特辣', displayOrder: 3, createdAt: '2025-01-15' },
+    { id: '4', name: '泰国味', displayOrder: 4, createdAt: '2025-01-15' },
   ])
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingFlavor, setEditingFlavor] = useState<any>(null)
-  const [formData, setFormData] = useState({ name: "", displayOrder: "" })
+  const [formData, setFormData] = useState({ name: '', displayOrder: '' })
 
-  const filteredFlavors = flavors.filter((flavor) => flavor.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredFlavors = flavors.filter(flavor =>
+    flavor.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   const handleAdd = () => {
     setEditingFlavor(null)
-    setFormData({ name: "", displayOrder: "" })
+    setFormData({ name: '', displayOrder: '' })
     setIsDialogOpen(true)
   }
 
@@ -46,34 +56,34 @@ export default function ProductFlavorsPage() {
   }
 
   const handleDelete = (id: string) => {
-    setFlavors(flavors.filter((f) => f.id !== id))
-    toast.success("删除成功")
+    setFlavors(flavors.filter(f => f.id !== id))
+    toast.success('删除成功')
   }
 
   const handleSubmit = () => {
     if (!formData.name) {
-      toast.error("请输入口味名称")
+      toast.error('请输入口味名称')
       return
     }
 
     if (editingFlavor) {
       setFlavors(
-        flavors.map((f) =>
+        flavors.map(f =>
           f.id === editingFlavor.id
             ? { ...f, name: formData.name, displayOrder: Number(formData.displayOrder) || 0 }
-            : f,
-        ),
+            : f
+        )
       )
-      toast.success("修改成功")
+      toast.success('修改成功')
     } else {
       const newFlavor = {
         id: `flavor_${Date.now()}`,
         name: formData.name,
         displayOrder: Number(formData.displayOrder) || 0,
-        createdAt: new Date().toISOString().split("T")[0],
+        createdAt: new Date().toISOString().split('T')[0],
       }
       setFlavors([...flavors, newFlavor])
-      toast.success("添加成功")
+      toast.success('添加成功')
     }
 
     setIsDialogOpen(false)
@@ -98,7 +108,11 @@ export default function ProductFlavorsPage() {
       </motion.div>
 
       {/* 搜索栏 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-4">
@@ -107,7 +121,7 @@ export default function ProductFlavorsPage() {
                 <Input
                   placeholder="搜索口味名称..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={e => setSearchTerm(e.target.value)}
                   className="pl-9"
                 />
               </div>
@@ -117,7 +131,11 @@ export default function ProductFlavorsPage() {
       </motion.div>
 
       {/* 口味列表 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
         <Card>
           <CardHeader>
             <CardTitle>口味列表 ({filteredFlavors.length})</CardTitle>
@@ -162,8 +180,10 @@ export default function ProductFlavorsPage() {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{editingFlavor ? "编辑口味" : "新增口味"}</DialogTitle>
-            <DialogDescription>{editingFlavor ? "修改口味信息" : "添加新的商品口味选项"}</DialogDescription>
+            <DialogTitle>{editingFlavor ? '编辑口味' : '新增口味'}</DialogTitle>
+            <DialogDescription>
+              {editingFlavor ? '修改口味信息' : '添加新的商品口味选项'}
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
@@ -171,7 +191,7 @@ export default function ProductFlavorsPage() {
               <Input
                 id="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={e => setFormData({ ...formData, name: e.target.value })}
                 placeholder="请输入口味名称"
               />
             </div>
@@ -181,7 +201,7 @@ export default function ProductFlavorsPage() {
                 id="displayOrder"
                 type="number"
                 value={formData.displayOrder}
-                onChange={(e) => setFormData({ ...formData, displayOrder: e.target.value })}
+                onChange={e => setFormData({ ...formData, displayOrder: e.target.value })}
                 placeholder="数字越大越靠前"
               />
             </div>

@@ -1,15 +1,16 @@
-"use client"
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Lightbulb, TrendingDown } from "lucide-react"
+import * as React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Lightbulb, TrendingDown } from 'lucide-react'
 
 interface OptimizationSuggestion {
   title: string
   description: string
   savings: number
-  priority: "high" | "medium" | "low"
+  priority: 'high' | 'medium' | 'low'
 }
 
 interface OptimizationPanelProps {
@@ -34,18 +35,18 @@ export function OptimizationPanel({ suggestions }: OptimizationPanelProps) {
                 <h4 className="font-semibold">{suggestion.title}</h4>
                 <Badge
                   variant={
-                    suggestion.priority === "high"
-                      ? "destructive"
-                      : suggestion.priority === "medium"
-                        ? "default"
-                        : "secondary"
+                    suggestion.priority === 'high'
+                      ? 'destructive'
+                      : suggestion.priority === 'medium'
+                        ? 'default'
+                        : 'secondary'
                   }
                 >
-                  {suggestion.priority === "high"
-                    ? "高优先级"
-                    : suggestion.priority === "medium"
-                      ? "中优先级"
-                      : "低优先级"}
+                  {suggestion.priority === 'high'
+                    ? '高优先级'
+                    : suggestion.priority === 'medium'
+                      ? '中优先级'
+                      : '低优先级'}
                 </Badge>
               </div>
 
@@ -54,7 +55,9 @@ export function OptimizationPanel({ suggestions }: OptimizationPanelProps) {
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center gap-2 text-sm">
                   <TrendingDown className="h-4 w-4 text-green-500" />
-                  <span className="font-medium text-green-500">预计节省 ¥{suggestion.savings}/月</span>
+                  <span className="font-medium text-green-500">
+                    预计节省 ¥{suggestion.savings}/月
+                  </span>
                 </div>
                 <Button size="sm">应用建议</Button>
               </div>

@@ -1,5 +1,6 @@
-"use client"
+'use client'
 
+import * as React from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,7 +10,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from '@/components/ui/alert-dialog'
 
 interface ConfirmDialogProps {
   open: boolean
@@ -19,7 +20,7 @@ interface ConfirmDialogProps {
   onConfirm: () => void
   confirmText?: string
   cancelText?: string
-  variant?: "default" | "destructive"
+  variant?: 'default' | 'destructive'
 }
 
 export function ConfirmDialog({
@@ -28,9 +29,9 @@ export function ConfirmDialog({
   title,
   description,
   onConfirm,
-  confirmText = "确认",
-  cancelText = "取消",
-  variant = "default",
+  confirmText = '确认',
+  cancelText = '取消',
+  variant = 'default',
 }: ConfirmDialogProps) {
   const handleConfirm = () => {
     onConfirm()
@@ -49,7 +50,9 @@ export function ConfirmDialog({
           <AlertDialogAction
             onClick={handleConfirm}
             className={
-              variant === "destructive" ? "bg-destructive text-destructive-foreground hover:bg-destructive/90" : ""
+              variant === 'destructive'
+                ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
+                : ''
             }
           >
             {confirmText}

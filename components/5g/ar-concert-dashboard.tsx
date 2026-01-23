@@ -1,11 +1,12 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Eye, Users, Zap, TrendingUp } from "lucide-react"
-import { ARSceneViewer } from "./ar-scene-viewer"
-import { ARControlPanel } from "./ar-control-panel"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Eye, Users, Zap, TrendingUp } from 'lucide-react'
+import { ARSceneViewer } from './ar-scene-viewer'
+import { ARControlPanel } from './ar-control-panel'
 
 export function ARConcertDashboard() {
   const [stats, setStats] = useState({

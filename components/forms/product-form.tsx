@@ -1,19 +1,26 @@
 // 商品表单组件
 
-"use client"
+'use client'
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2, Plus, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { productSchema, type ProductFormData } from "@/lib/validations/product"
-import type { Product, ProductCategory } from "@/lib/types"
+import * as React from 'react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2, Plus, X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { productSchema, type ProductFormData } from '@/lib/validations/product'
+import type { Product, ProductCategory } from '@/lib/types'
 
 interface ProductFormProps {
   product?: Product
@@ -24,7 +31,7 @@ interface ProductFormProps {
 
 export function ProductForm({ product, categories, onSubmit, onCancel }: ProductFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [barcodes, setBarcodes] = useState<string[]>(product?.barcode || [""])
+  const [barcodes, setBarcodes] = useState<string[]>(product?.barcode || [''])
 
   const {
     register,
@@ -55,7 +62,7 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
           displayOrder: product.displayOrder,
         }
       : {
-          barcode: [""],
+          barcode: [''],
           isGift: false,
           allowDiscount: true,
           isSale: true,
@@ -75,22 +82,22 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
   }
 
   const addBarcode = () => {
-    const newBarcodes = [...barcodes, ""]
+    const newBarcodes = [...barcodes, '']
     setBarcodes(newBarcodes)
-    setValue("barcode", newBarcodes)
+    setValue('barcode', newBarcodes)
   }
 
   const removeBarcode = (index: number) => {
     const newBarcodes = barcodes.filter((_, i) => i !== index)
     setBarcodes(newBarcodes)
-    setValue("barcode", newBarcodes)
+    setValue('barcode', newBarcodes)
   }
 
   const updateBarcode = (index: number, value: string) => {
     const newBarcodes = [...barcodes]
     newBarcodes[index] = value
     setBarcodes(newBarcodes)
-    setValue("barcode", newBarcodes)
+    setValue('barcode', newBarcodes)
   }
 
   return (
@@ -108,11 +115,16 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
               <div key={index} className="flex gap-2">
                 <Input
                   value={barcode}
-                  onChange={(e) => updateBarcode(index, e.target.value)}
+                  onChange={e => updateBarcode(index, e.target.value)}
                   placeholder="输入或扫描条形码"
                 />
                 {barcodes.length > 1 && (
-                  <Button type="button" variant="outline" size="icon" onClick={() => removeBarcode(index)}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => removeBarcode(index)}
+                  >
                     <X className="h-4 w-4" />
                   </Button>
                 )}
@@ -129,13 +141,13 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="name">商品名称 *</Label>
-              <Input id="name" {...register("name")} placeholder="请输入商品名称" />
+              <Input id="name" {...register('name')} placeholder="请输入商品名称" />
               {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="alias">商品别名</Label>
-              <Input id="alias" {...register("alias")} placeholder="请输入商品别名" />
+              <Input id="alias" {...register('alias')} placeholder="请输入商品别名" />
             </div>
           </div>
 
@@ -143,24 +155,29 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="categoryId">商品类型 *</Label>
-              <Select onValueChange={(value) => setValue("categoryId", value)} defaultValue={product?.categoryId}>
+              <Select
+                onValueChange={value => setValue('categoryId', value)}
+                defaultValue={product?.categoryId}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="请选择商品类型" />
                 </SelectTrigger>
                 <SelectContent>
-                  {categories.map((category) => (
+                  {categories.map(category => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              {errors.categoryId && <p className="text-sm text-destructive">{errors.categoryId.message}</p>}
+              {errors.categoryId && (
+                <p className="text-sm text-destructive">{errors.categoryId.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="unit">商品单位 *</Label>
-              <Input id="unit" {...register("unit")} placeholder="例如: 瓶、个、份" />
+              <Input id="unit" {...register('unit')} placeholder="例如: 瓶、个、份" />
               {errors.unit && <p className="text-sm text-destructive">{errors.unit.message}</p>}
             </div>
           </div>
@@ -173,10 +190,12 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
                 id="originalPrice"
                 type="number"
                 step="0.01"
-                {...register("originalPrice", { valueAsNumber: true })}
+                {...register('originalPrice', { valueAsNumber: true })}
                 placeholder="0.00"
               />
-              {errors.originalPrice && <p className="text-sm text-destructive">{errors.originalPrice.message}</p>}
+              {errors.originalPrice && (
+                <p className="text-sm text-destructive">{errors.originalPrice.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -185,7 +204,7 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
                 id="price"
                 type="number"
                 step="0.01"
-                {...register("price", { valueAsNumber: true })}
+                {...register('price', { valueAsNumber: true })}
                 placeholder="0.00"
               />
               {errors.price && <p className="text-sm text-destructive">{errors.price.message}</p>}
@@ -197,10 +216,12 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
                 id="memberPrice"
                 type="number"
                 step="0.01"
-                {...register("memberPrice", { valueAsNumber: true })}
+                {...register('memberPrice', { valueAsNumber: true })}
                 placeholder="0.00"
               />
-              {errors.memberPrice && <p className="text-sm text-destructive">{errors.memberPrice.message}</p>}
+              {errors.memberPrice && (
+                <p className="text-sm text-destructive">{errors.memberPrice.message}</p>
+              )}
             </div>
           </div>
 
@@ -208,14 +229,26 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
               <Label htmlFor="stock">当前库存 *</Label>
-              <Input id="stock" type="number" {...register("stock", { valueAsNumber: true })} placeholder="0" />
+              <Input
+                id="stock"
+                type="number"
+                {...register('stock', { valueAsNumber: true })}
+                placeholder="0"
+              />
               {errors.stock && <p className="text-sm text-destructive">{errors.stock.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="minStock">最小库存 *</Label>
-              <Input id="minStock" type="number" {...register("minStock", { valueAsNumber: true })} placeholder="0" />
-              {errors.minStock && <p className="text-sm text-destructive">{errors.minStock.message}</p>}
+              <Input
+                id="minStock"
+                type="number"
+                {...register('minStock', { valueAsNumber: true })}
+                placeholder="0"
+              />
+              {errors.minStock && (
+                <p className="text-sm text-destructive">{errors.minStock.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -224,10 +257,12 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
                 id="costPrice"
                 type="number"
                 step="0.01"
-                {...register("costPrice", { valueAsNumber: true })}
+                {...register('costPrice', { valueAsNumber: true })}
                 placeholder="0.00"
               />
-              {errors.costPrice && <p className="text-sm text-destructive">{errors.costPrice.message}</p>}
+              {errors.costPrice && (
+                <p className="text-sm text-destructive">{errors.costPrice.message}</p>
+              )}
             </div>
           </div>
         </CardContent>
@@ -244,7 +279,10 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
               <Label>赠送商品</Label>
               <p className="text-sm text-muted-foreground">是否可作为赠送商品</p>
             </div>
-            <Switch checked={watch("isGift")} onCheckedChange={(checked) => setValue("isGift", checked)} />
+            <Switch
+              checked={watch('isGift')}
+              onCheckedChange={checked => setValue('isGift', checked)}
+            />
           </div>
 
           <div className="flex items-center justify-between">
@@ -253,8 +291,8 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
               <p className="text-sm text-muted-foreground">是否参与打折活动</p>
             </div>
             <Switch
-              checked={watch("allowDiscount")}
-              onCheckedChange={(checked) => setValue("allowDiscount", checked)}
+              checked={watch('allowDiscount')}
+              onCheckedChange={checked => setValue('allowDiscount', checked)}
             />
           </div>
 
@@ -263,7 +301,10 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
               <Label>销售商品</Label>
               <p className="text-sm text-muted-foreground">是否在售卖端口显示</p>
             </div>
-            <Switch checked={watch("isSale")} onCheckedChange={(checked) => setValue("isSale", checked)} />
+            <Switch
+              checked={watch('isSale')}
+              onCheckedChange={checked => setValue('isSale', checked)}
+            />
           </div>
 
           <div className="flex items-center justify-between">
@@ -271,7 +312,10 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
               <Label>推荐商品</Label>
               <p className="text-sm text-muted-foreground">是否在首页推荐</p>
             </div>
-            <Switch checked={watch("isRecommend")} onCheckedChange={(checked) => setValue("isRecommend", checked)} />
+            <Switch
+              checked={watch('isRecommend')}
+              onCheckedChange={checked => setValue('isRecommend', checked)}
+            />
           </div>
 
           <div className="flex items-center justify-between">
@@ -280,8 +324,8 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
               <p className="text-sm text-muted-foreground">是否纳入最低消费</p>
             </div>
             <Switch
-              checked={watch("isLowConsumption")}
-              onCheckedChange={(checked) => setValue("isLowConsumption", checked)}
+              checked={watch('isLowConsumption')}
+              onCheckedChange={checked => setValue('isLowConsumption', checked)}
             />
           </div>
 
@@ -290,10 +334,12 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
             <Input
               id="displayOrder"
               type="number"
-              {...register("displayOrder", { valueAsNumber: true })}
+              {...register('displayOrder', { valueAsNumber: true })}
               placeholder="数字越大越靠前"
             />
-            <p className="text-sm text-muted-foreground">用于控制商品在列表中的显示顺序,数字越大越靠前</p>
+            <p className="text-sm text-muted-foreground">
+              用于控制商品在列表中的显示顺序,数字越大越靠前
+            </p>
           </div>
         </CardContent>
       </Card>
@@ -305,7 +351,7 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
         </Button>
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {product ? "更新商品" : "创建商品"}
+          {product ? '更新商品' : '创建商品'}
         </Button>
       </div>
     </form>

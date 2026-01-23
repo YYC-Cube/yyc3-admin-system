@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { motion } from "framer-motion"
 import { Users, TrendingUp, Gift, CreditCard } from "lucide-react"
 import { StatCard } from "@/components/dashboard/stat-card"

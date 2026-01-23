@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import type React from "react"
+import * as React from 'react'
 
-import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Store, ArrowRight, Sparkles } from "lucide-react"
-import { useState } from "react"
+import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Store, ArrowRight, Sparkles } from 'lucide-react'
+import { useState } from 'react'
 
 export default function HomePage() {
   const router = useRouter()
@@ -20,7 +20,7 @@ export default function HomePage() {
     setIsLoading(true)
     // 模拟登录延迟
     setTimeout(() => {
-      router.push("/dashboard")
+      router.push('/dashboard')
     }, 1000)
   }
 
@@ -44,7 +44,7 @@ export default function HomePage() {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
               className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-lg"
             >
               <Store className="h-8 w-8 text-primary-foreground" />
@@ -104,7 +104,7 @@ export default function HomePage() {
                 {isLoading ? (
                   <motion.div
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                    transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: 'linear' }}
                     className="h-5 w-5 rounded-full border-2 border-primary-foreground border-t-transparent"
                   />
                 ) : (

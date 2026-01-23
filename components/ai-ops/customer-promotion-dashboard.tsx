@@ -1,13 +1,14 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Users, Target, TrendingUp, Award } from "lucide-react"
-import { CustomerSegmentPanel } from "./customer-segment-panel"
-import { CampaignGeneratorPanel } from "./campaign-generator-panel"
-import { UpgradeTrackerPanel } from "./upgrade-tracker-panel"
-import { PerformanceTrackerPanel } from "./performance-tracker-panel"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Users, Target, TrendingUp, Award } from 'lucide-react'
+import { CustomerSegmentPanel } from './customer-segment-panel'
+import { CampaignGeneratorPanel } from './campaign-generator-panel'
+import { UpgradeTrackerPanel } from './upgrade-tracker-panel'
+import { PerformanceTrackerPanel } from './performance-tracker-panel'
 
 interface DashboardStats {
   totalCustomers: number

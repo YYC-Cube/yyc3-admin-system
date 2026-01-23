@@ -1,10 +1,11 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Database, Activity, Zap, TrendingUp } from "lucide-react"
-import { DataCollectionPanel } from "./data-collection-panel"
-import { QueryBuilderPanel } from "./query-builder-panel"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Database, Activity, Zap, TrendingUp } from 'lucide-react'
+import { DataCollectionPanel } from './data-collection-panel'
+import { QueryBuilderPanel } from './query-builder-panel'
 
 export function DataWarehouseDashboard() {
   const [stats, setStats] = useState({

@@ -1,22 +1,29 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Lightbulb, Volume2, Sparkles, Users } from "lucide-react"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { Slider } from '@/components/ui/slider'
+import { Switch } from '@/components/ui/switch'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Lightbulb, Volume2, Sparkles, Users } from 'lucide-react'
 
 export function ARControlPanel() {
   const [lighting, setLighting] = useState(80)
   const [volume, setVolume] = useState(70)
   const [effects, setEffects] = useState(true)
   const [multiUser, setMultiUser] = useState(false)
-  const [selectedSinger, setSelectedSinger] = useState("singer-001")
-  const [selectedAnimation, setSelectedAnimation] = useState("dance")
+  const [selectedSinger, setSelectedSinger] = useState('singer-001')
+  const [selectedAnimation, setSelectedAnimation] = useState('dance')
 
   return (
     <Card className="p-6">
@@ -40,7 +47,7 @@ export function ARControlPanel() {
               </Label>
               <span className="text-sm text-muted-foreground">{lighting}%</span>
             </div>
-            <Slider value={[lighting]} onValueChange={(v) => setLighting(v[0])} max={100} step={1} />
+            <Slider value={[lighting]} onValueChange={v => setLighting(v[0])} max={100} step={1} />
           </div>
 
           <div className="space-y-2">
@@ -51,7 +58,7 @@ export function ARControlPanel() {
               </Label>
               <span className="text-sm text-muted-foreground">{volume}%</span>
             </div>
-            <Slider value={[volume]} onValueChange={(v) => setVolume(v[0])} max={100} step={1} />
+            <Slider value={[volume]} onValueChange={v => setVolume(v[0])} max={100} step={1} />
           </div>
 
           <div className="space-y-2">

@@ -1,36 +1,37 @@
 // API文档页面
 
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Copy, Key, Book, Code, Zap } from "lucide-react"
-import { apiDocumentation, generateApiKey } from "@/lib/services/api-platform"
-import { toast } from "@/hooks/use-toast"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Badge } from '@/components/ui/badge'
+import { Copy, Key, Book, Code, Zap } from 'lucide-react'
+import { apiDocumentation, generateApiKey } from '@/lib/services/api-platform'
+import { toast } from '@/hooks/use-toast'
 
 export default function ApiDocsPage() {
   const [apiKeys, setApiKeys] = useState<any[]>([])
-  const [newKeyName, setNewKeyName] = useState("")
+  const [newKeyName, setNewKeyName] = useState('')
 
   const handleGenerateKey = () => {
     if (!newKeyName) {
-      toast({ title: "请输入API密钥名称", variant: "destructive" })
+      toast({ title: '请输入API密钥名称', variant: 'destructive' })
       return
     }
 
-    const newKey = generateApiKey(newKeyName, ["*"], 1000)
+    const newKey = generateApiKey(newKeyName, ['*'], 1000)
     setApiKeys([...apiKeys, newKey])
-    setNewKeyName("")
-    toast({ title: "API密钥生成成功" })
+    setNewKeyName('')
+    toast({ title: 'API密钥生成成功' })
   }
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
-    toast({ title: "已复制到剪贴板" })
+    toast({ title: '已复制到剪贴板' })
   }
 
   return (
@@ -66,7 +67,9 @@ export default function ApiDocsPage() {
               <Card className="p-6">
                 <Zap className="h-8 w-8 text-blue-600 mb-4" />
                 <h3 className="font-semibold mb-2">快速集成</h3>
-                <p className="text-sm text-muted-foreground">简单易用的RESTful API，5分钟即可完成集成</p>
+                <p className="text-sm text-muted-foreground">
+                  简单易用的RESTful API，5分钟即可完成集成
+                </p>
               </Card>
 
               <Card className="p-6">
@@ -118,7 +121,9 @@ export default function ApiDocsPage() {
             {apiDocumentation.map((endpoint, index) => (
               <Card key={index} className="p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Badge variant={endpoint.method === "GET" ? "default" : "secondary"}>{endpoint.method}</Badge>
+                  <Badge variant={endpoint.method === 'GET' ? 'default' : 'secondary'}>
+                    {endpoint.method}
+                  </Badge>
                   <code className="text-sm font-mono">{endpoint.path}</code>
                 </div>
 
@@ -142,7 +147,7 @@ export default function ApiDocsPage() {
                             <tr key={i} className="border-t">
                               <td className="p-2 font-mono">{param.name}</td>
                               <td className="p-2">{param.type}</td>
-                              <td className="p-2">{param.required ? "是" : "否"}</td>
+                              <td className="p-2">{param.required ? '是' : '否'}</td>
                               <td className="p-2 text-muted-foreground">{param.description}</td>
                             </tr>
                           ))}
@@ -177,29 +182,39 @@ export default function ApiDocsPage() {
                 <Input
                   placeholder="输入密钥名称（如：生产环境、测试环境）"
                   value={newKeyName}
-                  onChange={(e) => setNewKeyName(e.target.value)}
+                  onChange={e => setNewKeyName(e.target.value)}
                 />
                 <Button onClick={handleGenerateKey}>生成密钥</Button>
               </div>
             </Card>
 
             <div className="space-y-4">
-              {apiKeys.map((key) => (
+              {apiKeys.map(key => (
                 <Card key={key.id} className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <h4 className="font-semibold">{key.name}</h4>
-                      <p className="text-sm text-muted-foreground">创建于 {new Date(key.createdAt).toLocaleString()}</p>
+                      <p className="text-sm text-muted-foreground">
+                        创建于 {new Date(key.createdAt).toLocaleString()}
+                      </p>
                     </div>
-                    <Badge variant={key.isActive ? "default" : "secondary"}>{key.isActive ? "活跃" : "已禁用"}</Badge>
+                    <Badge variant={key.isActive ? 'default' : 'secondary'}>
+                      {key.isActive ? '活跃' : '已禁用'}
+                    </Badge>
                   </div>
 
                   <div className="space-y-3">
                     <div>
                       <div className="text-sm text-muted-foreground mb-1">API Key</div>
                       <div className="flex items-center gap-2">
-                        <code className="flex-1 p-2 bg-muted rounded text-sm font-mono">{key.key}</code>
-                        <Button size="icon" variant="ghost" onClick={() => copyToClipboard(key.key)}>
+                        <code className="flex-1 p-2 bg-muted rounded text-sm font-mono">
+                          {key.key}
+                        </code>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          onClick={() => copyToClipboard(key.key)}
+                        >
                           <Copy className="h-4 w-4" />
                         </Button>
                       </div>
@@ -208,15 +223,23 @@ export default function ApiDocsPage() {
                     <div>
                       <div className="text-sm text-muted-foreground mb-1">API Secret</div>
                       <div className="flex items-center gap-2">
-                        <code className="flex-1 p-2 bg-muted rounded text-sm font-mono">{key.secret}</code>
-                        <Button size="icon" variant="ghost" onClick={() => copyToClipboard(key.secret)}>
+                        <code className="flex-1 p-2 bg-muted rounded text-sm font-mono">
+                          {key.secret}
+                        </code>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          onClick={() => copyToClipboard(key.secret)}
+                        >
                           <Copy className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between pt-2">
-                      <div className="text-sm text-muted-foreground">请求限制: {key.rateLimit} 次/分钟</div>
+                      <div className="text-sm text-muted-foreground">
+                        请求限制: {key.rateLimit} 次/分钟
+                      </div>
                       <div className="flex gap-2">
                         <Button size="sm" variant="outline">
                           编辑

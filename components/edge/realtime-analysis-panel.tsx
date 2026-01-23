@@ -1,12 +1,21 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { ActivityIcon, Loader2Icon, AlertTriangleIcon } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { ActivityIcon, Loader2Icon, AlertTriangleIcon } from 'lucide-react'
+import { useToast } from '@/hooks/use-toast'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts'
 
 export function RealtimeAnalysisPanel() {
   const [eventsInput, setEventsInput] = useState(`[
@@ -24,28 +33,28 @@ export function RealtimeAnalysisPanel() {
     try {
       const events = JSON.parse(eventsInput)
 
-      const response = await fetch("/api/edge/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/edge/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ events }),
       })
 
       if (!response.ok) {
-        throw new Error("实时分析失败")
+        throw new Error('实时分析失败')
       }
 
       const data = await response.json()
       setResult(data.data)
 
       toast({
-        title: "分析成功",
-        description: "事件已在边缘节点分析完成",
+        title: '分析成功',
+        description: '事件已在边缘节点分析完成',
       })
     } catch (error) {
       toast({
-        title: "分析失败",
-        description: error instanceof Error ? error.message : "未知错误",
-        variant: "destructive",
+        title: '分析失败',
+        description: error instanceof Error ? error.message : '未知错误',
+        variant: 'destructive',
       })
     } finally {
       setAnalyzing(false)
@@ -63,7 +72,7 @@ export function RealtimeAnalysisPanel() {
           <CardContent className="space-y-4">
             <Textarea
               value={eventsInput}
-              onChange={(e) => setEventsInput(e.target.value)}
+              onChange={e => setEventsInput(e.target.value)}
               rows={15}
               className="font-mono text-sm"
               placeholder="输入JSON格式的事件..."
@@ -107,12 +116,14 @@ export function RealtimeAnalysisPanel() {
                 <div className="rounded-lg border p-4">
                   <div className="text-sm font-medium mb-2">事件类型分布</div>
                   <div className="space-y-2">
-                    {Object.entries(result.summary.eventTypes).map(([type, count]: [string, any]) => (
-                      <div key={type} className="flex items-center justify-between">
-                        <span className="text-sm">{type}</span>
-                        <span className="text-sm font-medium">{count}</span>
-                      </div>
-                    ))}
+                    {Object.entries(result.summary.eventTypes).map(
+                      ([type, count]: [string, any]) => (
+                        <div key={type} className="flex items-center justify-between">
+                          <span className="text-sm">{type}</span>
+                          <span className="text-sm font-medium">{count}</span>
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
 
@@ -149,9 +160,12 @@ export function RealtimeAnalysisPanel() {
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={result.trends}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="timestamp" tickFormatter={(value) => new Date(value).toLocaleTimeString()} />
+                <XAxis
+                  dataKey="timestamp"
+                  tickFormatter={value => new Date(value).toLocaleTimeString()}
+                />
                 <YAxis />
-                <Tooltip labelFormatter={(value) => new Date(value).toLocaleString()} />
+                <Tooltip labelFormatter={value => new Date(value).toLocaleString()} />
                 <Line type="monotone" dataKey="count" stroke="#8884d8" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
@@ -171,20 +185,20 @@ export function RealtimeAnalysisPanel() {
                 <div
                   key={index}
                   className={`flex items-start gap-3 rounded-lg border p-4 ${
-                    anomaly.severity === "high"
-                      ? "border-red-200 bg-red-50"
-                      : anomaly.severity === "medium"
-                        ? "border-yellow-200 bg-yellow-50"
-                        : "border-blue-200 bg-blue-50"
+                    anomaly.severity === 'high'
+                      ? 'border-red-200 bg-red-50'
+                      : anomaly.severity === 'medium'
+                        ? 'border-yellow-200 bg-yellow-50'
+                        : 'border-blue-200 bg-blue-50'
                   }`}
                 >
                   <AlertTriangleIcon
                     className={`h-5 w-5 ${
-                      anomaly.severity === "high"
-                        ? "text-red-600"
-                        : anomaly.severity === "medium"
-                          ? "text-yellow-600"
-                          : "text-blue-600"
+                      anomaly.severity === 'high'
+                        ? 'text-red-600'
+                        : anomaly.severity === 'medium'
+                          ? 'text-yellow-600'
+                          : 'text-blue-600'
                     }`}
                   />
                   <div className="flex-1">
@@ -196,11 +210,11 @@ export function RealtimeAnalysisPanel() {
                   </div>
                   <div
                     className={`rounded-full px-2 py-1 text-xs font-medium ${
-                      anomaly.severity === "high"
-                        ? "bg-red-100 text-red-700"
-                        : anomaly.severity === "medium"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-blue-100 text-blue-700"
+                      anomaly.severity === 'high'
+                        ? 'bg-red-100 text-red-700'
+                        : anomaly.severity === 'medium'
+                          ? 'bg-yellow-100 text-yellow-700'
+                          : 'bg-blue-100 text-blue-700'
                     }`}
                   >
                     {anomaly.severity}

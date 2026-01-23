@@ -1,8 +1,18 @@
-"use client"
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
-import { TrendingUp } from "lucide-react"
+import * as React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from 'recharts'
+import { TrendingUp } from 'lucide-react'
 
 interface ForecastData {
   date: string
@@ -35,7 +45,13 @@ export function SalesForecastPanel({ data }: SalesForecastPanelProps) {
             <Tooltip />
             <Legend />
             <Line type="monotone" dataKey="actual" stroke="hsl(var(--primary))" name="实际" />
-            <Line type="monotone" dataKey="forecast" stroke="hsl(var(--chart-2))" name="预测" strokeDasharray="5 5" />
+            <Line
+              type="monotone"
+              dataKey="forecast"
+              stroke="hsl(var(--chart-2))"
+              name="预测"
+              strokeDasharray="5 5"
+            />
             <Line
               type="monotone"
               dataKey="upper"

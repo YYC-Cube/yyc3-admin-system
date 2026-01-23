@@ -1,12 +1,20 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Plus, Search, Eye, Trash2, FileText } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import * as React from 'react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Plus, Search, Eye, Trash2, FileText } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import {
   Dialog,
   DialogContent,
@@ -14,44 +22,50 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { toast } from "sonner"
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Badge } from '@/components/ui/badge'
+import { toast } from 'sonner'
 
 // 领用单管理页面
 export default function RequisitionPage() {
   const [requisitions, setRequisitions] = useState([
     {
-      id: "RQ001",
-      storeId: "store_1",
-      storeName: "巨嗨KTV",
-      warehouseId: "wh_1",
-      warehouseName: "总仓",
-      operatorId: "emp_1",
-      operatorName: "张三",
-      recipientId: "emp_2",
-      recipientName: "李四",
+      id: 'RQ001',
+      storeId: 'store_1',
+      storeName: '巨嗨KTV',
+      warehouseId: 'wh_1',
+      warehouseName: '总仓',
+      operatorId: 'emp_1',
+      operatorName: '张三',
+      recipientId: 'emp_2',
+      recipientName: '李四',
       totalQuantity: 15,
-      status: "approved",
-      remark: "前台日常用品",
-      createdAt: "2025-01-15 14:30:00",
+      status: 'approved',
+      remark: '前台日常用品',
+      createdAt: '2025-01-15 14:30:00',
       items: [
-        { productId: "p1", productName: "A4纸", quantity: 10, unit: "包", remark: "办公用" },
-        { productId: "p2", productName: "签字笔", quantity: 5, unit: "支", remark: "前台用" },
+        { productId: 'p1', productName: 'A4纸', quantity: 10, unit: '包', remark: '办公用' },
+        { productId: 'p2', productName: '签字笔', quantity: 5, unit: '支', remark: '前台用' },
       ],
     },
   ])
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
   const [selectedRequisition, setSelectedRequisition] = useState<any>(null)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
   const [isAddOpen, setIsAddOpen] = useState(false)
 
   const filteredRequisitions = requisitions.filter(
-    (req) =>
+    req =>
       req.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      req.storeName.toLowerCase().includes(searchTerm.toLowerCase()),
+      req.storeName.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const handleViewDetail = (requisition: any) => {
@@ -61,9 +75,9 @@ export default function RequisitionPage() {
 
   const getStatusBadge = (status: string) => {
     const statusMap: Record<string, { label: string; variant: any }> = {
-      pending: { label: "待审核", variant: "secondary" },
-      approved: { label: "已审核", variant: "default" },
-      rejected: { label: "已拒绝", variant: "destructive" },
+      pending: { label: '待审核', variant: 'secondary' },
+      approved: { label: '已审核', variant: 'default' },
+      rejected: { label: '已拒绝', variant: 'destructive' },
     }
     const config = statusMap[status] || statusMap.pending
     return <Badge variant={config.variant}>{config.label}</Badge>
@@ -108,7 +122,9 @@ export default function RequisitionPage() {
             <CardTitle className="text-sm font-medium">待审核</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{requisitions.filter((r) => r.status === "pending").length}</div>
+            <div className="text-2xl font-bold">
+              {requisitions.filter(r => r.status === 'pending').length}
+            </div>
           </CardContent>
         </Card>
         <Card>
@@ -116,7 +132,9 @@ export default function RequisitionPage() {
             <CardTitle className="text-sm font-medium">已审核</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{requisitions.filter((r) => r.status === "approved").length}</div>
+            <div className="text-2xl font-bold">
+              {requisitions.filter(r => r.status === 'approved').length}
+            </div>
           </CardContent>
         </Card>
         <Card>
@@ -124,13 +142,19 @@ export default function RequisitionPage() {
             <CardTitle className="text-sm font-medium">总领用数量</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{requisitions.reduce((sum, r) => sum + r.totalQuantity, 0)}</div>
+            <div className="text-2xl font-bold">
+              {requisitions.reduce((sum, r) => sum + r.totalQuantity, 0)}
+            </div>
           </CardContent>
         </Card>
       </motion.div>
 
       {/* 搜索栏 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
         <Card>
           <CardContent className="pt-6">
             <div className="relative">
@@ -138,7 +162,7 @@ export default function RequisitionPage() {
               <Input
                 placeholder="搜索领用单号、门店..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="pl-9"
               />
             </div>
@@ -147,7 +171,11 @@ export default function RequisitionPage() {
       </motion.div>
 
       {/* 领用单列表 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
         <Card>
           <CardHeader>
             <CardTitle>领用单列表 ({filteredRequisitions.length})</CardTitle>
@@ -168,7 +196,7 @@ export default function RequisitionPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredRequisitions.map((req) => (
+                {filteredRequisitions.map(req => (
                   <TableRow key={req.id}>
                     <TableCell className="font-medium">{req.id}</TableCell>
                     <TableCell>{req.storeName}</TableCell>
@@ -183,7 +211,7 @@ export default function RequisitionPage() {
                         <Button variant="ghost" size="sm" onClick={() => handleViewDetail(req)}>
                           <Eye className="h-4 w-4" />
                         </Button>
-                        {req.status === "pending" && (
+                        {req.status === 'pending' && (
                           <Button variant="ghost" size="sm">
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -316,7 +344,7 @@ export default function RequisitionPage() {
             </Button>
             <Button
               onClick={() => {
-                toast.success("领用单创建成功")
+                toast.success('领用单创建成功')
                 setIsAddOpen(false)
               }}
             >

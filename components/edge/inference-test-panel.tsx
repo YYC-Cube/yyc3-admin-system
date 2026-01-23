@@ -1,17 +1,24 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Play, Loader2 } from "lucide-react"
-import { motion } from "framer-motion"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Play, Loader2 } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 export function InferenceTestPanel() {
-  const [selectedModel, setSelectedModel] = useState("product-classifier")
-  const [inputData, setInputData] = useState("")
+  const [selectedModel, setSelectedModel] = useState('product-classifier')
+  const [inputData, setInputData] = useState('')
   const [result, setResult] = useState<any>(null)
   const [loading, setLoading] = useState(false)
 
@@ -19,22 +26,22 @@ export function InferenceTestPanel() {
     setLoading(true)
     try {
       // 模拟推理请求
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise(resolve => setTimeout(resolve, 1000))
 
       const mockResult = {
         predictions: [
-          { label: "啤酒", confidence: 0.92 },
-          { label: "小吃", confidence: 0.85 },
-          { label: "饮料", confidence: 0.73 },
+          { label: '啤酒', confidence: 0.92 },
+          { label: '小吃', confidence: 0.85 },
+          { label: '饮料', confidence: 0.73 },
         ],
         latency: 42,
-        modelVersion: "1.0.0",
+        modelVersion: '1.0.0',
         timestamp: Date.now(),
       }
 
       setResult(mockResult)
     } catch (error) {
-      console.error("推理失败:", error)
+      console.error('推理失败:', error)
     } finally {
       setLoading(false)
     }
@@ -69,7 +76,7 @@ export function InferenceTestPanel() {
             <Textarea
               placeholder="输入测试数据（JSON格式）&#10;例如: [0.1, 0.2, 0.3, ...]"
               value={inputData}
-              onChange={(e) => setInputData(e.target.value)}
+              onChange={e => setInputData(e.target.value)}
               className="mt-2 h-32 font-mono text-sm"
             />
           </div>
@@ -93,7 +100,11 @@ export function InferenceTestPanel() {
         <div className="space-y-4">
           <Label>推理结果</Label>
           {result ? (
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-4"
+            >
               <div className="border rounded-lg p-4 bg-muted/50">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium">预测结果</span>
@@ -127,7 +138,9 @@ export function InferenceTestPanel() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">推理时间:</span>
-                    <span className="font-medium">{new Date(result.timestamp).toLocaleTimeString()}</span>
+                    <span className="font-medium">
+                      {new Date(result.timestamp).toLocaleTimeString()}
+                    </span>
                   </div>
                 </div>
               </div>

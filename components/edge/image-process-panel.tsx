@@ -1,20 +1,27 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ImageIcon, Loader2Icon } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { ImageIcon, Loader2Icon } from 'lucide-react'
+import { useToast } from '@/hooks/use-toast'
 
 export function ImageProcessPanel() {
-  const [imageUrl, setImageUrl] = useState("")
-  const [width, setWidth] = useState("800")
-  const [height, setHeight] = useState("600")
-  const [format, setFormat] = useState("webp")
-  const [quality, setQuality] = useState("85")
+  const [imageUrl, setImageUrl] = useState('')
+  const [width, setWidth] = useState('800')
+  const [height, setHeight] = useState('600')
+  const [format, setFormat] = useState('webp')
+  const [quality, setQuality] = useState('85')
   const [processing, setProcessing] = useState(false)
   const [processedImage, setProcessedImage] = useState<string | null>(null)
   const { toast } = useToast()
@@ -22,31 +29,31 @@ export function ImageProcessPanel() {
   const handleProcess = async () => {
     if (!imageUrl) {
       toast({
-        title: "错误",
-        description: "请输入图片URL",
-        variant: "destructive",
+        title: '错误',
+        description: '请输入图片URL',
+        variant: 'destructive',
       })
       return
     }
 
     setProcessing(true)
     try {
-      const response = await fetch("/api/edge/image", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/edge/image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           imageUrl,
           transformations: [
             {
-              type: "resize",
+              type: 'resize',
               params: {
                 width: Number.parseInt(width),
                 height: Number.parseInt(height),
-                fit: "cover",
+                fit: 'cover',
               },
             },
             {
-              type: "format",
+              type: 'format',
               params: {
                 format,
                 quality: Number.parseInt(quality),
@@ -57,7 +64,7 @@ export function ImageProcessPanel() {
       })
 
       if (!response.ok) {
-        throw new Error("图片处理失败")
+        throw new Error('图片处理失败')
       }
 
       const blob = await response.blob()
@@ -65,14 +72,14 @@ export function ImageProcessPanel() {
       setProcessedImage(url)
 
       toast({
-        title: "处理成功",
-        description: "图片已在边缘节点处理完成",
+        title: '处理成功',
+        description: '图片已在边缘节点处理完成',
       })
     } catch (error) {
       toast({
-        title: "处理失败",
-        description: error instanceof Error ? error.message : "未知错误",
-        variant: "destructive",
+        title: '处理失败',
+        description: error instanceof Error ? error.message : '未知错误',
+        variant: 'destructive',
       })
     } finally {
       setProcessing(false)
@@ -93,18 +100,28 @@ export function ImageProcessPanel() {
               id="imageUrl"
               placeholder="https://example.com/image.jpg"
               value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
+              onChange={e => setImageUrl(e.target.value)}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="width">宽度</Label>
-              <Input id="width" type="number" value={width} onChange={(e) => setWidth(e.target.value)} />
+              <Input
+                id="width"
+                type="number"
+                value={width}
+                onChange={e => setWidth(e.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="height">高度</Label>
-              <Input id="height" type="number" value={height} onChange={(e) => setHeight(e.target.value)} />
+              <Input
+                id="height"
+                type="number"
+                value={height}
+                onChange={e => setHeight(e.target.value)}
+              />
             </div>
           </div>
 
@@ -130,7 +147,7 @@ export function ImageProcessPanel() {
                 min="1"
                 max="100"
                 value={quality}
-                onChange={(e) => setQuality(e.target.value)}
+                onChange={e => setQuality(e.target.value)}
               />
             </div>
           </div>
@@ -159,15 +176,23 @@ export function ImageProcessPanel() {
         <CardContent>
           {processedImage ? (
             <div className="space-y-4">
-              <img src={processedImage || "/placeholder.svg"} alt="处理后的图片" className="w-full rounded-lg border" />
+              <img
+                src={processedImage || '/placeholder.svg'}
+                alt="处理后的图片"
+                className="w-full rounded-lg border"
+              />
               <div className="flex gap-2">
-                <Button variant="outline" onClick={() => window.open(processedImage)} className="flex-1">
+                <Button
+                  variant="outline"
+                  onClick={() => window.open(processedImage)}
+                  className="flex-1"
+                >
                   查看原图
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => {
-                    const a = document.createElement("a")
+                    const a = document.createElement('a')
                     a.href = processedImage
                     a.download = `processed-${Date.now()}.${format}`
                     a.click()

@@ -1,45 +1,52 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Save, Info } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { toast } from "sonner"
+import * as React from 'react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Save, Info } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { toast } from 'sonner'
 
 // 抹零设置页面
 export default function RoundingSettingsPage() {
-  const [basicRounding, setBasicRounding] = useState("none")
+  const [basicRounding, setBasicRounding] = useState('none')
   const [advancedSettings, setAdvancedSettings] = useState([
     {
-      id: "1",
-      storeId: "store_1",
-      storeName: "启智KTV",
-      rounding: "round_to_jiao",
-      areaIds: ["all"],
-      areaNames: "全部区域",
+      id: '1',
+      storeId: 'store_1',
+      storeName: '启智KTV',
+      rounding: 'round_to_jiao',
+      areaIds: ['all'],
+      areaNames: '全部区域',
       applyToOrder: true,
       applyToBill: true,
     },
   ])
 
   const handleSaveBasic = () => {
-    toast.success("抹零设置保存成功")
+    toast.success('抹零设置保存成功')
   }
 
   const roundingOptions = [
-    { value: "none", label: "无", description: "不进行抹零处理" },
-    { value: "round_to_jiao", label: "进位到角", description: "小数点后第二位进位" },
-    { value: "round_to_yuan", label: "进位到1元", description: "小数点后全部进位" },
-    { value: "round_to_10", label: "进位到10元", description: "个位数进位到10" },
-    { value: "round_to_100", label: "进位到100元", description: "十位数进位到100" },
-    { value: "round_jiao", label: "四舍五入到角", description: "小数点后第二位四舍五入" },
-    { value: "round_yuan", label: "四舍五入到1元", description: "小数点后全部四舍五入" },
-    { value: "round_10", label: "四舍五入到10元", description: "个位数四舍五入" },
-    { value: "round_100", label: "四舍五入到100元", description: "十位数四舍五入" },
+    { value: 'none', label: '无', description: '不进行抹零处理' },
+    { value: 'round_to_jiao', label: '进位到角', description: '小数点后第二位进位' },
+    { value: 'round_to_yuan', label: '进位到1元', description: '小数点后全部进位' },
+    { value: 'round_to_10', label: '进位到10元', description: '个位数进位到10' },
+    { value: 'round_to_100', label: '进位到100元', description: '十位数进位到100' },
+    { value: 'round_jiao', label: '四舍五入到角', description: '小数点后第二位四舍五入' },
+    { value: 'round_yuan', label: '四舍五入到1元', description: '小数点后全部四舍五入' },
+    { value: 'round_10', label: '四舍五入到10元', description: '个位数四舍五入' },
+    { value: 'round_100', label: '四舍五入到100元', description: '十位数四舍五入' },
   ]
 
   return (
@@ -53,7 +60,11 @@ export default function RoundingSettingsPage() {
       </motion.div>
 
       {/* 基础抹零设置 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
         <Card>
           <CardHeader>
             <CardTitle>基础抹零设置</CardTitle>
@@ -62,7 +73,7 @@ export default function RoundingSettingsPage() {
           <CardContent className="space-y-6">
             <RadioGroup value={basicRounding} onValueChange={setBasicRounding}>
               <div className="grid gap-4">
-                {roundingOptions.map((option) => (
+                {roundingOptions.map(option => (
                   <div key={option.value} className="flex items-start space-x-3 space-y-0">
                     <RadioGroupItem value={option.value} id={option.value} />
                     <div className="space-y-1 leading-none">
@@ -86,7 +97,11 @@ export default function RoundingSettingsPage() {
       </motion.div>
 
       {/* 高级抹零设置 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
         <Card>
           <CardHeader>
             <CardTitle>高级抹零设置</CardTitle>
@@ -125,7 +140,7 @@ export default function RoundingSettingsPage() {
                       <SelectValue placeholder="选择抹零方式" />
                     </SelectTrigger>
                     <SelectContent>
-                      {roundingOptions.map((option) => (
+                      {roundingOptions.map(option => (
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
@@ -172,13 +187,13 @@ export default function RoundingSettingsPage() {
             <div className="space-y-2">
               <Label>已配置规则</Label>
               <div className="border rounded-lg divide-y">
-                {advancedSettings.map((setting) => (
+                {advancedSettings.map(setting => (
                   <div key={setting.id} className="p-4 flex items-center justify-between">
                     <div className="space-y-1">
                       <p className="font-medium">{setting.storeName}</p>
                       <p className="text-sm text-muted-foreground">
-                        区域: {setting.areaNames} | 抹零方式:{" "}
-                        {roundingOptions.find((o) => o.value === setting.rounding)?.label}
+                        区域: {setting.areaNames} | 抹零方式:{' '}
+                        {roundingOptions.find(o => o.value === setting.rounding)?.label}
                       </p>
                     </div>
                     <Button variant="ghost" size="sm">
@@ -193,7 +208,11 @@ export default function RoundingSettingsPage() {
       </motion.div>
 
       {/* 抹零示例 */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
         <Card>
           <CardHeader>
             <CardTitle>抹零示例</CardTitle>

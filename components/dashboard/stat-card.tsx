@@ -1,9 +1,10 @@
-"use client"
+'use client'
 
-import { motion } from "framer-motion"
-import type { LucideIcon } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
+import * as React from 'react'
+import { motion } from 'framer-motion'
+import type { LucideIcon } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
 interface StatCardProps {
   title: string
@@ -18,10 +19,22 @@ interface StatCardProps {
   delay?: number
 }
 
-export function StatCard({ title, value, icon: Icon, trend, description, className, delay = 0 }: StatCardProps) {
+export function StatCard({
+  title,
+  value,
+  icon: Icon,
+  trend,
+  description,
+  className,
+  delay = 0,
+}: StatCardProps) {
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay }}>
-      <Card className={cn("overflow-hidden", className)}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay }}
+    >
+      <Card className={cn('overflow-hidden', className)}>
         <CardContent className="p-6">
           <div className="flex items-start justify-between">
             <div className="space-y-2">
@@ -29,8 +42,13 @@ export function StatCard({ title, value, icon: Icon, trend, description, classNa
               <div className="flex items-baseline gap-2">
                 <h3 className="text-3xl font-bold tracking-tight">{value}</h3>
                 {trend && (
-                  <span className={cn("text-sm font-medium", trend.isPositive ? "text-green-600" : "text-red-600")}>
-                    {trend.isPositive ? "+" : ""}
+                  <span
+                    className={cn(
+                      'text-sm font-medium',
+                      trend.isPositive ? 'text-green-600' : 'text-red-600'
+                    )}
+                  >
+                    {trend.isPositive ? '+' : ''}
                     {trend.value}%
                   </span>
                 )}

@@ -1,17 +1,24 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { memberSchema, type MemberFormData } from "@/lib/validations/member"
-import type { Member } from "@/lib/types"
+import * as React from 'react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { memberSchema, type MemberFormData } from '@/lib/validations/member'
+import type { Member } from '@/lib/types'
 
 interface MemberFormProps {
   member?: Member
@@ -69,13 +76,13 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="name">会员姓名 *</Label>
-              <Input id="name" {...register("name")} placeholder="请输入会员姓名" />
+              <Input id="name" {...register('name')} placeholder="请输入会员姓名" />
               {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="phone">手机号码 *</Label>
-              <Input id="phone" {...register("phone")} placeholder="请输入手机号码" />
+              <Input id="phone" {...register('phone')} placeholder="请输入手机号码" />
               {errors.phone && <p className="text-sm text-destructive">{errors.phone.message}</p>}
             </div>
           </div>
@@ -84,7 +91,7 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
             <div className="space-y-2">
               <Label htmlFor="level">会员等级 *</Label>
               <Select
-                onValueChange={(value) => setValue("level", Number.parseInt(value))}
+                onValueChange={value => setValue('level', Number.parseInt(value))}
                 defaultValue={String(member?.level || 1)}
               >
                 <SelectTrigger>
@@ -103,7 +110,10 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
 
             <div className="space-y-2">
               <Label htmlFor="gender">性别</Label>
-              <Select onValueChange={(value) => setValue("gender", value as any)} defaultValue={member?.gender}>
+              <Select
+                onValueChange={value => setValue('gender', value as any)}
+                defaultValue={member?.gender}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="请选择性别" />
                 </SelectTrigger>
@@ -117,13 +127,13 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
 
             <div className="space-y-2">
               <Label htmlFor="birthday">生日</Label>
-              <Input id="birthday" type="date" {...register("birthday")} />
+              <Input id="birthday" type="date" {...register('birthday')} />
             </div>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="address">地址</Label>
-            <Input id="address" {...register("address")} placeholder="请输入地址" />
+            <Input id="address" {...register('address')} placeholder="请输入地址" />
           </div>
         </CardContent>
       </Card>
@@ -170,7 +180,7 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
         <CardContent>
           <div className="space-y-2">
             <Label htmlFor="remark">备注</Label>
-            <Textarea id="remark" {...register("remark")} placeholder="请输入备注信息" rows={4} />
+            <Textarea id="remark" {...register('remark')} placeholder="请输入备注信息" rows={4} />
             {errors.remark && <p className="text-sm text-destructive">{errors.remark.message}</p>}
           </div>
         </CardContent>
@@ -183,7 +193,7 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
         </Button>
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {member ? "更新会员" : "创建会员"}
+          {member ? '更新会员' : '创建会员'}
         </Button>
       </div>
     </form>

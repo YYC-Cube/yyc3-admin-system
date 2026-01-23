@@ -1,6 +1,5 @@
 "use client"
-
-import { render, screen, waitFor } from "@testing-library/react"
+import * as React from "react"import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { ProductForm } from "@/components/forms/product-form"
 import { jest } from "@jest/globals"

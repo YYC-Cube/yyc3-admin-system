@@ -1,16 +1,17 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { TrendAnalysisPanel } from "./trend-analysis-panel"
-import { ComparisonAnalysisPanel } from "./comparison-analysis-panel"
-import { AttributionAnalysisPanel } from "./attribution-analysis-panel"
-import { OLAPAnalysisPanel } from "./olap-analysis-panel"
-import { BarChart3, TrendingUp, GitCompare, Target } from "lucide-react"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { TrendAnalysisPanel } from './trend-analysis-panel'
+import { ComparisonAnalysisPanel } from './comparison-analysis-panel'
+import { AttributionAnalysisPanel } from './attribution-analysis-panel'
+import { OLAPAnalysisPanel } from './olap-analysis-panel'
+import { BarChart3, TrendingUp, GitCompare, Target } from 'lucide-react'
 
 export function BIDashboard() {
-  const [activeTab, setActiveTab] = useState("trend")
+  const [activeTab, setActiveTab] = useState('trend')
 
   return (
     <div className="space-y-6">

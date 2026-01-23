@@ -1,17 +1,25 @@
-"use client"
+'use client'
 
-import type React from "react"
+import * as React from 'react'
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Upload, Download, FileSpreadsheet, Users, Package, CheckCircle, XCircle } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useToast } from "@/hooks/use-toast"
-import { importProducts, importMembers, downloadTemplate } from "@/lib/services/import"
-import { exportProducts, exportOrders, exportMembers } from "@/lib/services/export"
-import type { ImportResult } from "@/lib/types"
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import {
+  Upload,
+  Download,
+  FileSpreadsheet,
+  Users,
+  Package,
+  CheckCircle,
+  XCircle,
+} from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useToast } from '@/hooks/use-toast'
+import { importProducts, importMembers, downloadTemplate } from '@/lib/services/import'
+import { exportProducts, exportOrders, exportMembers } from '@/lib/services/export'
+import type { ImportResult } from '@/lib/types'
 
 // 数据导入导出页面
 export default function ImportExportPage() {
@@ -20,14 +28,14 @@ export default function ImportExportPage() {
   const [importResult, setImportResult] = useState<ImportResult | null>(null)
 
   // 处理文件导入
-  const handleImport = async (file: File, type: "products" | "members") => {
+  const handleImport = async (file: File, type: 'products' | 'members') => {
     setImporting(true)
     setImportResult(null)
 
     try {
       let result: ImportResult
 
-      if (type === "products") {
+      if (type === 'products') {
         result = await importProducts(file)
       } else {
         result = await importMembers(file)
@@ -37,21 +45,21 @@ export default function ImportExportPage() {
 
       if (result.success > 0) {
         toast({
-          title: "导入成功",
-          description: `成功导入 ${result.success} 条数据${result.failed > 0 ? `,失败 ${result.failed} 条` : ""}`,
+          title: '导入成功',
+          description: `成功导入 ${result.success} 条数据${result.failed > 0 ? `,失败 ${result.failed} 条` : ''}`,
         })
       } else {
         toast({
-          title: "导入失败",
-          description: "没有成功导入任何数据,请检查文件格式",
-          variant: "destructive",
+          title: '导入失败',
+          description: '没有成功导入任何数据,请检查文件格式',
+          variant: 'destructive',
         })
       }
     } catch (error: any) {
       toast({
-        title: "导入错误",
+        title: '导入错误',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       })
     } finally {
       setImporting(false)
@@ -59,7 +67,10 @@ export default function ImportExportPage() {
   }
 
   // 处理文件选择
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>, type: "products" | "members") => {
+  const handleFileSelect = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    type: 'products' | 'members'
+  ) => {
     const file = event.target.files?.[0]
     if (file) {
       handleImport(file, type)
@@ -67,25 +78,25 @@ export default function ImportExportPage() {
   }
 
   // 导出数据
-  const handleExport = async (type: "products" | "orders" | "members") => {
+  const handleExport = async (type: 'products' | 'orders' | 'members') => {
     try {
-      if (type === "products") {
+      if (type === 'products') {
         await exportProducts()
-      } else if (type === "orders") {
+      } else if (type === 'orders') {
         await exportOrders()
       } else {
         await exportMembers()
       }
 
       toast({
-        title: "导出成功",
-        description: "数据已导出到文件",
+        title: '导出成功',
+        description: '数据已导出到文件',
       })
     } catch (error: any) {
       toast({
-        title: "导出失败",
+        title: '导出失败',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       })
     }
   }
@@ -116,13 +127,15 @@ export default function ImportExportPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">支持批量导入商品信息,包括名称、价格、库存等</p>
+                <p className="text-sm text-muted-foreground">
+                  支持批量导入商品信息,包括名称、价格、库存等
+                </p>
 
                 <div className="space-y-2">
                   <Button
                     variant="outline"
                     className="w-full bg-transparent"
-                    onClick={() => downloadTemplate("products")}
+                    onClick={() => downloadTemplate('products')}
                   >
                     <FileSpreadsheet className="mr-2 h-4 w-4" />
                     下载导入模板
@@ -132,7 +145,7 @@ export default function ImportExportPage() {
                     <Button className="w-full" disabled={importing} asChild>
                       <span>
                         <Upload className="mr-2 h-4 w-4" />
-                        {importing ? "导入中..." : "选择文件导入"}
+                        {importing ? '导入中...' : '选择文件导入'}
                       </span>
                     </Button>
                     <input
@@ -140,7 +153,7 @@ export default function ImportExportPage() {
                       type="file"
                       accept=".csv,.xlsx"
                       className="hidden"
-                      onChange={(e) => handleFileSelect(e, "products")}
+                      onChange={e => handleFileSelect(e, 'products')}
                     />
                   </label>
                 </div>
@@ -165,13 +178,15 @@ export default function ImportExportPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">支持批量导入会员信息,包括姓名、手机号、等级等</p>
+                <p className="text-sm text-muted-foreground">
+                  支持批量导入会员信息,包括姓名、手机号、等级等
+                </p>
 
                 <div className="space-y-2">
                   <Button
                     variant="outline"
                     className="w-full bg-transparent"
-                    onClick={() => downloadTemplate("members")}
+                    onClick={() => downloadTemplate('members')}
                   >
                     <FileSpreadsheet className="mr-2 h-4 w-4" />
                     下载导入模板
@@ -181,7 +196,7 @@ export default function ImportExportPage() {
                     <Button className="w-full" disabled={importing} asChild>
                       <span>
                         <Upload className="mr-2 h-4 w-4" />
-                        {importing ? "导入中..." : "选择文件导入"}
+                        {importing ? '导入中...' : '选择文件导入'}
                       </span>
                     </Button>
                     <input
@@ -189,7 +204,7 @@ export default function ImportExportPage() {
                       type="file"
                       accept=".csv,.xlsx"
                       className="hidden"
-                      onChange={(e) => handleFileSelect(e, "members")}
+                      onChange={e => handleFileSelect(e, 'members')}
                     />
                   </label>
                 </div>
@@ -219,7 +234,9 @@ export default function ImportExportPage() {
                       <CheckCircle className="h-8 w-8 text-emerald-600" />
                       <div>
                         <p className="text-sm text-muted-foreground">成功导入</p>
-                        <p className="text-2xl font-bold text-emerald-600">{importResult.success}</p>
+                        <p className="text-2xl font-bold text-emerald-600">
+                          {importResult.success}
+                        </p>
                       </div>
                     </div>
 
@@ -263,7 +280,7 @@ export default function ImportExportPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-sm text-muted-foreground">导出所有商品信息到Excel文件</p>
-                <Button className="w-full" onClick={() => handleExport("products")}>
+                <Button className="w-full" onClick={() => handleExport('products')}>
                   <Download className="mr-2 h-4 w-4" />
                   导出商品数据
                 </Button>
@@ -279,7 +296,7 @@ export default function ImportExportPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-sm text-muted-foreground">导出所有订单信息到Excel文件</p>
-                <Button className="w-full" onClick={() => handleExport("orders")}>
+                <Button className="w-full" onClick={() => handleExport('orders')}>
                   <Download className="mr-2 h-4 w-4" />
                   导出订单数据
                 </Button>
@@ -295,7 +312,7 @@ export default function ImportExportPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-sm text-muted-foreground">导出所有会员信息到Excel文件</p>
-                <Button className="w-full" onClick={() => handleExport("members")}>
+                <Button className="w-full" onClick={() => handleExport('members')}>
                   <Download className="mr-2 h-4 w-4" />
                   导出会员数据
                 </Button>

@@ -1,15 +1,16 @@
-"use client"
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Package } from "lucide-react"
+import * as React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Package } from 'lucide-react'
 
 interface InventoryForecast {
   productName: string
   currentStock: number
   forecastDemand: number
   recommendedOrder: number
-  status: "sufficient" | "warning" | "critical"
+  status: 'sufficient' | 'warning' | 'critical'
 }
 
 interface InventoryForecastPanelProps {
@@ -19,11 +20,11 @@ interface InventoryForecastPanelProps {
 export function InventoryForecastPanel({ forecasts }: InventoryForecastPanelProps) {
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "sufficient":
+      case 'sufficient':
         return <Badge variant="outline">充足</Badge>
-      case "warning":
+      case 'warning':
         return <Badge variant="default">预警</Badge>
-      case "critical":
+      case 'critical':
         return <Badge variant="destructive">紧急</Badge>
       default:
         return null

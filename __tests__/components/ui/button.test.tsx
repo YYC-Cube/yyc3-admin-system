@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { describe, it, expect } from "@jest/globals"
 import { render, screen, fireEvent } from "@testing-library/react"
 import { Button } from "@/components/ui/button"

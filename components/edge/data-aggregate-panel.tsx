@@ -1,11 +1,12 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { BarChart3Icon, Loader2Icon } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { BarChart3Icon, Loader2Icon } from 'lucide-react'
+import { useToast } from '@/hooks/use-toast'
 
 export function DataAggregatePanel() {
   const [dataInput, setDataInput] = useState(`[
@@ -23,28 +24,28 @@ export function DataAggregatePanel() {
     try {
       const dataPoints = JSON.parse(dataInput)
 
-      const response = await fetch("/api/edge/aggregate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/edge/aggregate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dataPoints }),
       })
 
       if (!response.ok) {
-        throw new Error("数据聚合失败")
+        throw new Error('数据聚合失败')
       }
 
       const data = await response.json()
       setResult(data.data)
 
       toast({
-        title: "聚合成功",
-        description: "数据已在边缘节点聚合完成",
+        title: '聚合成功',
+        description: '数据已在边缘节点聚合完成',
       })
     } catch (error) {
       toast({
-        title: "聚合失败",
-        description: error instanceof Error ? error.message : "未知错误",
-        variant: "destructive",
+        title: '聚合失败',
+        description: error instanceof Error ? error.message : '未知错误',
+        variant: 'destructive',
       })
     } finally {
       setAggregating(false)
@@ -61,7 +62,7 @@ export function DataAggregatePanel() {
         <CardContent className="space-y-4">
           <Textarea
             value={dataInput}
-            onChange={(e) => setDataInput(e.target.value)}
+            onChange={e => setDataInput(e.target.value)}
             rows={15}
             className="font-mono text-sm"
             placeholder="输入JSON格式的数据..."
@@ -114,7 +115,10 @@ export function DataAggregatePanel() {
                 <div className="text-sm font-medium mb-2">分组统计</div>
                 <div className="space-y-2">
                   {Object.entries(result.groupBy).map(([category, data]: [string, any]) => (
-                    <div key={category} className="flex items-center justify-between rounded-lg bg-muted p-3">
+                    <div
+                      key={category}
+                      className="flex items-center justify-between rounded-lg bg-muted p-3"
+                    >
                       <span className="font-medium">{category}</span>
                       <div className="text-right">
                         <div className="text-sm text-muted-foreground">数量: {data.count}</div>

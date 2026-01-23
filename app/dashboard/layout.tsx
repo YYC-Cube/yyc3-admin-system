@@ -1,19 +1,16 @@
-"use client"
+'use client'
 
-import type React from "react"
+import * as React from 'react'
+import type { ReactNode } from 'react'
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Header } from "@/components/layout/header"
-import { DataInitializer } from "@/components/providers/data-initializer"
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Sidebar } from '@/components/layout/sidebar'
+import { Header } from '@/components/layout/header'
+import { DataInitializer } from '@/components/providers/data-initializer'
 
 // 后台系统主布局 - 包含侧边栏和顶部栏
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
   return (
@@ -34,7 +31,7 @@ export default function DashboardLayout({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
                 className="container mx-auto p-6 md:p-8"
               >
                 {children}

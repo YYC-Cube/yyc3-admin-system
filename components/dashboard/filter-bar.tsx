@@ -1,11 +1,18 @@
-"use client"
+'use client'
 
-import { motion } from "framer-motion"
-import { Search, Download, Plus } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DatePickerWithRange } from "@/components/ui/date-range-picker"
+import * as React from 'react'
+import { motion } from 'framer-motion'
+import { Search, Download, Plus } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { DatePickerWithRange } from '@/components/ui/date-range-picker'
 
 interface FilterBarProps {
   searchPlaceholder?: string
@@ -22,7 +29,7 @@ interface FilterBarProps {
 }
 
 export function FilterBar({
-  searchPlaceholder = "搜索...",
+  searchPlaceholder = '搜索...',
   onSearch,
   onExport,
   onAdd,
@@ -40,7 +47,11 @@ export function FilterBar({
         {/* 搜索框 */}
         <div className="relative flex-1 sm:max-w-xs">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder={searchPlaceholder} className="pl-9" onChange={(e) => onSearch?.(e.target.value)} />
+          <Input
+            placeholder={searchPlaceholder}
+            className="pl-9"
+            onChange={e => onSearch?.(e.target.value)}
+          />
         </div>
 
         {/* 日期范围选择器 */}
@@ -53,7 +64,7 @@ export function FilterBar({
               <SelectValue placeholder={filter.label} />
             </SelectTrigger>
             <SelectContent>
-              {filter.options.map((option) => (
+              {filter.options.map(option => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
                 </SelectItem>

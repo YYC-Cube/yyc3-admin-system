@@ -1,9 +1,10 @@
-"use client"
+'use client'
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { ProductForm } from "@/components/forms/product-form"
-import type { Product, ProductCategory } from "@/lib/types"
-import type { ProductFormData } from "@/lib/validations/product"
+import * as React from 'react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { ProductForm } from '@/components/forms/product-form'
+import type { Product, ProductCategory } from '@/lib/types'
+import type { ProductFormData } from '@/lib/validations/product'
 
 interface ProductDialogProps {
   open: boolean
@@ -13,7 +14,13 @@ interface ProductDialogProps {
   onSubmit: (data: ProductFormData) => Promise<void>
 }
 
-export function ProductDialog({ open, onOpenChange, product, categories, onSubmit }: ProductDialogProps) {
+export function ProductDialog({
+  open,
+  onOpenChange,
+  product,
+  categories,
+  onSubmit,
+}: ProductDialogProps) {
   const handleSubmit = async (data: ProductFormData) => {
     await onSubmit(data)
     onOpenChange(false)
@@ -23,7 +30,7 @@ export function ProductDialog({ open, onOpenChange, product, categories, onSubmi
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{product ? "编辑商品" : "新增商品"}</DialogTitle>
+          <DialogTitle>{product ? '编辑商品' : '新增商品'}</DialogTitle>
         </DialogHeader>
         <ProductForm
           product={product}

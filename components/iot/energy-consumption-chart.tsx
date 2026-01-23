@@ -1,8 +1,18 @@
-"use client"
+'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
-import { Zap } from "lucide-react"
+import * as React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from 'recharts'
+import { Zap } from 'lucide-react'
 
 interface EnergyData {
   time: string
@@ -33,8 +43,20 @@ export function EnergyConsumptionChart({ data }: EnergyConsumptionChartProps) {
             <YAxis yAxisId="right" orientation="right" />
             <Tooltip />
             <Legend />
-            <Line yAxisId="left" type="monotone" dataKey="consumption" stroke="hsl(var(--primary))" name="能耗(kWh)" />
-            <Line yAxisId="right" type="monotone" dataKey="cost" stroke="hsl(var(--chart-2))" name="成本(¥)" />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="consumption"
+              stroke="hsl(var(--primary))"
+              name="能耗(kWh)"
+            />
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="cost"
+              stroke="hsl(var(--chart-2))"
+              name="成本(¥)"
+            />
           </LineChart>
         </ResponsiveContainer>
       </CardContent>

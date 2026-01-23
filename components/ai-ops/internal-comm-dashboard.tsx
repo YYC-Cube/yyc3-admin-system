@@ -1,11 +1,12 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { MessageSquare, Users, Bell, Network, Send, Plus } from "lucide-react"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { MessageSquare, Users, Bell, Network, Send, Plus } from 'lucide-react'
 
 interface CommStats {
   totalMessages: number
@@ -32,7 +33,7 @@ export function InternalCommDashboard() {
   const loadStats = async () => {
     try {
       // 模拟数据加载
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise(resolve => setTimeout(resolve, 1000))
 
       setStats({
         totalMessages: 1247,
@@ -42,7 +43,7 @@ export function InternalCommDashboard() {
         unreadNotifications: 12,
       })
     } catch (error) {
-      console.error("[v0] Error loading stats:", error)
+      console.error('[v0] Error loading stats:', error)
     } finally {
       setLoading(false)
     }

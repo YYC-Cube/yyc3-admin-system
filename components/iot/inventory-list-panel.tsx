@@ -1,12 +1,20 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Search, Package, MapPin, TrendingUp, TrendingDown, AlertCircle } from "lucide-react"
-import { InventoryStatus } from "@/lib/iot/smart-inventory-system"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Search, Package, MapPin, TrendingUp, TrendingDown, AlertCircle } from 'lucide-react'
+import { InventoryStatus } from '@/lib/iot/smart-inventory-system'
 
 interface InventoryItem {
   productId: string
@@ -23,58 +31,58 @@ interface InventoryItem {
 export function InventoryListPanel() {
   const [items, setItems] = useState<InventoryItem[]>([
     {
-      productId: "PROD_001",
-      productName: "茅台飞天53度500ml",
-      category: "白酒",
+      productId: 'PROD_001',
+      productName: '茅台飞天53度500ml',
+      category: '白酒',
       quantity: 45,
-      unit: "瓶",
-      location: "A区-01货架",
+      unit: '瓶',
+      location: 'A区-01货架',
       status: InventoryStatus.IN_STOCK,
       minThreshold: 20,
       lastUpdated: Date.now(),
     },
     {
-      productId: "PROD_002",
-      productName: "五粮液52度500ml",
-      category: "白酒",
+      productId: 'PROD_002',
+      productName: '五粮液52度500ml',
+      category: '白酒',
       quantity: 15,
-      unit: "瓶",
-      location: "A区-02货架",
+      unit: '瓶',
+      location: 'A区-02货架',
       status: InventoryStatus.LOW_STOCK,
       minThreshold: 20,
       lastUpdated: Date.now(),
     },
     {
-      productId: "PROD_003",
-      productName: "青岛啤酒330ml",
-      category: "啤酒",
+      productId: 'PROD_003',
+      productName: '青岛啤酒330ml',
+      category: '啤酒',
       quantity: 0,
-      unit: "瓶",
-      location: "B区-01货架",
+      unit: '瓶',
+      location: 'B区-01货架',
       status: InventoryStatus.OUT_OF_STOCK,
       minThreshold: 50,
       lastUpdated: Date.now(),
     },
     {
-      productId: "PROD_004",
-      productName: "可口可乐330ml",
-      category: "饮料",
+      productId: 'PROD_004',
+      productName: '可口可乐330ml',
+      category: '饮料',
       quantity: 120,
-      unit: "瓶",
-      location: "C区-01货架",
+      unit: '瓶',
+      location: 'C区-01货架',
       status: InventoryStatus.IN_STOCK,
       minThreshold: 50,
       lastUpdated: Date.now(),
     },
   ])
 
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
 
   const filteredItems = items.filter(
-    (item) =>
+    item =>
       item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.productId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchTerm.toLowerCase()),
+      item.category.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const getStatusBadge = (status: InventoryStatus) => {
@@ -119,7 +127,7 @@ export function InventoryListPanel() {
             <Input
               placeholder="搜索商品名称、编号或类别..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
               className="pl-10"
             />
           </div>
@@ -137,7 +145,7 @@ export function InventoryListPanel() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredItems.map((item) => (
+                {filteredItems.map(item => (
                   <TableRow key={item.productId}>
                     <TableCell>
                       <div className="flex items-center gap-3">
@@ -158,7 +166,9 @@ export function InventoryListPanel() {
                         <div className="font-medium">
                           {item.quantity} {item.unit}
                         </div>
-                        <div className="text-sm text-muted-foreground">最低: {item.minThreshold}</div>
+                        <div className="text-sm text-muted-foreground">
+                          最低: {item.minThreshold}
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell>

@@ -1,23 +1,24 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Trash2, RefreshCw, Zap } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Trash2, RefreshCw, Zap } from 'lucide-react'
+import { useToast } from '@/hooks/use-toast'
 
 export function CacheControlPanel() {
-  const [pattern, setPattern] = useState("")
+  const [pattern, setPattern] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
 
   const handleInvalidate = async () => {
     if (!pattern) {
       toast({
-        title: "请输入缓存键模式",
-        variant: "destructive",
+        title: '请输入缓存键模式',
+        variant: 'destructive',
       })
       return
     }
@@ -25,22 +26,22 @@ export function CacheControlPanel() {
     setIsLoading(true)
     try {
       // 调用API失效缓存
-      const response = await fetch("/api/edge/cache/invalidate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/edge/cache/invalidate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pattern }),
       })
 
       const data = await response.json()
 
       toast({
-        title: "缓存失效成功",
+        title: '缓存失效成功',
         description: `已失效 ${data.count} 条缓存`,
       })
     } catch (error) {
       toast({
-        title: "缓存失效失败",
-        variant: "destructive",
+        title: '缓存失效失败',
+        variant: 'destructive',
       })
     } finally {
       setIsLoading(false)
@@ -50,14 +51,14 @@ export function CacheControlPanel() {
   const handleClearAll = async () => {
     setIsLoading(true)
     try {
-      await fetch("/api/edge/cache/clear", { method: "POST" })
+      await fetch('/api/edge/cache/clear', { method: 'POST' })
       toast({
-        title: "已清空所有缓存",
+        title: '已清空所有缓存',
       })
     } catch (error) {
       toast({
-        title: "清空缓存失败",
-        variant: "destructive",
+        title: '清空缓存失败',
+        variant: 'destructive',
       })
     } finally {
       setIsLoading(false)
@@ -67,15 +68,15 @@ export function CacheControlPanel() {
   const handleWarmup = async () => {
     setIsLoading(true)
     try {
-      await fetch("/api/edge/cache/warmup", { method: "POST" })
+      await fetch('/api/edge/cache/warmup', { method: 'POST' })
       toast({
-        title: "缓存预热已启动",
-        description: "预计需要1-2分钟完成",
+        title: '缓存预热已启动',
+        description: '预计需要1-2分钟完成',
       })
     } catch (error) {
       toast({
-        title: "缓存预热失败",
-        variant: "destructive",
+        title: '缓存预热失败',
+        variant: 'destructive',
       })
     } finally {
       setIsLoading(false)
@@ -96,7 +97,7 @@ export function CacheControlPanel() {
               id="pattern"
               placeholder="例如: products:* 或 api:*"
               value={pattern}
-              onChange={(e) => setPattern(e.target.value)}
+              onChange={e => setPattern(e.target.value)}
             />
             <Button onClick={handleInvalidate} disabled={isLoading}>
               <RefreshCw className="h-4 w-4 mr-2" />

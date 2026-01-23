@@ -1,9 +1,10 @@
-"use client"
+'use client'
 
-import { Component, type ReactNode } from "react"
-import { AlertTriangle, RefreshCw } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import * as React from 'react'
+import { Component, type ReactNode } from 'react'
+import { AlertTriangle, RefreshCw } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface Props {
   children: ReactNode
@@ -27,10 +28,10 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: any) {
-    console.error("[v0] 错误边界捕获错误:", error, errorInfo)
+    console.error('[v0] 错误边界捕获错误:', error, errorInfo)
 
     // 可以在这里上报错误到监控系统
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       // 示例：上报到错误监控服务
       // errorReportingService.report(error, errorInfo)
     }
@@ -59,7 +60,9 @@ export class ErrorBoundary extends Component<Props, State> {
             <CardContent className="space-y-4">
               {this.state.error && (
                 <div className="rounded-lg bg-muted p-3">
-                  <p className="text-sm font-mono text-muted-foreground">{this.state.error.message}</p>
+                  <p className="text-sm font-mono text-muted-foreground">
+                    {this.state.error.message}
+                  </p>
                 </div>
               )}
               <div className="flex gap-2">
@@ -67,7 +70,11 @@ export class ErrorBoundary extends Component<Props, State> {
                   <RefreshCw className="mr-2 h-4 w-4" />
                   重试
                 </Button>
-                <Button variant="outline" onClick={() => (window.location.href = "/dashboard")} className="flex-1">
+                <Button
+                  variant="outline"
+                  onClick={() => (window.location.href = '/dashboard')}
+                  className="flex-1"
+                >
                   返回首页
                 </Button>
               </div>

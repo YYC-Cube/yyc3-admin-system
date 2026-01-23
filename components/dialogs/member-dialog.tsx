@@ -1,9 +1,10 @@
-"use client"
+'use client'
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { MemberForm } from "@/components/forms/member-form"
-import type { Member } from "@/lib/types"
-import type { MemberFormData } from "@/lib/validations/member"
+import * as React from 'react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { MemberForm } from '@/components/forms/member-form'
+import type { Member } from '@/lib/types'
+import type { MemberFormData } from '@/lib/validations/member'
 
 interface MemberDialogProps {
   open: boolean
@@ -22,7 +23,7 @@ export function MemberDialog({ open, onOpenChange, member, onSubmit }: MemberDia
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{member ? "编辑会员" : "新增会员"}</DialogTitle>
+          <DialogTitle>{member ? '编辑会员' : '新增会员'}</DialogTitle>
         </DialogHeader>
         <MemberForm member={member} onSubmit={handleSubmit} onCancel={() => onOpenChange(false)} />
       </DialogContent>

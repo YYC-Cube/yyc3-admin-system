@@ -1,12 +1,13 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ImageIcon, BarChart3Icon, ActivityIcon, ZapIcon } from "lucide-react"
-import { ImageProcessPanel } from "./image-process-panel"
-import { DataAggregatePanel } from "./data-aggregate-panel"
-import { RealtimeAnalysisPanel } from "./realtime-analysis-panel"
+import * as React from 'react'
+import { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ImageIcon, BarChart3Icon, ActivityIcon, ZapIcon } from 'lucide-react'
+import { ImageProcessPanel } from './image-process-panel'
+import { DataAggregatePanel } from './data-aggregate-panel'
+import { RealtimeAnalysisPanel } from './realtime-analysis-panel'
 
 export function EdgeComputeDashboard() {
   const [metrics] = useState({

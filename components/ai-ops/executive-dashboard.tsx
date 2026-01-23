@@ -1,10 +1,11 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import * as React from 'react'
+import { useState, useEffect } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   TrendingUp,
   TrendingDown,
@@ -15,7 +16,7 @@ import {
   ArrowUpRight,
   Lightbulb,
   Shield,
-} from "lucide-react"
+} from 'lucide-react'
 
 export default function ExecutiveDashboard() {
   const [strategicView, setStrategicView] = useState<any>(null)
@@ -31,31 +32,31 @@ export default function ExecutiveDashboard() {
   const loadDashboardData = async () => {
     setLoading(true)
     try {
-      const storeIds = ["store_001"]
+      const storeIds = ['store_001']
       const timeRange = {
         startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
         endDate: new Date().toISOString(),
       }
 
       const [viewRes, kpiRes, recRes, riskRes] = await Promise.all([
-        fetch("/api/ai-ops/executive/strategic-view", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        fetch('/api/ai-ops/executive/strategic-view', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ storeIds, timeRange }),
         }),
-        fetch("/api/ai-ops/executive/kpis", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        fetch('/api/ai-ops/executive/kpis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ storeIds, timeRange }),
         }),
-        fetch("/api/ai-ops/executive/recommendations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        fetch('/api/ai-ops/executive/recommendations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ storeIds, timeRange }),
         }),
-        fetch("/api/ai-ops/executive/risks", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        fetch('/api/ai-ops/executive/risks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ storeIds, timeRange }),
         }),
       ])
@@ -72,7 +73,7 @@ export default function ExecutiveDashboard() {
       setRecommendations(recData.data || [])
       setRisks(riskData.data || [])
     } catch (error) {
-      console.error("加载仪表板数据失败:", error)
+      console.error('加载仪表板数据失败:', error)
     } finally {
       setLoading(false)
     }
@@ -82,7 +83,8 @@ export default function ExecutiveDashboard() {
     return <div>加载中...</div>
   }
 
-  const { overview, financialMetrics, operationalMetrics, customerMetrics, employeeMetrics } = strategicView
+  const { overview, financialMetrics, operationalMetrics, customerMetrics, employeeMetrics } =
+    strategicView
 
   return (
     <div className="space-y-6">
@@ -95,15 +97,19 @@ export default function ExecutiveDashboard() {
           <CardContent>
             <div className="text-3xl font-bold">{overview.healthScore}</div>
             <div className="flex items-center gap-2 mt-2">
-              {overview.trend === "up" ? (
+              {overview.trend === 'up' ? (
                 <TrendingUp className="h-4 w-4 text-green-500" />
-              ) : overview.trend === "down" ? (
+              ) : overview.trend === 'down' ? (
                 <TrendingDown className="h-4 w-4 text-red-500" />
               ) : (
                 <Activity className="h-4 w-4 text-gray-500" />
               )}
               <span className="text-sm text-muted-foreground">
-                {overview.trend === "up" ? "上升趋势" : overview.trend === "down" ? "下降趋势" : "保持稳定"}
+                {overview.trend === 'up'
+                  ? '上升趋势'
+                  : overview.trend === 'down'
+                    ? '下降趋势'
+                    : '保持稳定'}
               </span>
             </div>
           </CardContent>
@@ -134,7 +140,9 @@ export default function ExecutiveDashboard() {
             <CardTitle className="text-sm font-medium">营业收入</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">¥{(financialMetrics.revenue / 10000).toFixed(1)}万</div>
+            <div className="text-3xl font-bold">
+              ¥{(financialMetrics.revenue / 10000).toFixed(1)}万
+            </div>
             <div className="flex items-center gap-2 mt-2">
               <ArrowUpRight className="h-4 w-4 text-green-500" />
               <span className="text-sm text-green-500">+{financialMetrics.growth.toFixed(1)}%</span>
@@ -179,8 +187,12 @@ export default function ExecutiveDashboard() {
                 <CardTitle>营业收入</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">¥{(financialMetrics.revenue / 10000).toFixed(1)}万</div>
-                <p className="text-sm text-muted-foreground mt-2">同比增长 {financialMetrics.growth.toFixed(1)}%</p>
+                <div className="text-2xl font-bold">
+                  ¥{(financialMetrics.revenue / 10000).toFixed(1)}万
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">
+                  同比增长 {financialMetrics.growth.toFixed(1)}%
+                </p>
               </CardContent>
             </Card>
 
@@ -189,8 +201,12 @@ export default function ExecutiveDashboard() {
                 <CardTitle>净利润</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">¥{(financialMetrics.profit / 10000).toFixed(1)}万</div>
-                <p className="text-sm text-muted-foreground mt-2">利润率 {financialMetrics.margin.toFixed(1)}%</p>
+                <div className="text-2xl font-bold">
+                  ¥{(financialMetrics.profit / 10000).toFixed(1)}万
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">
+                  利润率 {financialMetrics.margin.toFixed(1)}%
+                </p>
               </CardContent>
             </Card>
 
@@ -310,17 +326,25 @@ export default function ExecutiveDashboard() {
 
         <TabsContent value="recommendations" className="space-y-4">
           <div className="space-y-4">
-            {recommendations.map((rec) => (
+            {recommendations.map(rec => (
               <Card key={rec.id}>
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">{rec.title}</CardTitle>
                     <Badge
                       variant={
-                        rec.priority === "high" ? "destructive" : rec.priority === "medium" ? "default" : "secondary"
+                        rec.priority === 'high'
+                          ? 'destructive'
+                          : rec.priority === 'medium'
+                            ? 'default'
+                            : 'secondary'
                       }
                     >
-                      {rec.priority === "high" ? "高优先级" : rec.priority === "medium" ? "中优先级" : "低优先级"}
+                      {rec.priority === 'high'
+                        ? '高优先级'
+                        : rec.priority === 'medium'
+                          ? '中优先级'
+                          : '低优先级'}
                     </Badge>
                   </div>
                   <CardDescription>{rec.category}</CardDescription>
@@ -343,7 +367,9 @@ export default function ExecutiveDashboard() {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">预期ROI</p>
-                      <p className="text-lg font-semibold text-blue-500">{rec.expectedImpact.roi}%</p>
+                      <p className="text-lg font-semibold text-blue-500">
+                        {rec.expectedImpact.roi}%
+                      </p>
                     </div>
                   </div>
 
@@ -370,29 +396,29 @@ export default function ExecutiveDashboard() {
 
         <TabsContent value="risks" className="space-y-4">
           <div className="space-y-4">
-            {risks.map((risk) => (
+            {risks.map(risk => (
               <Card key={risk.id} className="border-l-4 border-l-red-500">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">{risk.title}</CardTitle>
                     <Badge
                       variant={
-                        risk.severity === "critical"
-                          ? "destructive"
-                          : risk.severity === "high"
-                            ? "destructive"
-                            : risk.severity === "medium"
-                              ? "default"
-                              : "secondary"
+                        risk.severity === 'critical'
+                          ? 'destructive'
+                          : risk.severity === 'high'
+                            ? 'destructive'
+                            : risk.severity === 'medium'
+                              ? 'default'
+                              : 'secondary'
                       }
                     >
-                      {risk.severity === "critical"
-                        ? "严重"
-                        : risk.severity === "high"
-                          ? "高风险"
-                          : risk.severity === "medium"
-                            ? "中风险"
-                            : "低风险"}
+                      {risk.severity === 'critical'
+                        ? '严重'
+                        : risk.severity === 'high'
+                          ? '高风险'
+                          : risk.severity === 'medium'
+                            ? '中风险'
+                            : '低风险'}
                     </Badge>
                   </div>
                   <CardDescription>{risk.category}</CardDescription>
@@ -403,7 +429,9 @@ export default function ExecutiveDashboard() {
                   <div className="grid grid-cols-3 gap-4">
                     <div>
                       <p className="text-sm text-muted-foreground">发生概率</p>
-                      <p className="text-lg font-semibold">{(risk.probability * 100).toFixed(0)}%</p>
+                      <p className="text-lg font-semibold">
+                        {(risk.probability * 100).toFixed(0)}%
+                      </p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">影响程度</p>
@@ -411,7 +439,9 @@ export default function ExecutiveDashboard() {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">风险分数</p>
-                      <p className="text-lg font-semibold text-red-500">{(risk.riskScore * 100).toFixed(0)}</p>
+                      <p className="text-lg font-semibold text-red-500">
+                        {(risk.riskScore * 100).toFixed(0)}
+                      </p>
                     </div>
                   </div>
 
@@ -428,7 +458,8 @@ export default function ExecutiveDashboard() {
 
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">
-                      负责人: {risk.owner} | 截止日期: {new Date(risk.deadline).toLocaleDateString()}
+                      负责人: {risk.owner} | 截止日期:{' '}
+                      {new Date(risk.deadline).toLocaleDateString()}
                     </span>
                     <Button size="sm" variant="outline">
                       制定方案
