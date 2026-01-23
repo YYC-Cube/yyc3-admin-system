@@ -9,11 +9,13 @@
 ### 1.1 优化策略
 
 **转换为服务端组件的页面：**
+
 - ✅ 仪表盘页面 (`app/dashboard/page.tsx`)
 - ✅ 报表页面（数据密集型页面）
 - ✅ 设置页面（静态内容为主）
 
 **保留客户端组件的场景：**
+
 - 需要交互的组件（按钮、表单、动画）
 - 使用React Hooks的组件
 - 需要浏览器API的组件
@@ -21,11 +23,13 @@
 ### 1.2 实施效果
 
 **性能提升：**
+
 - 首屏加载时间：3.5s → 1.8s（提升49%）
 - JavaScript包大小：减少35%
 - Time to Interactive：2.1s → 1.2s（提升43%）
 
 **SEO优化：**
+
 - 服务端渲染提升搜索引擎爬取效率
 - 更好的社交媒体分享预览
 
@@ -51,6 +55,7 @@
 ### 2.2 Redis缓存实现
 
 **功能特性：**
+
 - ✅ 连接池管理
 - ✅ 自动重连机制
 - ✅ 降级到内存缓存
@@ -85,10 +90,12 @@ export const revalidate = 60 // 页面级缓存
 ### 2.4 缓存效果
 
 **命中率：**
+
 - Redis缓存命中率：85%
 - Next.js缓存命中率：92%
 
 **性能提升：**
+
 - API响应时间：200ms → 15ms（提升92%）
 - 数据库查询减少：70%
 
@@ -97,35 +104,40 @@ export const revalidate = 60 // 页面级缓存
 ### 3.1 静态资源CDN
 
 **配置内容：**
+
 - 图片资源CDN加速
 - JavaScript/CSS文件CDN分发
 - 字体文件CDN加速
 
 **CDN域名：**
 \`\`\`
-静态资源：https://static.cdn.example.com
-图片资源：https://img.cdn.example.com
+静态资源：<https://static.cdn.example.com>
+图片资源：<https://img.cdn.example.com>
 \`\`\`
 
 ### 3.2 缓存策略
 
 **长期缓存（1年）：**
+
 - JavaScript bundles
 - CSS文件
 - 字体文件
 - 图片资源
 
 **短期缓存（1天）：**
+
 - HTML页面
 - API响应
 
 ### 3.3 性能提升
 
 **加载速度：**
+
 - 静态资源加载时间：减少60%
 - 全球访问延迟：降低45%
 
 **带宽节省：**
+
 - 源站带宽使用：减少75%
 - CDN命中率：95%
 
@@ -134,11 +146,13 @@ export const revalidate = 60 // 页面级缓存
 ### 4.1 Nginx配置
 
 **负载均衡策略：**
+
 - 算法：least_conn（最少连接）
 - 后端服务器：3台（权重3:2:1）
 - 备用服务器：1台
 
 **健康检查：**
+
 - 检查间隔：30秒
 - 失败阈值：3次
 - 超时时间：30秒
@@ -146,22 +160,26 @@ export const revalidate = 60 // 页面级缓存
 ### 4.2 高可用设计
 
 **故障转移：**
+
 - 自动检测服务器故障
 - 自动切换到备用服务器
 - 故障恢复后自动加入
 
 **会话保持：**
+
 - 基于IP的会话保持
 - Cookie会话保持
 
 ### 4.3 性能指标
 
 **并发处理能力：**
+
 - 单服务器：1000 req/s
 - 集群总计：3000 req/s
 - 峰值处理：5000 req/s
 
 **可用性：**
+
 - 系统可用性：99.9%
 - 平均故障恢复时间：< 30秒
 
@@ -170,6 +188,7 @@ export const revalidate = 60 // 页面级缓存
 ### 5.1 日志系统
 
 **日志级别：**
+
 - DEBUG：调试信息
 - INFO：一般信息
 - WARN：警告信息
@@ -190,12 +209,14 @@ export const revalidate = 60 // 页面级缓存
 \`\`\`
 
 **日志收集：**
+
 - 开发环境：控制台输出
 - 生产环境：发送到日志服务
 
 ### 5.2 性能监控
 
 **监控指标：**
+
 - 请求计数器
 - 响应时间
 - 错误率
@@ -212,12 +233,14 @@ async getProducts() {
 ### 5.3 告警机制
 
 **告警规则：**
+
 - 错误率 > 5%
 - 响应时间 > 1000ms
 - CPU使用率 > 80%
 - 内存使用率 > 85%
 
 **告警渠道：**
+
 - 邮件通知
 - 短信通知
 - 钉钉/企业微信
@@ -225,20 +248,26 @@ async getProducts() {
 ## 六、环境变量配置
 
 \`\`\`env
+
 # Redis配置
+
 REDIS_URL=redis://localhost:6379
 
 # CDN配置
-CDN_URL=https://cdn.example.com
+
+CDN_URL=<https://cdn.example.com>
 
 # 日志服务
-LOG_SERVICE_URL=https://logs.example.com/api/logs
+
+LOG_SERVICE_URL=<https://logs.example.com/api/logs>
 
 # 监控服务
-METRICS_SERVICE_URL=https://metrics.example.com/api/metrics
+
+METRICS_SERVICE_URL=<https://metrics.example.com/api/metrics>
 
 # API基础URL
-NEXT_PUBLIC_API_URL=https://api.example.com
+
+NEXT_PUBLIC_API_URL=<https://api.example.com>
 \`\`\`
 
 ## 七、部署架构图
@@ -291,10 +320,12 @@ NEXT_PUBLIC_API_URL=https://api.example.com
 ### 8.2 成本优化
 
 **服务器成本：**
+
 - 优化前：3台服务器满负荷运行
 - 优化后：3台服务器平均负载40%
 
 **带宽成本：**
+
 - CDN加速后带宽成本降低60%
 
 ## 九、最佳实践建议

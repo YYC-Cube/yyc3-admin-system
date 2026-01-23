@@ -1,0 +1,92 @@
+{
+  "name": "problems-and-diagnostics-config",
+  "description": "问题诊断工具包配置文件",
+  "version": "1.0.0",
+  "settings": {
+    "quick_check": {
+      "timeout": 300000,
+      "include_performance": true,
+      "include_security": false,
+      "max_issues_to_display": 10
+    },
+    "full_diagnosis": {
+      "timeout": 900000,
+      "include_bundle_analysis": true,
+      "include_dependency_check": true,
+      "include_git_analysis": true,
+      "generate_detailed_report": true
+    },
+    "error_analysis": {
+      "log_files_to_scan": [
+        ".next/trace",
+        "logs/error.log",
+        "console.log"
+      ],
+      "max_errors_to_analyze": 100,
+      "include_stack_trace": true
+    },
+    "performance_check": {
+      "check_bundle_size": true,
+      "check_memory_usage": true,
+      "check_build_time": true,
+      "check_runtime_performance": true,
+      "thresholds": {
+        "bundle_size_mb": 500,
+        "memory_usage_mb": 200,
+        "build_time_seconds": 300
+      }
+    },
+    "security_scan": {
+      "check_npm_vulnerabilities": true,
+      "check_file_permissions": true,
+      "check_exposed_secrets": true,
+      "check_security_headers": true,
+      "check_cors_configuration": true
+    }
+  },
+  "excluded_paths": [
+    "node_modules",
+    ".git",
+    ".next/static",
+    ".vercel",
+    "dist"
+  ],
+  "monitoring": {
+    "auto_scan_interval": 3600000,
+    "alert_thresholds": {
+      "disk_usage_percent": 85,
+      "memory_usage_percent": 80,
+      "error_rate_per_hour": 50
+    }
+  },
+  "reporting": {
+    "auto_generate_reports": false,
+    "report_formats": ["json", "html"],
+    "max_reports_to_keep": 10,
+    "include_suggestions": true
+  },
+  "notifications": {
+    "enable_slack_notifications": false,
+    "enable_email_alerts": false,
+    "slack_webhook_url": "",
+    "email_recipients": []
+  },
+  "integrations": {
+    "jira": {
+      "enabled": false,
+      "api_endpoint": "",
+      "project_key": ""
+    },
+    "github": {
+      "enabled": false,
+      "repository": "",
+      "api_token": ""
+    }
+  },
+  "advanced": {
+    "enable_machine_learning": false,
+    "custom_scripts": [],
+    "external_tools": [],
+    "api_endpoints": []
+  }
+}

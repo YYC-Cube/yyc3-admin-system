@@ -110,7 +110,6 @@ export class VRKaraokeSystem extends EventEmitter {
   private currentEnvironment: VREnvironment | null = null
   private currentRoom: VRRoom | null = null
   private audioListener: THREE.AudioListener | null = null
-  private animationFrameId: number | null = null
 
   constructor() {
     super()
@@ -119,7 +118,7 @@ export class VRKaraokeSystem extends EventEmitter {
   /**
    * 初始化VR环境
    */
-  async initVREnvironment(roomType: RoomType): Promise<VREnvironment> {
+  async initVREnvironment(): Promise<VREnvironment> {
     if (typeof window === "undefined") {
       throw new Error("VR环境只能在浏览器中初始化")
     }
@@ -218,7 +217,7 @@ export class VRKaraokeSystem extends EventEmitter {
   private async loadControllerModels(): Promise<any> {
     // 简化实现，实际应使用XRControllerModelFactory
     return {
-      createControllerModel: (grip: THREE.Group) => {
+      createControllerModel: () => {
         const geometry = new THREE.BoxGeometry(0.05, 0.05, 0.15)
         const material = new THREE.MeshStandardMaterial({ color: 0x333333 })
         return new THREE.Mesh(geometry, material)
@@ -270,7 +269,7 @@ export class VRKaraokeSystem extends EventEmitter {
     room.furniture.push(floor)
 
     // 添加墙壁
-    this.createWalls(scene, room, roomConfig)
+    this.createWalls(scene, room)
 
     // 添加天花板
     const ceilingGeometry = new THREE.PlaneGeometry(8, 8)
@@ -297,7 +296,7 @@ export class VRKaraokeSystem extends EventEmitter {
     this.setupLighting(scene, room, roomConfig.lighting)
 
     // 添加音响系统
-    this.setupAudioSystem(room, roomConfig.audio)
+    this.setupAudioSystem(room)
 
     this.rooms.set(room.id, room)
     this.currentRoom = room
@@ -311,7 +310,7 @@ export class VRKaraokeSystem extends EventEmitter {
   /**
    * 创建墙壁
    */
-  private createWalls(scene: THREE.Scene, room: VRRoom, config: RoomConfig): void {
+  private createWalls(scene: THREE.Scene, room: VRRoom): void {
     const wallMaterial = new THREE.MeshStandardMaterial({
       color: 0x3a3a4e,
       roughness: 0.7,
@@ -425,7 +424,7 @@ export class VRKaraokeSystem extends EventEmitter {
 
     // 屏幕
     const screenGeometry = new THREE.PlaneGeometry(3, 1.7)
-    const screenMaterial = new THREE.MeshBasicMaterial({
+    const screenMaterial = new THREE.MeshStandardMaterial({
       color: 0x000000,
       emissive: 0x111111,
     })
@@ -456,7 +455,7 @@ export class VRKaraokeSystem extends EventEmitter {
     room.lighting.push(ambientLight)
 
     // 聚光灯
-    config.spotlights.forEach((spotConfig, index) => {
+    config.spotlights.forEach((spotConfig) => {
       const spotlight = new THREE.SpotLight(spotConfig.color, spotConfig.intensity)
       spotlight.position.copy(spotConfig.position)
       spotlight.angle = spotConfig.angle
@@ -483,7 +482,7 @@ export class VRKaraokeSystem extends EventEmitter {
   /**
    * 设置音响系统
    */
-  private setupAudioSystem(room: VRRoom, config: AudioConfig): void {
+  private setupAudioSystem(room: VRRoom): void {
     if (!this.audioListener) {
       console.warn("[v0] 音频监听器未初始化")
       return
@@ -518,7 +517,7 @@ export class VRKaraokeSystem extends EventEmitter {
     if (input.button) {
       switch (input.button) {
         case "trigger":
-          return this.handleTriggerPress(input)
+          return this.handleTriggerPress()
         case "grip":
           return this.handleGripPress(input)
         case "menu":
@@ -539,7 +538,7 @@ export class VRKaraokeSystem extends EventEmitter {
   /**
    * 处理扳机按下
    */
-  private handleTriggerPress(input: ControllerInput): VRAction {
+  private handleTriggerPress(): VRAction {
     // 射线检测
     const raycaster = new THREE.Raycaster()
     // 实际应用中应使用控制器的位置和方向
@@ -573,7 +572,7 @@ export class VRKaraokeSystem extends EventEmitter {
    * 处理摇杆输入
    */
   private handleAxisInput(input: ControllerInput): VRAction {
-    const { x, y } = input.axis!
+    const { y } = input.axis!
 
     // 传送移动
     if (Math.abs(y) > 0.5) {

@@ -384,7 +384,7 @@ export function getSmartRoomControl(): SmartRoomControl {
 
 // 保留向后兼容的导出
 export const smartRoomControl = new Proxy({} as SmartRoomControl, {
-  get(target, prop) {
+  get(_target, prop) {
     return getSmartRoomControl()[prop as keyof SmartRoomControl]
   },
 })

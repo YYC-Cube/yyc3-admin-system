@@ -1,0 +1,17 @@
+node_modules
+.next
+dist
+build
+coverage
+*.min.js
+*.min.css
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.vercel
+.turbo
+__tests__/fixtures
+performance/results
+*.log
+.env
+.env.local

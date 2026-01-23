@@ -90,7 +90,9 @@ export interface RevenueProjection {
 }
 
 export class DynamicPricingEngine {
-  private historicalData: HistoricalData[] = []
+  // @ts-ignore: 属性预留用于未来功能扩展
+  private _historicalData: HistoricalData[] = []
+  // @ts-ignore: 属性预留用于未来功能扩展
   private competitorPrices: Map<string, CompetitorPrice[]> = new Map()
 
   // 需求预测
@@ -201,7 +203,7 @@ export class DynamicPricingEngine {
   }
 
   // 私有辅助方法
-  private extractSeasonality(timeSlot: TimeSlot, data: HistoricalData[]): number {
+  private extractSeasonality(timeSlot: TimeSlot, _data: HistoricalData[]): number {
     // 提取季节性模式
     const dayOfWeek = timeSlot.dayOfWeek
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6
@@ -220,12 +222,12 @@ export class DynamicPricingEngine {
     return (avgRecent - avgAll) / avgAll
   }
 
-  private async getEventImpact(timeSlot: TimeSlot): Promise<number> {
+  private async getEventImpact(_timeSlot: TimeSlot): Promise<number> {
     // 获取事件影响（节假日、活动等）
     return 0
   }
 
-  private async getWeatherImpact(timeSlot: TimeSlot): Promise<number> {
+  private async getWeatherImpact(_timeSlot: TimeSlot): Promise<number> {
     // 获取天气影响
     return 0
   }
@@ -300,7 +302,7 @@ export class DynamicPricingEngine {
     return reasons.join("，") || "基于历史数据定价"
   }
 
-  private applyPriceStrategy(strategy: PriceStrategy, date: Date): number {
+  private applyPriceStrategy(strategy: PriceStrategy, _date: Date): number {
     let basePrice = 100
 
     for (const rule of strategy.rules) {
@@ -311,7 +313,7 @@ export class DynamicPricingEngine {
     return basePrice
   }
 
-  private predictOccupancyForDate(date: Date, price: number, capacity: Capacity): number {
+  private predictOccupancyForDate(date: Date, price: number, _capacity: Capacity): number {
     // 简化的入住率预测
     const dayOfWeek = date.getDay()
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6

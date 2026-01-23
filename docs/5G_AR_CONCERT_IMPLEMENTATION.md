@@ -55,6 +55,7 @@ AR虚拟演唱会系统使用增强现实技术，在真实环境中叠加虚拟
 主要的AR演唱会系统类，负责场景管理、渲染和交互。
 
 **主要方法**:
+
 - `loadARScene(sceneId)` - 加载AR场景
 - `renderVirtualSinger(singer, pose)` - 渲染虚拟歌手
 - `handleInteraction(gesture)` - 处理用户交互

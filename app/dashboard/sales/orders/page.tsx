@@ -15,7 +15,7 @@ import { Badge } from "@/components/ui/badge"
 const orders = [
   {
     id: "CC02194467450499",
-    store: "巨嗨KTV",
+    store: "启智",
     room: "5100",
     amount: "1.00",
     paid: "1.00",
@@ -28,7 +28,7 @@ const orders = [
   },
   {
     id: "CC02189254211014",
-    store: "巨嗨KTV",
+    store: "启智",
     room: "5100",
     amount: "0.01",
     paid: "0.01",
@@ -41,7 +41,7 @@ const orders = [
   },
   {
     id: "CB29790273903364",
-    store: "巨嗨KTV",
+    store: "启智",
     room: "BBS",
     amount: "0.02",
     paid: "0.01",
@@ -87,7 +87,7 @@ export default function OrdersPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">全部门店</SelectItem>
-                    <SelectItem value="store1">巨嗨KTV</SelectItem>
+                    <SelectItem value="store1">启智</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

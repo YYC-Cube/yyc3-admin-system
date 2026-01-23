@@ -301,7 +301,7 @@ await complianceAuditEngine.trackDataChange(
 const result = await complianceAuditEngine.checkCompliance("customer_data", {
   name: "张三",
   phone: "13800138000",
-  email: "zhangsan@example.com",
+  email: "<zhangsan@example.com>",
 })
 
 console.log("合规性:", result.compliant)

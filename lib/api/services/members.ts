@@ -1,7 +1,14 @@
-// 会员API服务
+/** 
+ * @file members.ts
+ * @description 会员API服务 - 处理会员的增删改查、充值、消费和积分兑换等操作
+ * @author YYC³ 
+ * @version 1.0.0 
+ * @created 2025-09-15 
+ */
 
 import { apiClient } from "../client"
-import type { Member, ApiResponse, PaginatedResponse } from "@/lib/types"
+import type { Member } from "../../types"
+import type { ApiResponse, PaginatedResponse } from "../../types/api"
 
 export const memberService = {
   // 获取会员列表

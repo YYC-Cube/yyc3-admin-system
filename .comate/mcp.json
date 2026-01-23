@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "yyc3-cn-assistant": {
+      "command": "bun",
+      "args": [
+        "/Users/yanyu/www/API文档/YYC3-CN/代码/yyc3-cn-mcp-server.js"
+      ],
+      "env": {
+        "TRAE_CN_MODE": "development",
+        "NODE_ENV": "development"
+      }
+    }
+  }
+}

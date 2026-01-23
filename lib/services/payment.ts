@@ -71,7 +71,7 @@ async function generateAlipayQRCode(payment: Payment): Promise<string> {
 }
 
 // 查询支付状态
-export async function queryPaymentStatus(paymentId: string): Promise<PaymentStatus> {
+export async function queryPaymentStatus(_paymentId: string): Promise<PaymentStatus> {
   // 模拟查询支付状态
   // 实际应用中应该调用支付平台API查询
   return PaymentStatus.PENDING
@@ -97,7 +97,7 @@ export async function handlePaymentCallback(callback: PaymentCallback): Promise<
 }
 
 // 验证回调签名
-function verifyCallbackSignature(callback: PaymentCallback): boolean {
+function verifyCallbackSignature(_callback: PaymentCallback): boolean {
   // 模拟签名验证
   // 实际应用中应该使用真实的签名验证逻辑
   return true

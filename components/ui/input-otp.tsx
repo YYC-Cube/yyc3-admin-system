@@ -28,11 +28,10 @@ function InputOTP({
 
 function InputOTPGroup({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <div
-      data-slot="input-otp-group"
+    <div data-slot="input-otp-group"
       className={cn('flex items-center', className)}
       {...props}
-    />
+    ></div>
   )
 }
 
@@ -59,7 +58,7 @@ function InputOTPSlot({
       {char}
       {hasFakeCaret && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="animate-caret-blink bg-foreground h-4 w-px duration-1000" />
+          <div className="animate-caret-blink bg-foreground h-4 w-px duration-1000" ></div>
         </div>
       )}
     </div>

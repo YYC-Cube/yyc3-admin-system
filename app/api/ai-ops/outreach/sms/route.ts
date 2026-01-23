@@ -5,7 +5,7 @@ export const runtime = "nodejs"
 
 export async function POST(request: NextRequest) {
   try {
-    const { phoneNumber, message, templateId, batch } = await request.json()
+    const { phoneNumber, message, templateId: _templateId, batch } = await request.json()
 
     if (batch && Array.isArray(phoneNumber)) {
       // 批量发送

@@ -1,3 +1,5 @@
+"use client"
+
 import { Suspense } from "react"
 import { MarketingDashboard } from "@/components/ai/marketing-dashboard"
 

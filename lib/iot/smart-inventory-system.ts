@@ -571,7 +571,7 @@ export function getSmartInventorySystem(): SmartInventorySystem {
 
 // 保留向后兼容的导出
 export const smartInventorySystem = new Proxy({} as SmartInventorySystem, {
-  get(target, prop) {
+  get(_target, prop) {
     return getSmartInventorySystem()[prop as keyof SmartInventorySystem]
   },
 })

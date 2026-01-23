@@ -5,40 +5,54 @@
 ### 环境准备
 
 \`\`\`bash
+
 # 安装依赖
+
 npm install
 
 # 安装Playwright浏览器
+
 npx playwright install
 \`\`\`
 
 ### 运行测试
 
 \`\`\`bash
+
 # 运行完整测试套件（推荐）
+
 npm run test:all
+
 # 或
+
 npm run test:run
 
 # 开发模式下运行单元测试（监听文件变化）
+
 npm run test
 
 # CI模式运行单元测试
+
 npm run test:ci
 
 # 查看测试覆盖率
+
 npm run test:coverage
 
 # 运行E2E测试
+
 npm run test:e2e
 
 # 运行E2E测试（UI模式）
+
 npm run test:e2e:ui
 
 # 运行性能测试
+
 npm run test:performance
 
 # 运行安全测试
+
 npm run test:security
 \`\`\`
 
@@ -75,7 +89,7 @@ npm run test:security
 **示例**:
 
 \`\`\`typescript
-// __tests__/lib/utils/format.test.ts
+// **tests**/lib/utils/format.test.ts
 import { formatPrice } from '@/lib/utils/format'
 
 describe('formatPrice', () => {
@@ -86,6 +100,7 @@ describe('formatPrice', () => {
 \`\`\`
 
 **最佳实践**:
+
 - 每个函数至少一个测试用例
 - 测试正常情况和边界情况
 - 使用描述性的测试名称
@@ -100,7 +115,7 @@ describe('formatPrice', () => {
 **示例**:
 
 \`\`\`typescript
-// __tests__/integration/api/products.test.ts
+// **tests**/integration/api/products.test.ts
 import { GET } from '@/app/api/products/route'
 
 describe('Products API', () => {
@@ -112,6 +127,7 @@ describe('Products API', () => {
 \`\`\`
 
 **最佳实践**:
+
 - 测试API端到端流程
 - 验证数据库交互
 - 检查错误处理
@@ -137,6 +153,7 @@ test('应该能够创建商品', async ({ page }) => {
 \`\`\`
 
 **最佳实践**:
+
 - 测试关键业务流程
 - 使用Page Object模式
 - 添加等待和重试机制
@@ -160,11 +177,12 @@ export const options = {
 }
 
 export default function () {
-  http.get('http://localhost:3000/api/products')
+  http.get('<http://localhost:3000/api/products>')
 }
 \`\`\`
 
 **最佳实践**:
+
 - 设置合理的负载阶段
 - 定义性能阈值
 - 监控系统资源
@@ -177,6 +195,7 @@ export default function () {
 **工具**: Playwright + 自定义脚本
 
 **测试项目**:
+
 - SQL注入
 - XSS攻击
 - CSRF攻击
@@ -205,25 +224,34 @@ npm run test:coverage
 ### 调试单元测试
 
 \`\`\`bash
+
 # 使用VS Code调试
+
 # 1. 在测试文件中设置断点
+
 # 2. 按F5启动调试
+
 # 3. 选择"Jest: Current File"
 
 # 使用Chrome DevTools
+
 node --inspect-brk node_modules/.bin/jest --runInBand
 \`\`\`
 
 ### 调试E2E测试
 
 \`\`\`bash
+
 # UI模式（推荐）
+
 npm run test:e2e:ui
 
 # 调试模式
+
 npx playwright test --debug
 
 # 慢速模式
+
 npx playwright test --slow-mo=1000
 \`\`\`
 
@@ -243,7 +271,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      
+
       - name: Install dependencies
         run: npm ci
       
@@ -263,7 +291,8 @@ jobs:
 
 ### Q: 测试运行很慢怎么办？
 
-A: 
+A:
+
 - 使用 `--maxWorkers=50%` 限制并行数
 - 只运行相关测试 `jest path/to/test`
 - 使用 `--onlyChanged` 只测试改动文件
@@ -271,6 +300,7 @@ A:
 ### Q: E2E测试不稳定怎么办？
 
 A:
+
 - 增加等待时间
 - 使用显式等待而非固定延迟
 - 检查网络请求是否完成
@@ -279,6 +309,7 @@ A:
 ### Q: 如何提高测试覆盖率？
 
 A:
+
 - 识别未覆盖的代码
 - 补充边界条件测试
 - 测试错误处理逻辑
@@ -297,6 +328,7 @@ A:
 ---
 
 更多信息请参考：
+
 - [Jest文档](https://jestjs.io/)
 - [Playwright文档](https://playwright.dev/)
 - [k6文档](https://k6.io/docs/)

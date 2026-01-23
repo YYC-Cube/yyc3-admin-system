@@ -119,7 +119,7 @@ export class FinancialAuditChain {
       }
     } catch (error) {
       console.error("[v0] 记录交易失败:", error)
-      throw new Error(`记录交易失败: ${error.message}`)
+      throw new Error(`记录交易失败: ${error instanceof Error ? error.message : String(error)}`)
     }
   }
 
@@ -187,7 +187,7 @@ export class FinancialAuditChain {
       }
     } catch (error) {
       console.error("[v0] 生成审计报告失败:", error)
-      throw new Error(`生成审计报告失败: ${error.message}`)
+      throw new Error(`生成审计报告失败: ${error instanceof Error ? error.message : String(error)}`)
     }
   }
 
@@ -214,7 +214,7 @@ export class FinancialAuditChain {
       const localHash = this.calculateHash(transaction)
 
       // 从区块链获取记录
-      const [onChainHash, txType, amount, timestamp, recorder] = await this.contract.getTransaction(recordId)
+      const [onChainHash, _txType, _amount, timestamp, _recorder] = await this.contract.getTransaction(recordId)
 
       // 验证哈希是否匹配
       const isValid = onChainHash === localHash
@@ -230,7 +230,7 @@ export class FinancialAuditChain {
       }
     } catch (error) {
       console.error("[v0] 验证数据完整性失败:", error)
-      throw new Error(`验证数据完整性失败: ${error.message}`)
+      throw new Error(`验证数据完整性失败: ${error instanceof Error ? error.message : String(error)}`)
     }
   }
 
@@ -291,7 +291,7 @@ export class FinancialAuditChain {
   /**
    * 从数据库获取交易记录（模拟）
    */
-  private async getTransactionFromDB(id: string): Promise<FinancialTransaction | null> {
+  private async getTransactionFromDB(_id: string): Promise<FinancialTransaction | null> {
     // 实际应该从数据库查询
     // 这里返回模拟数据
     return null
@@ -300,7 +300,7 @@ export class FinancialAuditChain {
   /**
    * 从数据库获取时间范围内的交易（模拟）
    */
-  private async getTransactionsFromDB(startDate: Date, endDate: Date): Promise<FinancialTransaction[]> {
+  private async getTransactionsFromDB(_startDate: Date, _endDate: Date): Promise<FinancialTransaction[]> {
     // 实际应该从数据库查询
     // 这里返回模拟数据
     return []
@@ -343,7 +343,7 @@ export class FinancialAuditChain {
   /**
    * 标记交易为已上链
    */
-  private async markAsRecorded(transactionId: string): Promise<void> {
+  private async markAsRecorded(_transactionId: string): Promise<void> {
     // 实际应该更新数据库记录
   }
 }

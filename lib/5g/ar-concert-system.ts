@@ -216,7 +216,7 @@ export class ARConcertSystem extends EventEmitter {
   /**
    * 创建虚拟歌手
    */
-  async createVirtualSinger(singerId: string, singerName: string, modelUrl?: string): Promise<VirtualSinger> {
+  async createVirtualSinger(singerId: string, singerName: string): Promise<VirtualSinger> {
     // 创建简单的人形模型(实际应用中应加载3D模型文件)
     const group = new THREE.Group()
 

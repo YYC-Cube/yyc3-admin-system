@@ -1,3 +1,5 @@
+"use client"
+
 import { Suspense } from "react"
 import { HRTalentDashboard } from "@/components/ai-ops/hr-talent-dashboard"
 

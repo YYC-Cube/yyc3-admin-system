@@ -39,7 +39,7 @@ export function downloadFile(blob: Blob, filename: string) {
 }
 
 // 导出商品数据
-export async function exportProducts(filters?: any) {
+export async function exportProducts(_filters?: any) {
   const { mockDB } = await import("@/lib/utils/storage")
   const products = mockDB.get("products") || []
 
@@ -52,7 +52,7 @@ export async function exportProducts(filters?: any) {
 }
 
 // 导出订单数据
-export async function exportOrders(filters?: any) {
+export async function exportOrders(_filters?: any) {
   const { mockDB } = await import("@/lib/utils/storage")
   const orders = mockDB.get("orders") || []
 
@@ -65,7 +65,7 @@ export async function exportOrders(filters?: any) {
 }
 
 // 导出会员数据
-export async function exportMembers(filters?: any) {
+export async function exportMembers(_filters?: any) {
   const { mockDB } = await import("@/lib/utils/storage")
   const members = mockDB.get("members") || []
 

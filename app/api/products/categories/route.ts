@@ -35,8 +35,7 @@ export async function POST(request: NextRequest) {
       name: body.name,
       displayOrder: body.displayOrder || 0,
       isDisplay: body.isDisplay !== false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      storeId: body.storeId || "store_1",
     }
 
     const created = await mockDatabase.create<ProductCategory>("categories", category)

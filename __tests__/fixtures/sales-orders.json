@@ -1,0 +1,35 @@
+{
+  "pageData": {
+    "title": "sales/orders 页面数据",
+    "items": [
+      {
+        "id": 1,
+        "name": "测试项目1",
+        "status": "active"
+      },
+      {
+        "id": 2,
+        "name": "测试项目2",
+        "status": "inactive"
+      }
+    ],
+    "metadata": {
+      "total": 2,
+      "page": 1,
+      "limit": 10
+    }
+  },
+  "userData": {
+    "id": 1,
+    "name": "测试用户",
+    "role": "admin"
+  },
+  "authData": {
+    "token": "test-token",
+    "permissions": [
+      "read",
+      "write",
+      "delete"
+    ]
+  }
+}

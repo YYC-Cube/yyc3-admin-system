@@ -3,7 +3,7 @@ import { mockDatabase } from "@/lib/utils/storage"
 import type { Member } from "@/lib/types"
 
 // 获取单个会员
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_request: NextRequest, { params }: any) {
   try {
     const member = await mockDatabase.findById<Member>("members", params.id)
 
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // 更新会员
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: any) {
   try {
     const body = await request.json()
 
@@ -76,7 +76,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // 删除会员
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_request: NextRequest, { params }: any) {
   try {
     const deleted = await mockDatabase.delete("members", params.id)
 

@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -87,8 +87,8 @@
 }
 
 @theme inline {
-  --font-sans: "Geist", "Geist Fallback", system-ui, -apple-system, sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", "Courier New", monospace;
+  --font-sans: 'Geist', 'Geist Fallback', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback', 'Courier New', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -150,5 +150,39 @@
 
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-muted-foreground/50;
+  }
+}
+
+/* 全局禁用纯黑色 - 替换为主题色 */
+@layer utilities {
+  /* 禁用黑色背景 */
+  .bg-black {
+    @apply bg-slate-900 dark:bg-slate-950;
+  }
+
+  /* 禁用黑色文本 */
+  .text-black {
+    @apply text-foreground;
+  }
+
+  /* 禁用黑色边框 */
+  .border-black {
+    @apply border-border;
+  }
+
+  /* 半透明黑色背景替换 */
+  .bg-black\/50,
+  .bg-black\/80,
+  .bg-black\/20 {
+    @apply bg-primary/20 backdrop-blur-sm;
+  }
+
+  /* 深色灰色替换 */
+  .bg-gray-900 {
+    @apply bg-slate-900 dark:bg-slate-950;
+  }
+
+  .text-gray-900 {
+    @apply text-foreground;
   }
 }

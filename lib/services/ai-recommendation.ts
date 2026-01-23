@@ -20,13 +20,13 @@ export async function recommendProducts(memberId: string, limit = 10): Promise<P
 }
 
 // 获取会员订单
-async function getMemberOrders(memberId: string): Promise<Order[]> {
+async function getMemberOrders(_memberId: string): Promise<Order[]> {
   // 模拟获取订单数据
   return []
 }
 
 // 分析购买偏好
-function analyzePreferences(orders: Order[]): {
+function analyzePreferences(_orders: Order[]): {
   categories: string[]
   priceRange: [number, number]
   frequency: number
@@ -41,15 +41,15 @@ function analyzePreferences(orders: Order[]): {
 
 // 协同过滤推荐
 async function collaborativeFiltering(
-  preferences: { categories: string[]; priceRange: [number, number] },
-  limit: number,
+  _preferences: { categories: string[]; priceRange: [number, number] },
+  _limit: number,
 ): Promise<Product[]> {
   // 模拟协同过滤算法
   return []
 }
 
 // 智能营销建议
-export async function generateMarketingSuggestions(storeId: string): Promise<
+export async function generateMarketingSuggestions(_storeId: string): Promise<
   Array<{
     type: "discount" | "bundle" | "promotion"
     title: string
@@ -82,7 +82,7 @@ export async function generateMarketingSuggestions(storeId: string): Promise<
 
 // 销售预测
 export async function predictSales(
-  storeId: string,
+  _storeId: string,
   days = 7,
 ): Promise<
   Array<{

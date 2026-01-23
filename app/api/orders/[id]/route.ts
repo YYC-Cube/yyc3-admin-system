@@ -1,9 +1,10 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { mockDatabase } from "@/lib/utils/storage"
 import type { Order } from "@/lib/types"
+import { PaymentStatus } from "@/lib/types"
 
 // 获取单个订单
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_request: NextRequest, { params }: any) {
   try {
     const order = await mockDatabase.findById<Order>("orders", params.id)
 
@@ -37,7 +38,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // 更新订单
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: any) {
   try {
     const body = await request.json()
 
@@ -76,7 +77,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // 取消订单
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_request: NextRequest, { params }: any) {
   try {
     const order = await mockDatabase.findById<Order>("orders", params.id)
 
@@ -93,7 +94,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
     // 更新订单状态为已取消
     const updated = await mockDatabase.update<Order>("orders", params.id, {
-      status: "cancelled",
+      paymentStatus: PaymentStatus.REFUNDED,
       updatedAt: new Date().toISOString(),
     })
 

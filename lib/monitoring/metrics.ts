@@ -76,7 +76,7 @@ export const metrics = new MetricsCollector()
 
 // 性能监控装饰器
 export function measurePerformance(metricName: string) {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (_target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value
 
     descriptor.value = async function (...args: any[]) {

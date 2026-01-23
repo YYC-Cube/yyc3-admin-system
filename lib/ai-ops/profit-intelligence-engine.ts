@@ -251,7 +251,6 @@ export class ProfitIntelligenceEngine {
       // 应用增长率和通胀率
       const forecastRevenue = lastData.revenue * (1 + assumptions.revenueGrowthRate / 100)
       const forecastCosts = lastData.costs * (1 + assumptions.costInflationRate / 100)
-      const forecastProfit = forecastRevenue - forecastCosts
 
       // 根据市场趋势调整
       let adjustedRevenue = forecastRevenue

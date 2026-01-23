@@ -337,13 +337,13 @@ export class EdgeAIInference {
   }
 
   private async runClassification(
-    modelInstance: any,
-    input: any,
+    _modelInstance: any,
+    _input: any,
     model: EdgeModel,
   ): Promise<Array<{ label: string; confidence: number }>> {
     // 模拟分类推理
     const labels = model.metadata.labels || []
-    const predictions = labels.map((label, index) => ({
+    const predictions = labels.map((label, _index) => ({
       label,
       confidence: Math.random(),
     }))
@@ -353,9 +353,9 @@ export class EdgeAIInference {
   }
 
   private async runRegression(
-    modelInstance: any,
-    input: any,
-    model: EdgeModel,
+    _modelInstance: any,
+    _input: any,
+    _model: EdgeModel,
   ): Promise<Array<{ label: string; confidence: number }>> {
     // 模拟回归推理
     const value = Math.random() * 100
@@ -368,9 +368,9 @@ export class EdgeAIInference {
   }
 
   private async runDetection(
-    modelInstance: any,
-    input: any,
-    model: EdgeModel,
+    _modelInstance: any,
+    _input: any,
+    _model: EdgeModel,
   ): Promise<Array<{ label: string; confidence: number }>> {
     // 模拟目标检测推理
     return [
@@ -380,9 +380,9 @@ export class EdgeAIInference {
   }
 
   private async runRecommendation(
-    modelInstance: any,
-    input: any,
-    model: EdgeModel,
+    _modelInstance: any,
+    _input: any,
+    _model: EdgeModel,
   ): Promise<Array<{ label: string; confidence: number }>> {
     // 模拟推荐推理
     return [
@@ -392,13 +392,13 @@ export class EdgeAIInference {
     ]
   }
 
-  private async verifyChecksum(url: string, expectedChecksum: string): Promise<boolean> {
+  private async verifyChecksum(_url: string, expectedChecksum: string): Promise<boolean> {
     // 实际应计算文件的SHA-256校验和
     console.log(`[EdgeAI] 验证模型校验和: ${expectedChecksum}`)
     return true
   }
 
-  private async downloadModel(url: string, modelId: string): Promise<void> {
+  private async downloadModel(url: string, _modelId: string): Promise<void> {
     // 实际应下载模型文件
     console.log(`[EdgeAI] 下载模型: ${url}`)
   }
@@ -437,7 +437,7 @@ export const edgeAIInference = new EdgeAIInference()
 
 // AI推理装饰器
 export function EdgeAI(modelId: string) {
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+  return (_target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value
 
     descriptor.value = async function (...args: any[]) {

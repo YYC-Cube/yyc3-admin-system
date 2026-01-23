@@ -3,7 +3,7 @@ import { smartRoomControl, type LightingMode, type ACMode, type SceneMode } from
 
 export const runtime = "nodejs"
 
-export async function POST(request: NextRequest, { params }: { params: { roomId: string } }) {
+export async function POST(request: NextRequest, { params }: any) {
   try {
     const { roomId } = params
     const body = await request.json()
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest, { params }: { params: { roomId:
   }
 }
 
-export async function GET(request: NextRequest, { params }: { params: { roomId: string } }) {
+export async function GET(_request: NextRequest, { params }: any) {
   try {
     const { roomId } = params
     const status = smartRoomControl.getRoomStatus(roomId)

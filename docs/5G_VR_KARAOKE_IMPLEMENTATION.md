@@ -55,6 +55,7 @@ VR包厢体验系统使用虚拟现实技术打造沉浸式KTV包厢体验，用
 #### VRKaraokeSystem类
 
 主要功能：
+
 - 初始化VR环境
 - 渲染虚拟包厢
 - 处理控制器输入
@@ -91,6 +92,7 @@ console.log('控制器数量:', environment.controllers.length)
 \`\`\`
 
 **功能说明**:
+
 - 创建Three.js场景和渲染器
 - 启用WebXR支持
 - 初始化VR控制器
@@ -132,6 +134,7 @@ console.log('家具数量:', room.furniture.length)
 \`\`\`
 
 **包厢元素**:
+
 - 地板: 8m x 8m，深色材质
 - 墙壁: 3m高，带纹理
 - 沙发: 2.5m宽，棕色皮革
@@ -159,6 +162,7 @@ console.log('目标对象:', action.target)
 \`\`\`
 
 **支持的交互**:
+
 - **扳机**: 选择和点击
 - **握把**: 抓取物体
 - **摇杆**: 移动和传送
@@ -187,6 +191,7 @@ console.log('距离衰减:', spatialStream.rolloff)
 \`\`\`
 
 **空间音频特性**:
+
 - 位置音频: 声音来自特定位置
 - 距离衰减: 远离声源音量降低
 - 混响效果: 模拟房间声学特性
@@ -227,12 +232,14 @@ vrKaraokeSystem.on('vr-session-stopped', () => {
 ### 5.1 环境要求
 
 **硬件要求**:
+
 - VR头显: Meta Quest 2/3, PICO 4, HTC Vive
 - 处理器: Intel i5 / AMD Ryzen 5 或更高
 - 显卡: NVIDIA GTX 1060 / AMD RX 580 或更高
 - 内存: 8GB RAM 或更高
 
 **软件要求**:
+
 - 浏览器: Chrome 90+, Edge 90+, Firefox 98+
 - WebXR支持: 必须启用
 - HTTPS: 必须使用安全连接
@@ -249,6 +256,7 @@ if ('xr' in navigator) {
 \`\`\`
 
 2. **配置HTTPS**
+
 - 开发环境: 使用`localhost`或`127.0.0.1`
 - 生产环境: 必须使用有效的SSL证书
 
@@ -322,16 +330,19 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap
 ### 8.1 常见问题
 
 **问题1: VR会话无法启动**
+
 - 检查WebXR支持
 - 确认HTTPS连接
 - 检查VR头显连接
 
 **问题2: 渲染性能差**
+
 - 降低渲染分辨率
 - 减少场景复杂度
 - 优化光照和阴影
 
 **问题3: 音频不同步**
+
 - 检查音频监听器
 - 调整音频缓冲区
 - 优化网络延迟

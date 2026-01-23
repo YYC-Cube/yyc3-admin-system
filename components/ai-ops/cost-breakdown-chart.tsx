@@ -4,7 +4,11 @@ import * as React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { PieChart } from 'lucide-react'
 
-export function CostBreakdownChart() {
+interface CostBreakdownChartProps {
+  costs?: any
+}
+
+export function CostBreakdownChart({ costs }: CostBreakdownChartProps) {
   return (
     <Card>
       <CardHeader>
@@ -15,7 +19,7 @@ export function CostBreakdownChart() {
         <CardDescription>固定成本与变动成本分析</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="text-center text-muted-foreground py-8">暂无成本数据</div>
+        <div className="text-center text-muted-foreground py-8">{costs ? '成本数据加载中...' : '暂无成本数据'}</div>
       </CardContent>
     </Card>
   )

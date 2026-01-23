@@ -3,27 +3,32 @@
 ## 安全措施
 
 ### 1. CSRF保护
+
 - 所有非GET请求需要CSRF token
 - Token存储在HTTP-only cookie中
 - 每次请求验证token
 
 ### 2. 数据加密
+
 - 敏感数据使用AES-256-GCM加密
 - 密码使用bcrypt哈希
 - 传输层使用HTTPS
 
 ### 3. 审计日志
+
 - 记录所有关键操作
 - 包含用户、时间、操作类型
 - 支持日志查询和分析
 
 ### 4. 安全头部
+
 - X-Frame-Options: SAMEORIGIN
 - X-Content-Type-Options: nosniff
 - Strict-Transport-Security
 - Content-Security-Policy
 
 ### 5. 输入验证
+
 - 使用Zod进行类型验证
 - 防止SQL注入
 - 防止XSS攻击
@@ -31,6 +36,7 @@
 ## 使用示例
 
 ### CSRF保护
+
 \`\`\`typescript
 import { csrfProtection } from '@/lib/security/csrf'
 
@@ -40,6 +46,7 @@ export const POST = csrfProtection(async (request) => {
 \`\`\`
 
 ### 数据加密
+
 \`\`\`typescript
 import { encryption } from '@/lib/security/encryption'
 
@@ -48,6 +55,7 @@ const decrypted = encryption.decrypt(encrypted)
 \`\`\`
 
 ### 审计日志
+
 \`\`\`typescript
 import { auditLogger } from '@/lib/security/audit-log'
 
@@ -77,6 +85,7 @@ await auditLogger.log({
 ## 应急响应
 
 ### 发现安全漏洞
+
 1. 立即评估影响范围
 2. 隔离受影响系统
 3. 修复漏洞
@@ -84,6 +93,7 @@ await auditLogger.log({
 5. 更新安全文档
 
 ### 数据泄露
+
 1. 确认泄露范围
 2. 通知用户
 3. 重置凭证

@@ -56,7 +56,7 @@ export function checkApiPermission(apiKey: ApiKey, permission: string): boolean 
 }
 
 // API限流检查
-export async function checkRateLimit(apiKeyId: string): Promise<boolean> {
+export async function checkRateLimit(_apiKeyId: string): Promise<boolean> {
   // 模拟限流检查
   // 实际应用中应该使用Redis等缓存系统
   return true

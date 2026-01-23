@@ -1,7 +1,14 @@
-// 商品API服务
+/** 
+ * @file products.ts
+ * @description 商品API服务 - 处理商品、商品分类和商品口味的增删改查、导入等操作
+ * @author YYC³ 
+ * @version 1.0.0 
+ * @created 2025-09-15 
+ */
 
 import { apiClient } from "../client"
-import type { Product, ProductCategory, ProductFlavor, ApiResponse, PaginatedResponse } from "@/lib/types"
+import type { Product, ProductCategory, ProductFlavor } from "../../types"
+import type { ApiResponse, PaginatedResponse } from "../../types/api"
 
 export const productService = {
   // 获取商品列表

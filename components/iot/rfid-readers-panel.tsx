@@ -26,7 +26,7 @@ interface RFIDReader {
 }
 
 export function RFIDReadersPanel() {
-  const [readers, setReaders] = useState<RFIDReader[]>([
+  const [readers] = useState<RFIDReader[]>([
     {
       readerId: 'READER_001',
       type: 'fixed',

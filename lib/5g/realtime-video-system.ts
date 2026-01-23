@@ -79,11 +79,9 @@ const rtcConfiguration: RTCConfiguration = {
 export class RealtimeVideoSystem extends EventEmitter {
   private rooms: Map<string, VideoRoom> = new Map()
   private connections: Map<string, RoomConnection> = new Map()
-  private signalingUrl: string
 
-  constructor(signalingUrl?: string) {
+  constructor() {
     super()
-    this.signalingUrl = signalingUrl || process.env.NEXT_PUBLIC_SIGNALING_SERVER_URL || "ws://localhost:8080"
   }
 
   /**
@@ -232,13 +230,13 @@ export class RealtimeVideoSystem extends EventEmitter {
           this.applyBlurEffect(processedStream, effect.intensity)
           break
         case "beauty":
-          this.applyBeautyEffect(processedStream, effect.intensity)
+          this.applyBeautyEffect(effect.intensity)
           break
         case "filter":
-          this.applyFilterEffect(processedStream, effect.params)
+          this.applyFilterEffect(effect.params)
           break
         case "virtualBackground":
-          this.applyVirtualBackground(processedStream, effect.params)
+          this.applyVirtualBackground(effect.params)
           break
       }
     })
@@ -262,7 +260,7 @@ export class RealtimeVideoSystem extends EventEmitter {
   /**
    * 应用美颜效果
    */
-  private applyBeautyEffect(stream: ProcessedStream, intensity: number): void {
+  private applyBeautyEffect(intensity: number): void {
     console.log("[v0] 应用美颜效果, 强度:", intensity)
     // 实际实现需要使用图像处理算法
   }
@@ -270,7 +268,7 @@ export class RealtimeVideoSystem extends EventEmitter {
   /**
    * 应用滤镜效果
    */
-  private applyFilterEffect(stream: ProcessedStream, params?: Record<string, any>): void {
+  private applyFilterEffect(params?: Record<string, any>): void {
     console.log("[v0] 应用滤镜效果:", params)
     // 实际实现需要使用图像处理算法
   }
@@ -278,7 +276,7 @@ export class RealtimeVideoSystem extends EventEmitter {
   /**
    * 应用虚拟背景
    */
-  private applyVirtualBackground(stream: ProcessedStream, params?: Record<string, any>): void {
+  private applyVirtualBackground(params?: Record<string, any>): void {
     console.log("[v0] 应用虚拟背景:", params)
     // 实际实现需要使用背景分割算法(如BodyPix)
   }
@@ -288,13 +286,13 @@ export class RealtimeVideoSystem extends EventEmitter {
    */
   syncAudioVideo(audioTrack: MediaStreamTrack, videoTrack: MediaStreamTrack): SyncedStream {
     // 计算音视频延迟
-    const syncOffset = this.calculateSyncOffset(audioTrack, videoTrack)
+    const syncOffset = this.calculateSyncOffset()
 
     // 调整音频延迟以匹配视频
     if (syncOffset > 0) {
-      this.delayAudioTrack(audioTrack, syncOffset)
+      this.delayAudioTrack(syncOffset)
     } else if (syncOffset < 0) {
-      this.delayVideoTrack(videoTrack, Math.abs(syncOffset))
+      this.delayVideoTrack(Math.abs(syncOffset))
     }
 
     const syncedStream: SyncedStream = {
@@ -310,7 +308,7 @@ export class RealtimeVideoSystem extends EventEmitter {
   /**
    * 计算同步偏移
    */
-  private calculateSyncOffset(audioTrack: MediaStreamTrack, videoTrack: MediaStreamTrack): number {
+  private calculateSyncOffset(): number {
     // 实际实现需要分析音视频时间戳
     // 这里返回模拟值
     return Math.random() * 50 - 25 // -25ms 到 +25ms
@@ -319,7 +317,7 @@ export class RealtimeVideoSystem extends EventEmitter {
   /**
    * 延迟音频轨道
    */
-  private delayAudioTrack(audioTrack: MediaStreamTrack, delayMs: number): void {
+  private delayAudioTrack(delayMs: number): void {
     console.log("[v0] 延迟音频轨道:", delayMs, "ms")
     // 实际实现需要使用Web Audio API的DelayNode
   }
@@ -327,7 +325,7 @@ export class RealtimeVideoSystem extends EventEmitter {
   /**
    * 延迟视频轨道
    */
-  private delayVideoTrack(videoTrack: MediaStreamTrack, delayMs: number): void {
+  private delayVideoTrack(delayMs: number): void {
     console.log("[v0] 延迟视频轨道:", delayMs, "ms")
     // 实际实现需要缓冲视频帧
   }

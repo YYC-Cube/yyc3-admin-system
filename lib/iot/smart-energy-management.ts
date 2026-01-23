@@ -227,7 +227,7 @@ export class SmartEnergyManagement {
       stats.cost = stats.totalEnergy * this.electricityPrice
 
       // 计算效率(简化计算)
-      stats.efficiency = stats.powerFactor || data.powerFactor
+      stats.efficiency = data.powerFactor
 
       // 计算趋势
       if (deviceData.length >= 10) {
@@ -743,7 +743,7 @@ export function getSmartEnergyManagement(): SmartEnergyManagement {
 
 // 保留向后兼容的导出
 export const smartEnergyManagement = new Proxy({} as SmartEnergyManagement, {
-  get(target, prop) {
+  get(_target, prop) {
     return getSmartEnergyManagement()[prop as keyof SmartEnergyManagement]
   },
 })

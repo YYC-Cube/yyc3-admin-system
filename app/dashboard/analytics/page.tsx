@@ -25,7 +25,7 @@ import {
   getRevenueTrend,
   getCategorySales,
   getTopProducts,
-  getMemberGrowth,
+
   predictRevenue,
 } from "@/lib/services/analytics"
 import type { AnalyticsData, CategorySales, Product } from "@/lib/types"
@@ -38,7 +38,6 @@ export default function AnalyticsPage() {
   const [revenueTrend, setRevenueTrend] = useState<AnalyticsData[]>([])
   const [categorySales, setCategorySales] = useState<CategorySales[]>([])
   const [topProducts, setTopProducts] = useState<Array<Product & { sales: number }>>([])
-  const [memberGrowth, setMemberGrowth] = useState<any[]>([])
   const [predictions, setPredictions] = useState<AnalyticsData[]>([])
 
   useEffect(() => {
@@ -46,18 +45,16 @@ export default function AnalyticsPage() {
   }, [])
 
   const loadAnalyticsData = async () => {
-    const [revenue, category, products, growth, predict] = await Promise.all([
+    const [revenue, category, products, predict] = await Promise.all([
       getRevenueTrend(7),
       getCategorySales(),
       getTopProducts(10),
-      getMemberGrowth(7),
       predictRevenue(7),
     ])
 
     setRevenueTrend(revenue)
     setCategorySales(category)
     setTopProducts(products)
-    setMemberGrowth(growth)
     setPredictions(predict)
   }
 
@@ -199,7 +196,7 @@ export default function AnalyticsPage() {
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
-                      data={categorySales}
+                      data={categorySales.map(item => ({ ...item } as any))}
                       dataKey="sales"
                       nameKey="category"
                       cx="50%"
@@ -207,7 +204,7 @@ export default function AnalyticsPage() {
                       outerRadius={100}
                       label
                     >
-                      {categorySales.map((entry, index) => (
+                      {categorySales.map((_entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>

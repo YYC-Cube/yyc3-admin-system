@@ -1,3 +1,5 @@
+"use client"
+
 import { Suspense } from "react"
 import { ARConcertDashboard } from "@/components/5g/ar-concert-dashboard"
 
