@@ -1,7 +1,7 @@
 {
-  "name": "启智商家后台管理系统",
+  "name": "YYC³-QZ-Merchant-Management-System",
   "short_name": "启智商家",
-  "description": "KTV商家智能管理平台",
+  "description": "AI-Powered KTV Merchant Management Platform",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

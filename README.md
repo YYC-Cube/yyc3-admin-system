@@ -2,7 +2,7 @@
   <img src="public/yyc3-article-cover-02.png" alt="YYC³ Cover" width="100%" />
 </div>
 
-<h1 align="center">YYC³ | YanYuCloudCube</h1>
+<h1 align="center">YYC³-QZ-Merchant-Management-System</h1>
 
 <p align="center">
   <strong>言启象限 · 语枢未来 · 深栈智启新纪元</strong><br/>
@@ -45,7 +45,7 @@
 
 ## 🎯 项目概述
 
-**YYC³（YanYuCloudCube）启智商家管理系统** 是为 KTV 商家量身打造的**全栈智能运营平台**，集成 **6 大核心技术模块** + **9 大 AI 智能运营系统**，实现从传统管理到智能决策的全面升级。
+**YYC³-QZ-Merchant-Management-System** 是为 KTV 商家量身打造的**全栈智能运营平台**，集成 **6 大核心技术模块** + **9 大 AI 智能运营系统**，实现从传统管理到智能决策的全面升级。
 
 ### 🚀 核心特性
 
@@ -520,8 +520,8 @@ Redis    ≥ 6.0
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/YYC-Cube/yyc3-admin-system.git
-cd yyc3-admin-system
+git clone https://github.com/YYC-Cube/yyc3-qz-merchant-management-system.git
+cd yyc3-qz-merchant-management-system
 
 # 2. 安装依赖
 pnpm install
@@ -563,7 +563,7 @@ pnpm test:coverage
 ## 📂 项目结构
 
 ```
-yyc3-admin-system/
+yyc3-qz-merchant-management-system/
 ├── app/                      # Next.js 15 App Router
 │   ├── api/                  # API 路由
 │   ├── dashboard/            # 仪表板页面
@@ -614,7 +614,7 @@ yyc3-admin-system/
   <a href="mailto:admin@0379.email">
     <img src="https://img.shields.io/badge/Email-admin@0379.email-red?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
   </a>
-  <a href="https://github.com/YYC-Cube/yyc3-admin-system">
+  <a href="https://github.com/YYC-Cube/yyc3-qz-merchant-management-system">
     <img src="https://img.shields.io/badge/GitHub-YYC--Cube-181717?style=for-the-badge&logo=github" alt="GitHub" />
   </a>
   <img src="https://img.shields.io/badge/WeChat-技术支持-07c160?style=for-the-badge&logo=wechat&logoColor=white" alt="WeChat" />
@@ -623,8 +623,8 @@ yyc3-admin-system/
 ---
 
 <div align="center">
-  <strong>YYC³ | YanYuCloudCube</strong><br/>
+  <strong>YYC³-QZ-Merchant-Management-System</strong><br/>
   <em>言启象限 · 语枢未来 · 深栈智启新纪元</em><br/><br/>
   Made with ❤️ by YYC-Cube Team<br/>
-  © 2026 YanYuCloudCube. All rights reserved.
+  © 2026 YYC-Cube. All rights reserved.
 </div>

@@ -23,8 +23,8 @@ const geist = Geist({ subsets: ['latin'] })
 const geistMono = Geist_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: '启智商家后台管理系统',
-  description: 'KTV商家智能管理平台 - 销售、商品、仓库、报表一体化管理',
+  title: 'YYC³-QZ-Merchant-Management-System',
+  description: 'AI-Powered KTV Merchant Management Platform - 销售、商品、仓库、报表一体化管理',
   generator: 'v0.app',
   manifest: '/manifest.json',
   appleWebApp: {
