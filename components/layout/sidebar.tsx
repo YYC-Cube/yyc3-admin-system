@@ -255,7 +255,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         {/* 导航菜单 */}
         <nav className="flex-1 overflow-y-auto p-4">
           <ul className="space-y-2">
-            {menuItems.map(item => (
+            {menuItems.map((item) => (
               <SidebarItem key={item.href} item={item} isOpen={isOpen} pathname={pathname} />
             ))}
           </ul>

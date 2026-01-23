@@ -17,11 +17,12 @@ The following versions of YYC³-QZ-Merchant-Management-System are currently bein
 
 **Status**: ✅ Fixed (2025-12-22)
 
-**Description**: 
+**Description**:
 Configuration file `env.sync.ts` contained hardcoded sensitive credentials including database passwords, JWT secrets, payment API keys, and encryption keys.
 
-**Impact**: 
+**Impact**:
 CRITICAL (CVSS 9.8) - Could lead to:
+
 - Complete database compromise
 - Unauthorized payment transactions
 - JWT token forgery and identity theft
@@ -29,6 +30,7 @@ CRITICAL (CVSS 9.8) - Could lead to:
 - Email system hijacking
 
 **Fix**:
+
 - ✅ Removed all hardcoded credentials from source code
 - ✅ Replaced with empty strings and environment variable references
 - ✅ Added comprehensive security warnings and documentation
@@ -36,12 +38,15 @@ CRITICAL (CVSS 9.8) - Could lead to:
 - ✅ Current status: No hardcoded credentials in codebase
 
 **Affected Files**:
+
 - `env.sync.ts`
 
 **Fixed Version**:
+
 - Commit: fbc30a8 (2025-12-22)
 
 **References**:
+
 - Detailed Report: [docs/security/CRITICAL_FIXES_2025-12-22.md](docs/security/CRITICAL_FIXES_2025-12-22.md)
 - CWE-798: Use of Hard-coded Credentials
 
@@ -51,17 +56,19 @@ CRITICAL (CVSS 9.8) - Could lead to:
 
 **Status**: ✅ Fixed (2025-12-22)
 
-**Description**: 
+**Description**:
 Chart component used `dangerouslySetInnerHTML` without input validation, potentially allowing XSS attacks through malicious CSS injection.
 
-**Impact**: 
+**Impact**:
 HIGH (CVSS 7.5) - Could lead to:
+
 - Cross-site scripting attacks
 - Malicious script injection
 - Data theft through CSS selectors
 - Style pollution attacks
 
 **Fix**:
+
 - ✅ Added `sanitizeCSSColor()` function to validate color values
 - ✅ Added `sanitizeCSSVarName()` function to sanitize variable names
 - ✅ Implemented whitelist-based regex validation
@@ -69,12 +76,15 @@ HIGH (CVSS 7.5) - Could lead to:
 - ✅ Current status: XSS protection fully implemented
 
 **Affected Files**:
+
 - `components/ui/chart.tsx`
 
 **Fixed Version**:
+
 - Commit: fbc30a8 (2025-12-22)
 
 **References**:
+
 - Detailed Report: [docs/security/CRITICAL_FIXES_2025-12-22.md](docs/security/CRITICAL_FIXES_2025-12-22.md)
 - CWE-79: Cross-site Scripting (XSS)
 
@@ -84,29 +94,34 @@ HIGH (CVSS 7.5) - Could lead to:
 
 **Status**: ✅ Fixed (2025-12-22)
 
-**Description**: 
+**Description**:
 Test files contained weak passwords (123456) without adequate security warnings, risking production misuse.
 
-**Impact**: 
+**Impact**:
 MEDIUM (CVSS 5.0) - Could lead to:
+
 - Weak passwords being used in production
 - Security awareness gaps
 - Easy account compromise
 
 **Fix**:
+
 - ✅ Added comprehensive security warnings to all test files
 - ✅ Clearly marked test-only credentials
 - ✅ Provided production environment security guidelines
 - ✅ Documented required security implementations
 
 **Affected Files**:
+
 - `lib/api/mock-service.ts`
 - `app/api/auth/login/route.ts`
 
 **Fixed Version**:
+
 - Commit: 54d27c8 (2025-12-22)
 
 **References**:
+
 - Detailed Report: [docs/security/CRITICAL_FIXES_2025-12-22.md](docs/security/CRITICAL_FIXES_2025-12-22.md)
 
 ---
@@ -115,25 +130,29 @@ MEDIUM (CVSS 5.0) - Could lead to:
 
 **Status**: ✅ Fixed (2025-12-22)
 
-**Description**: 
+**Description**:
 Storybook manager bundle may expose environment variables during build, leading to potential information disclosure.
 
-**Impact**: 
+**Impact**:
 HIGH (CVSS 7.3) - Could expose sensitive configuration data, API keys, and secrets
 
 **Fix**:
+
 - ✅ Upgraded storybook from 10.0.0-10.1.9 to 10.1.10
 - ✅ Applied via `npm audit fix`
 - ✅ Verified with comprehensive testing (440 tests passed)
 - ✅ Current status: 0 vulnerabilities
 
 **Affected Versions**:
+
 - storybook 10.0.0 - 10.1.9
 
 **Fixed Version**:
+
 - storybook >= 10.1.10
 
 **References**:
+
 - GitHub Advisory: https://github.com/advisories/GHSA-8452-54wp-rmv6
 - Detailed Report: [docs/security/STORYBOOK_VULNERABILITY_FIX.md](docs/security/STORYBOOK_VULNERABILITY_FIX.md)
 
@@ -143,11 +162,12 @@ HIGH (CVSS 7.3) - Could expose sensitive configuration data, API keys, and secre
 
 **Status**: ✅ Fixed (2025-12-23)
 
-**Description**: 
+**Description**:
 F-ktv chart component used `dangerouslySetInnerHTML` without input validation for CSS values and variable names, potentially allowing XSS attacks through malicious CSS injection.
 
-**Impact**: 
+**Impact**:
 HIGH (CVSS 7.5) - Could lead to:
+
 - Cross-site scripting attacks via CSS injection
 - Malicious script injection through CSS color values
 - Data theft through CSS selectors
@@ -155,6 +175,7 @@ HIGH (CVSS 7.5) - Could lead to:
 - CSS-based JavaScript execution
 
 **Fix**:
+
 - ✅ Added `sanitizeCSSColor()` function to validate color values
 - ✅ Added `sanitizeCSSVarName()` function to sanitize variable names
 - ✅ Implemented whitelist-based regex validation for color formats
@@ -163,16 +184,20 @@ HIGH (CVSS 7.5) - Could lead to:
 - ✅ Current status: XSS protection fully implemented, matching main chart component security
 
 **Affected Files**:
+
 - `F-ktv/components/ui/chart.tsx`
 
 **Fixed Version**:
+
 - Commit: 459809a (2025-12-23)
 
 **Test Coverage**:
+
 - 17 security test cases covering XSS payloads, CSS injection, edge cases
 - 457 total tests passing (100% pass rate)
 
 **References**:
+
 - Detailed Report: [docs/security/F-KTV_CHART_XSS_FIX.md](docs/security/F-KTV_CHART_XSS_FIX.md)
 - CWE-79: Cross-site Scripting (XSS)
 - OWASP XSS Prevention: https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
@@ -183,17 +208,19 @@ HIGH (CVSS 7.5) - Could lead to:
 
 **Status**: ✅ Mitigated (Preventive measures in place)
 
-**Description**: 
+**Description**:
 The node-forge library has a critical vulnerability in its ASN.1 validator that allows for non-synchronous interpretation conflicts, potentially leading to:
+
 - Prototype pollution attacks
 - Denial of service through malformed ASN.1 data
 - Bypass of certificate validation
 - Arbitrary code execution
 
-**Impact**: 
+**Impact**:
 HIGH - Could compromise cryptographic operations and certificate validation
 
 **Mitigation**:
+
 1. ✅ Node-forge is **not currently used** as a direct or transitive dependency
 2. ✅ Added package.json `overrides` to force node-forge >= 1.3.1 if it gets added
 3. ✅ Configured .npmrc with audit settings to catch vulnerable dependencies
@@ -201,18 +228,22 @@ HIGH - Could compromise cryptographic operations and certificate validation
 5. ✅ Regular dependency audits via GitHub Actions
 
 **Affected Versions**:
+
 - node-forge < 1.3.1
 
 **Safe Versions**:
+
 - node-forge >= 1.3.1
 
 **Recommended Alternatives**:
 If cryptographic or ASN.1 functionality is needed, consider:
+
 - `@peculiar/asn1-schema` - Modern ASN.1 parser
 - `asn1js` - Pure JavaScript ASN.1 library
 - Native Node.js crypto module
 
 **References**:
+
 - GitHub Advisory: https://github.com/advisories/GHSA-cfm4-qjh2-4765
 - CVE-2024-48939: https://nvd.nist.gov/vuln/detail/CVE-2024-48939
 - node-forge Repository: https://github.com/digitalbazaar/forge
@@ -230,17 +261,20 @@ We take security vulnerabilities seriously. If you discover a security issue, pl
    - Suggested fix (if any)
 
 **Response Timeline**:
+
 - **Initial Response**: Within 48 hours
 - **Status Update**: Weekly updates on investigation progress
 - **Fix Timeline**: Critical issues within 7 days, High within 14 days, Medium within 30 days
 
 **What to Expect**:
+
 - **Accepted**: We will work on a fix and credit you in the security advisory
 - **Declined**: We will provide reasoning if the issue is not considered a vulnerability
 
 ## Security Best Practices
 
 ### For Developers
+
 1. Run `npm audit` before committing changes
 2. Keep dependencies updated regularly
 3. Review security scan results in CI/CD pipeline
@@ -248,6 +282,7 @@ We take security vulnerabilities seriously. If you discover a security issue, pl
 5. Follow secure coding practices outlined in CONTRIBUTING.md
 
 ### For Deployments
+
 1. Use HTTPS for all communications
 2. Enable rate limiting on API endpoints
 3. Implement proper authentication and authorization
@@ -257,6 +292,7 @@ We take security vulnerabilities seriously. If you discover a security issue, pl
 ## Security Scanning
 
 This project uses multiple security scanning tools:
+
 - **npm audit**: Dependency vulnerability scanning
 - **ESLint Security Plugin**: Static code analysis
 - **CodeQL**: Advanced security analysis

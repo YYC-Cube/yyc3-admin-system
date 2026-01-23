@@ -1,8 +1,8 @@
 'use client'
 
 import * as React from 'react'
-
 import { useRef, useState } from 'react'
+import styles from './virtual-list.module.css'
 
 interface VirtualListProps<T> {
   items: T[]
@@ -41,24 +41,24 @@ export function VirtualList<T>({
     <div
       ref={containerRef}
       onScroll={handleScroll}
+      className={styles.container}
       style={{
         height: containerHeight,
-        overflow: 'auto',
-        position: 'relative',
       }}
     >
-      <div style={{ height: totalHeight, position: 'relative' }}>
+      <div style={{ height: totalHeight }} className={styles.wrapper}>
         <div
+          className={styles.itemsContainer}
           style={{
-            transform: `translateY(${offsetY}px)`,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-          }}
+            '--offset-y': `${offsetY}px`,
+          } as React.CSSProperties}
         >
           {visibleItems.map((item, index) => (
-            <div key={startIndex + index} style={{ height: itemHeight }}>
+            <div
+              key={startIndex + index}
+              className={styles.itemWrapper}
+              style={{ height: itemHeight }}
+            >
               {renderItem(item, startIndex + index)}
             </div>
           ))}
