@@ -91,7 +91,7 @@
     "lucide-react": "^0.562.0",
     "mqtt": "latest",
     "mysql2": "latest",
-    "next": "15.5.9",
+    "next": "15.5.12",
     "next-themes": "latest",
     "node-notifier": "latest",
     "react": "^19.2.3",
