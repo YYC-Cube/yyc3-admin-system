@@ -1,5 +1,5 @@
 // 商品数据仓库层
-import { query, transaction } from "@/lib/db/mysql"
+import { query, transaction } from "@/lib/db"
 import type { Product } from "@/lib/types"
 
 export class ProductRepository {
@@ -128,7 +128,7 @@ export class ProductRepository {
   async updateStock(updates: Array<{ id: string; quantity: number }>): Promise<void> {
     await transaction(async (connection) => {
       for (const update of updates) {
-        await connection.execute("UPDATE products SET stock = stock + ?, updated_at = NOW() WHERE id = ?", [
+        await connection.query("UPDATE products SET stock = stock + $1, updated_at = NOW() WHERE id = $2", [
           update.quantity,
           update.id,
         ])

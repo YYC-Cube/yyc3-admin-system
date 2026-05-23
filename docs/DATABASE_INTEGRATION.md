@@ -2,7 +2,7 @@
 
 ## 概述
 
-本系统已集成MySQL数据库（yyc3_yy），支持完整的CRUD操作和事务处理。
+本系统使用 PostgreSQL 数据库，通过 `pg` 驱动实现连接池管理和查询操作。数据层位于 `lib/db/`，自动兼容 MySQL `?` 占位符语法。
 
 ## 数据库配置
 
@@ -10,21 +10,28 @@
 
 在 `.env.local` 文件中配置以下环境变量：
 
-\`\`\`env
-YYC3_YY_DB_HOST=your-host
-YYC3_YY_DB_PORT=3306
-YYC3_YY_DB_USER=your-user
-YYC3_YY_DB_PASSWORD=your-password
-YYC3_YY_DB_NAME=yyc3_yy
-\`\`\`
+方式一（推荐）:
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/yyc3_yy
+```
+
+方式二:
+```env
+PG_HOST=localhost
+PG_PORT=5432
+PG_USER=postgres
+PG_PASSWORD=your_password
+PG_DATABASE=yyc3_yy
+```
 
 ### 连接池配置
 
-系统使用 `mysql2/promise` 创建连接池，配置如下：
+系统使用 `pg.Pool` 创建连接池，配置如下：
 
 - 最大连接数：10
-- 启用Keep-Alive
-- 自动重连
+- 空闲超时：30s
+- 连接超时：5s
+- 自动 `?` → `$1,$2...` 占位符转换
 
 ## 数据库架构
 

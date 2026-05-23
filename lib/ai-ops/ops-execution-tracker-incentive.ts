@@ -1,4 +1,4 @@
-import { db } from "@/lib/db/mysql"
+import { db } from "@/lib/db"
 
 // 任务状态
 export interface TaskStatus {

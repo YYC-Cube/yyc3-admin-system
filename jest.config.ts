@@ -1,13 +1,11 @@
-/** @type {import('jest').Config} */
-const nextJest = require('next/jest')
+import type { Config } from 'jest'
+import nextJest from 'next/jest'
 
 const createJestConfig = nextJest({
-  // 提供 Next.js 应用程序的路径
   dir: './',
 })
 
-// 添加自定义 Jest 配置
-const customJestConfig = {
+const customJestConfig: Config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
@@ -16,7 +14,7 @@ const customJestConfig = {
   },
   testEnvironment: 'jest-environment-jsdom',
   transformIgnorePatterns: [
-    'node_modules/(?!(msw)/)', // 允许转换msw模块
+    'node_modules/(?!(msw)/)',
   ],
   collectCoverageFrom: [
     'components/**/*.{js,jsx,ts,tsx}',
@@ -47,5 +45,4 @@ const customJestConfig = {
   },
 }
 
-// createJestConfig 在这里被导出以确保配置文件不失效
-module.exports = createJestConfig(customJestConfig)
+export default createJestConfig(customJestConfig)

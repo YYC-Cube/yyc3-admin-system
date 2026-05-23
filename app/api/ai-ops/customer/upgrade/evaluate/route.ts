@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { customerIntelligencePromotion } from "@/lib/ai-ops/customer-intelligence-promotion"
-import { db } from "@/lib/db/mysql"
+import { db } from "@/lib/db"
 
 export const runtime = "nodejs"
 

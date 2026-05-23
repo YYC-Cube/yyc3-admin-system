@@ -1,4 +1,4 @@
-import { db } from "@/lib/db/mysql"
+import { db } from "@/lib/db"
 import {
   opsExecutionTrackerIncentive,
   type PerformanceScore as OpsPerformanceScore,

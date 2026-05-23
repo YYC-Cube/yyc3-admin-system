@@ -1,4 +1,4 @@
-import { db } from "@/lib/db/mysql"
+import { db } from "@/lib/db"
 import type { Member } from "@/lib/types"
 
 // 回访上下文

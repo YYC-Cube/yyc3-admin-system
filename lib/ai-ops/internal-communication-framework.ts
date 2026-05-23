@@ -1,4 +1,4 @@
-import { db } from "@/lib/db/mysql"
+import { db } from "@/lib/db"
 
 // 群组类型
 export type GroupType = "department" | "team" | "project" | "custom"

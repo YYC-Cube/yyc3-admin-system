@@ -1,4 +1,4 @@
-import { db } from "@/lib/db/mysql"
+import { db } from "@/lib/db"
 
 // 反馈来源
 export type FeedbackSource = "form" | "voice" | "sms" | "email"

@@ -1,111 +1,73 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { mockService } from '../../../lib/api/mock-service';
-
 /**
- * @description 认证管理API路由
- * @project KTV商家管理系统
+ * @file 认证管理 API 路由
+ * @description 用户信息获取与登出 - JWT Token 验证
+ * @module api/auth
+ * @author YYC³
+ * @version 2.0.0
+ * @created 2025-01-19
+ * @updated 2026-05-23
  */
 
-// 配置Edge Runtime以可能绕过CSRF保护
-export const runtime = 'edge';
+import { NextRequest, NextResponse } from 'next/server'
+import type { User, ApiResponse } from '@/lib/types'
+import { verifyToken } from '@/lib/security/jwt'
+import { AuthService } from '@/lib/db/repositories/user-repository'
 
-// 帮助函数：创建带有正确头信息的响应
-function createResponse(data: any, status: number = 200): NextResponse {
-  const response = NextResponse.json(data, { status });
-  
-  // 添加必要的CORS和安全头
-  response.headers.set('Access-Control-Allow-Origin', '*');
-  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
-  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
-  return response;
-}
+const authService = new AuthService()
 
-// 登录接口
-export async function POST(request: NextRequest) {
-  try {
-    // 解析请求体
-    const body = await request.json();
-    const { username, password } = body;
-    
-    // 验证必填字段
-    if (!username || !password) {
-      return createResponse(
-        { success: false, error: '缺少必填字段: username 或 password' },
-        400
-      );
-    }
-    
-    // 调用模拟服务进行登录
-    const response = await mockService.login(username, password);
-    
-    if (!response.success) {
-      return createResponse(
-        { success: false, error: response.error || '登录失败' },
-        401
-      );
-    }
-    
-    // 返回登录成功信息和令牌
-    return createResponse({
-      success: true,
-      data: response.data,
-      message: '登录成功'
-    });
-  } catch (error) {
-    console.error('[v0] 登录错误:', error);
-    return createResponse(
-      { success: false, error: '登录过程中发生错误' },
-      500
-    );
+function extractToken(request: NextRequest): string | null {
+  const authHeader = request.headers.get('Authorization')
+  if (authHeader?.startsWith('Bearer ')) {
+    return authHeader.substring(7)
   }
+  return null
 }
 
-// 获取用户信息接口
-export async function GET(_request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    // 这里应该验证JWT令牌，在实际应用中
-    // 目前仅返回模拟数据
-    
-    const mockUser = {
-      id: '1',
-      username: 'admin',
-      role: 'admin',
-      name: '系统管理员'
-    };
-    
-    return createResponse({
+    const token = extractToken(request)
+
+    if (!token) {
+      return NextResponse.json<ApiResponse>(
+        { success: false, error: '未提供认证令牌' },
+        { status: 401 }
+      )
+    }
+
+    const payload = await verifyToken(token)
+
+    if (!payload) {
+      return NextResponse.json<ApiResponse>(
+        { success: false, error: '令牌无效或已过期' },
+        { status: 401 }
+      )
+    }
+
+    const user = await authService.getUserById(payload.userId)
+
+    if (!user) {
+      return NextResponse.json<ApiResponse>(
+        { success: false, error: '用户不存在或已禁用' },
+        { status: 401 }
+      )
+    }
+
+    return NextResponse.json<ApiResponse<User>>({
       success: true,
-      data: mockUser
-    });
+      data: user,
+    })
   } catch (error) {
-    console.error('[v0] 获取用户信息错误:', error);
-    return createResponse(
+    console.error('[API] 获取用户信息错误:', error)
+    return NextResponse.json<ApiResponse>(
       { success: false, error: '获取用户信息失败' },
-      500
-    );
+      { status: 500 }
+    )
   }
 }
 
-// 登出接口
 export async function DELETE(_request: NextRequest) {
-  try {
-    // 在实际应用中，这里应该使令牌失效或清除会话
-    
-    return createResponse({
-      success: true,
-      message: '登出成功'
-    });
-  } catch (error) {
-    console.error('[v0] 登出错误:', error);
-    return createResponse(
-      { success: false, error: '登出过程中发生错误' },
-      500
-    );
-  }
-}
-
-// 添加OPTIONS方法处理预检请求
-export async function OPTIONS(_request: NextRequest) {
-  return createResponse({});
+  return NextResponse.json<ApiResponse>({
+    success: true,
+    message: '登出成功',
+  })
 }

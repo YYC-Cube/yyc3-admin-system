@@ -1,14 +1,22 @@
-import { kv } from "@vercel/kv"
+/**
+ * @file cache-system.ts
+ * @description 边缘缓存系统 - 基于 Redis（替代已废弃的 @vercel/kv）
+ * @module edge
+ * @author YYC³
+ * @version 2.0.0
+ * @created 2025-01-19
+ * @updated 2026-05-23
+ */
 
-// 缓存策略枚举
+import { redisCache } from "@/lib/cache/redis"
+
 export enum CacheStrategy {
-  LRU = "lru", // 最近最少使用
-  LFU = "lfu", // 最不经常使用
-  FIFO = "fifo", // 先进先出
-  TTL = "ttl", // 基于时间
+  LRU = "lru",
+  LFU = "lfu",
+  FIFO = "fifo",
+  TTL = "ttl",
 }
 
-// 缓存指标接口
 export interface CacheMetrics {
   hits: number
   misses: number
@@ -19,16 +27,14 @@ export interface CacheMetrics {
   evictions: number
 }
 
-// 缓存配置接口
 export interface CacheConfig {
-  maxSize: number // 最大缓存大小(MB)
-  defaultTTL: number // 默认过期时间(秒)
+  maxSize: number
+  defaultTTL: number
   strategy: CacheStrategy
   enableCompression: boolean
   enablePrefetch: boolean
 }
 
-// 边缘缓存系统类
 export class EdgeCacheSystem {
   private config: CacheConfig
   private metrics: CacheMetrics
@@ -36,8 +42,8 @@ export class EdgeCacheSystem {
 
   constructor(config: Partial<CacheConfig> = {}) {
     this.config = {
-      maxSize: 100, // 100MB
-      defaultTTL: 3600, // 1小时
+      maxSize: 100,
+      defaultTTL: 3600,
       strategy: CacheStrategy.LRU,
       enableCompression: true,
       enablePrefetch: false,
@@ -57,9 +63,6 @@ export class EdgeCacheSystem {
     this.cacheKeys = new Set()
   }
 
-  /**
-   * 智能缓存数据
-   */
   async cacheData(
     key: string,
     data: any,
@@ -67,10 +70,8 @@ export class EdgeCacheSystem {
     strategy: CacheStrategy = this.config.strategy,
   ): Promise<void> {
     try {
-      // 数据压缩
       const cachedData = this.config.enableCompression ? this.compressData(data) : data
 
-      // 添加元数据
       const cacheEntry = {
         data: cachedData,
         timestamp: Date.now(),
@@ -80,11 +81,8 @@ export class EdgeCacheSystem {
         lastAccess: Date.now(),
       }
 
-      // 存储到边缘KV
-      await kv.set(key, cacheEntry, { ex: ttl })
+      await redisCache.set(key, cacheEntry, ttl)
       this.cacheKeys.add(key)
-
-      // 更新缓存大小
       this.updateCacheSize()
     } catch (error) {
       console.error("[EdgeCache] 缓存失败:", error)
@@ -92,32 +90,23 @@ export class EdgeCacheSystem {
     }
   }
 
-  /**
-   * 获取缓存数据
-   */
   async getData(key: string): Promise<any | null> {
     const startTime = Date.now()
     this.metrics.totalRequests++
 
     try {
-      const cacheEntry = await kv.get(key)
+      const cacheEntry = await redisCache.get<any>(key)
 
       if (cacheEntry) {
-        // 缓存命中
         this.metrics.hits++
-
-        // 更新访问信息
-        await this.updateAccessInfo(key, cacheEntry as any)
-
-        // 解压数据
+        await this.updateAccessInfo(key, cacheEntry, this.config.defaultTTL)
         const data = this.config.enableCompression
-          ? this.decompressData((cacheEntry as any).data)
-          : (cacheEntry as any).data
+          ? this.decompressData(cacheEntry.data)
+          : cacheEntry.data
 
         this.updateMetrics(Date.now() - startTime)
         return data
       } else {
-        // 缓存未命中
         this.metrics.misses++
         this.updateMetrics(Date.now() - startTime)
         return null
@@ -129,9 +118,6 @@ export class EdgeCacheSystem {
     }
   }
 
-  /**
-   * 缓存预热
-   */
   async warmupCache(predictedRequests: Array<{ key: string; fetcher: () => Promise<any> }>): Promise<void> {
     if (!this.config.enablePrefetch) {
       return
@@ -141,13 +127,9 @@ export class EdgeCacheSystem {
 
     const warmupPromises = predictedRequests.map(async ({ key, fetcher }) => {
       try {
-        // 检查是否已缓存
         const cached = await this.getData(key)
-        if (cached) {
-          return
-        }
+        if (cached) return
 
-        // 获取数据并缓存
         const data = await fetcher()
         await this.cacheData(key, data)
       } catch (error) {
@@ -159,19 +141,14 @@ export class EdgeCacheSystem {
     console.log("[EdgeCache] 缓存预热完成")
   }
 
-  /**
-   * 缓存失效
-   */
   async invalidateCache(pattern: string): Promise<number> {
     try {
       let invalidatedCount = 0
-
-      // 支持通配符匹配
       const regex = new RegExp(pattern.replace(/\*/g, ".*"))
 
       for (const key of this.cacheKeys) {
         if (regex.test(key)) {
-          await kv.del(key)
+          await redisCache.del(key)
           this.cacheKeys.delete(key)
           invalidatedCount++
         }
@@ -186,23 +163,15 @@ export class EdgeCacheSystem {
     }
   }
 
-  /**
-   * 获取缓存指标
-   */
   getCacheMetrics(): CacheMetrics {
-    // 计算命中率
     this.metrics.hitRate = this.metrics.totalRequests > 0 ? (this.metrics.hits / this.metrics.totalRequests) * 100 : 0
-
     return { ...this.metrics }
   }
 
-  /**
-   * 清空所有缓存
-   */
   async clearAll(): Promise<void> {
     try {
       for (const key of this.cacheKeys) {
-        await kv.del(key)
+        await redisCache.del(key)
       }
       this.cacheKeys.clear()
       this.resetMetrics()
@@ -213,53 +182,29 @@ export class EdgeCacheSystem {
     }
   }
 
-  /**
-   * 数据压缩
-   */
   private compressData(data: any): string {
-    // 简单的JSON字符串化
-    // 生产环境可使用 lz-string 等压缩库
     return JSON.stringify(data)
   }
 
-  /**
-   * 数据解压
-   */
   private decompressData(compressedData: string): any {
     return JSON.parse(compressedData)
   }
 
-  /**
-   * 更新访问信息
-   */
-  private async updateAccessInfo(key: string, cacheEntry: any): Promise<void> {
+  private async updateAccessInfo(key: string, cacheEntry: any, ttl: number): Promise<void> {
     cacheEntry.accessCount++
     cacheEntry.lastAccess = Date.now()
-
-    // 更新缓存条目
-    await kv.set(key, cacheEntry, { ex: cacheEntry.ttl })
+    await redisCache.set(key, cacheEntry, ttl)
   }
 
-  /**
-   * 更新缓存大小
-   */
   private updateCacheSize(): void {
-    // 估算缓存大小
     this.metrics.cacheSize = this.cacheKeys.size
   }
 
-  /**
-   * 更新指标
-   */
   private updateMetrics(responseTime: number): void {
-    // 更新平均响应时间
     this.metrics.avgResponseTime =
       (this.metrics.avgResponseTime * (this.metrics.totalRequests - 1) + responseTime) / this.metrics.totalRequests
   }
 
-  /**
-   * 重置指标
-   */
   private resetMetrics(): void {
     this.metrics = {
       hits: 0,
@@ -273,7 +218,6 @@ export class EdgeCacheSystem {
   }
 }
 
-// 创建全局实例
 export const edgeCacheSystem = new EdgeCacheSystem({
   maxSize: 100,
   defaultTTL: 3600,
@@ -282,7 +226,6 @@ export const edgeCacheSystem = new EdgeCacheSystem({
   enablePrefetch: true,
 })
 
-// 缓存装饰器
 export function Cacheable(ttl = 3600) {
   return (_target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value
@@ -290,18 +233,13 @@ export function Cacheable(ttl = 3600) {
     descriptor.value = async function (...args: any[]) {
       const cacheKey = `${propertyKey}:${JSON.stringify(args)}`
 
-      // 尝试从缓存获取
       const cached = await edgeCacheSystem.getData(cacheKey)
       if (cached !== null) {
         return cached
       }
 
-      // 执行原方法
       const result = await originalMethod.apply(this, args)
-
-      // 缓存结果
       await edgeCacheSystem.cacheData(cacheKey, result, ttl)
-
       return result
     }
 

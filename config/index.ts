@@ -7,5 +7,6 @@ export {
   validateAIConfig,
   validateBigDataConfig,
   validateIoTConfig,
+  validateRedisConfig,
   validateAllConfigs,
 } from "./env.validator"

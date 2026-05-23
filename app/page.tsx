@@ -69,7 +69,6 @@ export default function HomePage() {
                   id="phone"
                   type="tel"
                   placeholder="请输入手机号"
-                  defaultValue="13103790379"
                   className="h-11"
                   required
                 />
@@ -82,7 +81,6 @@ export default function HomePage() {
                   id="password"
                   type="password"
                   placeholder="请输入密码"
-                  defaultValue="123456"
                   className="h-11"
                   required
                 />

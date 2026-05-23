@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { outreachAutomationEngine, CommunicationChannel } from "@/lib/ai-ops/outreach-automation-engine"
-import { db } from "@/lib/db/mysql"
+import { db } from "@/lib/db"
 
 export const runtime = "nodejs"
 

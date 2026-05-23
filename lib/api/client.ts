@@ -6,7 +6,7 @@ class ApiClient {
   private baseUrl: string
   private token: string | null = null
 
-  constructor(baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "/api") {
+  constructor(baseUrl = "/api") {
     this.baseUrl = baseUrl
     // 从localStorage获取token
     if (typeof window !== "undefined") {
