@@ -118,15 +118,15 @@ export interface AttributionFactor {
  * 4. 归因分析 - 因果关系分析
  */
 export class BusinessIntelligence {
-  // @ts-ignore: 属性预留用于未来功能扩展
+  // @ts-expect-error: 属性预留用于未来功能扩展
   private metabaseUrl: string
-  // @ts-ignore: 属性预留用于未来功能扩展
+  // @ts-expect-error: 属性预留用于未来功能扩展
   private metabaseApiKey: string
-  // @ts-ignore: 属性预留用于未来功能扩展
+  // @ts-expect-error: 属性预留用于未来功能扩展
   private clickhouseUrl: string
-  // @ts-ignore: 属性预留用于未来功能扩展
+  // @ts-expect-error: 属性预留用于未来功能扩展
   private clickhouseUser: string
-  // @ts-ignore: 属性预留用于未来功能扩展
+  // @ts-expect-error: 属性预留用于未来功能扩展
   private clickhousePassword: string
 
   constructor() {

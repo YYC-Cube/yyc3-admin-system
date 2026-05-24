@@ -36,7 +36,7 @@ import { toast } from 'sonner'
 
 // 领用单管理页面
 export default function RequisitionPage() {
-  const [requisitions, setRequisitions] = useState([
+  const [requisitions, _setRequisitions] = useState([
     {
       id: 'RQ001',
       storeId: 'store_1',

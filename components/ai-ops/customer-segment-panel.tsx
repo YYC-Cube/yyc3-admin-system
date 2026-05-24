@@ -15,10 +15,10 @@ interface CustomerSegment {
 }
 
 interface CustomerSegmentPanelProps {
-  segments: CustomerSegment[]
+  segments?: CustomerSegment[]
 }
 
-export function CustomerSegmentPanel({ segments }: CustomerSegmentPanelProps) {
+export function CustomerSegmentPanel({ segments = [] }: CustomerSegmentPanelProps) {
   return (
     <Card>
       <CardHeader>
@@ -36,7 +36,9 @@ export function CustomerSegmentPanel({ segments }: CustomerSegmentPanelProps) {
               className="flex items-center justify-between p-4 border rounded-lg"
             >
               <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: segment.color }} />
+                <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12">
+                  <circle cx="6" cy="6" r="6" fill={segment.color} />
+                </svg>
                 <div>
                   <div className="font-medium">{segment.name}</div>
                   <div className="text-sm text-muted-foreground">

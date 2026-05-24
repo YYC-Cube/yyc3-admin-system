@@ -1,36 +1,34 @@
 'use client'
 
-import * as React from 'react'
-import { motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
+import { AnimatePresence, motion } from 'framer-motion'
+import {
+  BarChart3,
+  Brain,
+  ChevronLeft,
+  ClipboardCheck,
+  Cpu,
+  Database,
+  DollarSign,
+  FileCheck,
+  LayoutDashboard,
+  Megaphone,
+  MessageSquare,
+  Package,
+  Phone,
+  Receipt,
+  Settings,
+  ShoppingCart,
+  Store,
+  Target,
+  TrendingUp,
+  UserCog,
+  Users,
+  Warehouse,
+  Wifi,
+} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
-import {
-  LayoutDashboard,
-  ShoppingCart,
-  Package,
-  Warehouse,
-  BarChart3,
-  Users,
-  Settings,
-  Receipt,
-  ChevronLeft,
-  Store,
-  Brain,
-  Cpu,
-  Wifi,
-  Database,
-  TrendingUp,
-  MessageSquare,
-  UserCog,
-  Target,
-  FileCheck,
-  DollarSign,
-  Megaphone,
-  Phone,
-  ClipboardCheck,
-} from 'lucide-react'
-import { AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 
 // 导航菜单配置
@@ -255,8 +253,10 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         {/* 导航菜单 */}
         <nav className="flex-1 overflow-y-auto p-4">
           <ul className="space-y-2">
-            {menuItems.map((item) => (
-              <SidebarItem key={item.href} item={item} isOpen={isOpen} pathname={pathname} />
+            {menuItems.map(item => (
+              <li key={item.href}>
+                <SidebarItem item={item} isOpen={isOpen} pathname={pathname} />
+              </li>
             ))}
           </ul>
         </nav>
@@ -294,14 +294,14 @@ function SidebarItem({
 }: {
   item: (typeof menuItems)[0]
   isOpen: boolean
-  pathname: string
+  pathname: string | null
 }) {
   const [expanded, setExpanded] = useState(false)
-  const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+  const isActive = pathname != null && (pathname === item.href || pathname.startsWith(item.href + '/'))
   const hasChildren = item.children && item.children.length > 0
 
   return (
-    <li>
+    <>
       <Link
         href={item.href}
         onClick={e => {
@@ -341,7 +341,7 @@ function SidebarItem({
               className="ml-8 mt-1 space-y-1 overflow-hidden"
             >
               {item.children?.map(child => {
-                const isChildActive = pathname === child.href
+                const isChildActive = pathname === child.href && pathname != null
                 return (
                   <li key={child.href}>
                     <Link
@@ -361,6 +361,6 @@ function SidebarItem({
           )}
         </AnimatePresence>
       )}
-    </li>
+    </>
   )
 }

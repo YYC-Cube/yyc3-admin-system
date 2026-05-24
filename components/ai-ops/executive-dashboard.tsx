@@ -20,7 +20,7 @@ import {
 
 export default function ExecutiveDashboard() {
   const [strategicView, setStrategicView] = useState<any>(null)
-  const [kpiReport, setKpiReport] = useState<any>(null)
+  const [_kpiReport, setKpiReport] = useState<any>(null)
   const [recommendations, setRecommendations] = useState<any[]>([])
   const [risks, setRisks] = useState<any[]>([])
   const [loading, setLoading] = useState(true)

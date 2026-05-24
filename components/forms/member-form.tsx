@@ -1,11 +1,7 @@
 'use client'
 
-import * as React from 'react'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -16,9 +12,12 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { memberSchema, type MemberFormData } from '@/lib/validations/member'
 import type { Member } from '@/lib/types'
+import { memberSchema, type MemberFormData } from '@/lib/validations/member'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 interface MemberFormProps {
   member?: Member
@@ -34,26 +33,25 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
   } = useForm<MemberFormData>({
     resolver: zodResolver(memberSchema),
     defaultValues: member
       ? {
-          name: member.name,
-          phone: member.phone,
-          level: member.level,
-          balance: member.balance,
-          points: member.points,
-          birthday: member.birthday,
-          gender: member.gender,
-          address: member.address,
-          remark: member.remark,
-        }
+        name: member.name,
+        phone: member.phone,
+        level: member.level,
+        balance: member.balance.general + member.balance.room + member.balance.gift,
+        points: member.points.available,
+        birthday: member.birthday,
+        gender: member.gender,
+        address: member.address,
+        remark: member.remark,
+      }
       : {
-          level: 1,
-          balance: 0,
-          points: 0,
-        },
+        level: 1,
+        balance: 0,
+        points: 0,
+      },
   })
 
   const handleFormSubmit = async (data: MemberFormData) => {
@@ -66,7 +64,7 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(handleFormSubmit as any)} className="space-y-6">
       {/* 基本信息 */}
       <Card>
         <CardHeader>
@@ -148,12 +146,12 @@ export function MemberForm({ member, onSubmit, onCancel }: MemberFormProps) {
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label>账户余额</Label>
-                <div className="text-2xl font-bold text-primary">¥{member.balance.toFixed(2)}</div>
+                <div className="text-2xl font-bold text-primary">¥{(member.balance.general + member.balance.room + member.balance.gift).toFixed(2)}</div>
               </div>
 
               <div className="space-y-2">
                 <Label>积分余额</Label>
-                <div className="text-2xl font-bold text-primary">{member.points}</div>
+                <div className="text-2xl font-bold text-primary">{member.points.available}</div>
               </div>
             </div>
 

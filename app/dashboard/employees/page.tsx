@@ -1,15 +1,14 @@
 "use client"
 
-import * as React from "react"
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Search, Plus, Edit, Trash2, UserCheck, UserX } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { motion } from "framer-motion"
+import { Edit, Plus, Search, Trash2, UserCheck, UserX } from "lucide-react"
+import { useState } from "react"
 
 // 模拟员工数据
 const employees = [

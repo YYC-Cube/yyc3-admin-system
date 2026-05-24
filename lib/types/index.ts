@@ -176,9 +176,13 @@ export enum OrderSource {
 export interface Member {
   id: string
   cardNo: string
+  cardNumber?: string
   name: string
   phone: string
   birthday?: string
+  gender?: 'male' | 'female' | 'other'
+  address?: string
+  remark?: string
   level: MemberLevel
   balance: {
     general: number

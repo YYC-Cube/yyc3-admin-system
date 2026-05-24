@@ -115,12 +115,11 @@ export function InferenceTestPanel() {
                     <div key={index} className="flex items-center justify-between">
                       <span className="text-sm">{pred.label}</span>
                       <div className="flex items-center gap-2">
-                        <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-primary transition-all"
-                            style={{ width: `${pred.confidence * 100}%` }}
-                          />
-                        </div>
+                        <progress
+                          value={pred.confidence * 100}
+                          max={100}
+                          className="w-24 h-2 rounded-full overflow-hidden"
+                        />
                         <span className="text-sm font-medium w-12 text-right">
                           {(pred.confidence * 100).toFixed(0)}%
                         </span>

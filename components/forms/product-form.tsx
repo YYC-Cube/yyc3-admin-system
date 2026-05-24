@@ -40,7 +40,7 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
     setValue,
     watch,
   } = useForm<ProductFormData>({
-    resolver: zodResolver(productSchema),
+    resolver: zodResolver(productSchema) as any,
     defaultValues: product
       ? {
           name: product.name,
@@ -101,7 +101,7 @@ export function ProductForm({ product, categories, onSubmit, onCancel }: Product
   }
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(handleFormSubmit as any)} className="space-y-6">
       {/* 基本信息 */}
       <Card>
         <CardHeader>

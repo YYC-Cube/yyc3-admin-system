@@ -2,16 +2,15 @@
 
 'use client'
 
-import * as React from 'react'
-import { useState } from 'react'
-import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
-import { Copy, Key, Book, Code, Zap } from 'lucide-react'
-import { apiDocumentation, generateApiKey } from '@/lib/services/api-platform'
 import { toast } from '@/hooks/use-toast'
+import { apiDocumentation, generateApiKey } from '@/lib/services/api-platform'
+import { Book, Code, Copy, Key, Zap } from 'lucide-react'
+import { useState } from 'react'
 
 export default function ApiDocsPage() {
   const [apiKeys, setApiKeys] = useState<any[]>([])

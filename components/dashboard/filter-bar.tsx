@@ -1,10 +1,8 @@
 'use client'
 
-import * as React from 'react'
-import { motion } from 'framer-motion'
-import { Search, Download, Plus } from 'lucide-react'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { DatePickerWithRange } from '@/components/ui/date-range-picker'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -12,15 +10,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { DatePickerWithRange } from '@/components/ui/date-range-picker'
+import { motion } from 'framer-motion'
+import { Download, Plus, Search } from 'lucide-react'
 
 interface FilterBarProps {
+  children?: React.ReactNode
   searchPlaceholder?: string
+  searchValue?: string
   onSearch?: (value: string) => void
+  onSearchChange?: (value: string) => void
   onExport?: () => void
   onAdd?: () => void
+  addButtonText?: string
   filters?: {
     label: string
+    value?: string
     options: { label: string; value: string }[]
     onChange: (value: string) => void
   }[]
@@ -29,10 +33,14 @@ interface FilterBarProps {
 }
 
 export function FilterBar({
+  children: _children,
   searchPlaceholder = '搜索...',
+  searchValue: _searchValue,
   onSearch,
+  onSearchChange: _onSearchChange,
   onExport,
   onAdd,
+  addButtonText: _addButtonText,
   filters,
   showDateRange,
   onDateRangeChange,

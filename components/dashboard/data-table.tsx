@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 
-import { motion } from 'framer-motion'
 import {
   Table,
   TableBody,
@@ -11,21 +10,25 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { motion } from 'framer-motion'
 
 interface Column {
   key: string
   label: string
+  width?: string
   render?: (value: any, row: any) => React.ReactNode
 }
 
 interface DataTableProps {
   columns: Column[]
   data: any[]
+  loading?: boolean
   actions?: (row: any) => React.ReactNode
   onRowClick?: (row: any) => void
+  renderCell?: (item: any, key: string) => React.ReactNode
 }
 
-export function DataTable({ columns, data, actions, onRowClick }: DataTableProps) {
+export function DataTable({ columns, data, loading: _loading, actions, onRowClick, renderCell: _renderCell }: DataTableProps) {
   return (
     <div className="rounded-lg border bg-card">
       <Table>

@@ -5,6 +5,7 @@
 
 .wrapper {
   position: relative;
+  height: 0;
 }
 
 .itemsContainer {
@@ -13,8 +14,9 @@
   top: 0;
   left: 0;
   right: 0;
+  will-change: transform;
 }
 
 .itemWrapper {
-  /* Item height is controlled dynamically via inline style on parent */
+  height: var(--item-height, auto);
 }

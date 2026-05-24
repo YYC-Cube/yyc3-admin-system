@@ -159,12 +159,11 @@ export default function ComplianceDashboard() {
                       <span className="text-sm font-medium capitalize">{key}</span>
                       <span className="text-sm text-muted-foreground">{value}/100</span>
                     </div>
-                    <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-primary transition-all"
-                        style={{ width: `${value}%` }}
-                      />
-                    </div>
+                    <progress
+                      value={value}
+                      max={100}
+                      className="h-2 w-full rounded-full overflow-hidden bg-secondary"
+                    />
                   </div>
                 ))}
 

@@ -1,5 +1,7 @@
 'use client'
 
+// cspell:ignore fxaa FXAA msaa MSAA
+
 import * as React from 'react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'

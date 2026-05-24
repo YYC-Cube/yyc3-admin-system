@@ -154,7 +154,7 @@ export function VideoRoomView({ room, onLeave }: VideoRoomViewProps) {
         </motion.div>
 
         {/* 远程视频 */}
-        {Array.from(remoteStreams.entries()).map(([userId, stream], index) => (
+        {Array.from(remoteStreams.entries()).map(([userId, _stream], index) => (
           <motion.div
             key={userId}
             initial={{ opacity: 0, scale: 0.9 }}

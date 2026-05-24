@@ -1,9 +1,5 @@
 'use client'
 
-import * as React from 'react'
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Save, Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -15,12 +11,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { motion } from 'framer-motion'
+import { Info, Save } from 'lucide-react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 // 抹零设置页面
 export default function RoundingSettingsPage() {
   const [basicRounding, setBasicRounding] = useState('none')
-  const [advancedSettings, setAdvancedSettings] = useState([
+  const [_advancedSettings, _setAdvancedSettings] = useState([
     {
       id: '1',
       storeId: 'store_1',
@@ -187,7 +186,7 @@ export default function RoundingSettingsPage() {
             <div className="space-y-2">
               <Label>已配置规则</Label>
               <div className="border rounded-lg divide-y">
-                {advancedSettings.map(setting => (
+                {_advancedSettings.map((setting: any) => (
                   <div key={setting.id} className="p-4 flex items-center justify-between">
                     <div className="space-y-1">
                       <p className="font-medium">{setting.storeName}</p>

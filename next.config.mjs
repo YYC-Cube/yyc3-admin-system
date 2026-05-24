@@ -1,114 +1,57 @@
 /** @type {import('next').NextConfig} */
+const isStaticExport = process.env.BUILD_MODE === 'static'
+
 const nextConfig = {
-  output: 'standalone',
+  output: isStaticExport ? 'export' : 'standalone',
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  devIndicators: {
+    autoPrerender: true,
+  },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: process.env.NODE_ENV !== 'production',
   },
   typescript: {
-    ignoreBuildErrors: true,
-  },
-  experimental: {
-    serverComponentsExternalPackages: ['bcrypt'],
-    serverActions: {
-      allowedOrigins: ['localhost:3000', 'localhost:3555'],
-    },
-  },
-  images: {
-    unoptimized: true,
-    domains: ['cdn.example.com'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**.cdn.example.com',
-      },
-    ],
+    ignoreBuildErrors: process.env.NODE_ENV !== 'production',
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'recharts', '@radix-ui/react-icons'],
   },
-  assetPrefix: process.env.CDN_URL || '',
-  async headers() {
-    return [
-      // 针对登录API的特殊配置
-      {
-        source: '/api/auth/login',
-        headers: [
-          {
-            key: 'Access-Control-Allow-Origin',
-            value: '*'
-          },
-          {
-            key: 'Access-Control-Allow-Methods',
-            value: 'POST, OPTIONS'
-          },
-          {
-            key: 'Access-Control-Allow-Headers',
-            value: 'Content-Type, Authorization'
-          },
-          {
-            key: 'Access-Control-Allow-Credentials',
-            value: 'true'
-          }
-        ]
-      },
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
-      },
-      {
-        source: '/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
-      },
-      {
-        source: '/_next/image/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
-      }
-    ]
+  images: {
+    unoptimized: true,
   },
+  ...(isStaticExport
+    ? {}
+    : {
+        outputFileTracingRoot: process.cwd(),
+        serverExternalPackages: ['bcrypt'],
+        experimental: {
+          ...(!isStaticExport && {
+            serverActions: {
+              allowedOrigins: ['localhost:3000', 'localhost:3555', 'localhost:5001', 'admin.yyc3.top'],
+            },
+          }),
+          optimizePackageImports: ['lucide-react', 'recharts', '@radix-ui/react-icons'],
+        },
+        async headers() {
+          return [
+            {
+              source: '/:path*',
+              headers: [
+                { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+                { key: 'X-Content-Type-Options', value: 'nosniff' },
+                { key: 'X-XSS-Protection', value: '1; mode=block' },
+                { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
+              ],
+            },
+          ]
+        },
+      }),
   webpack: (config, { isServer }) => {
+    config.module.rules.push({
+      test: /mobile-app/,
+      use: 'null-loader',
+    })
+
     if (!isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
@@ -124,9 +67,7 @@ const nextConfig = {
           lib: {
             test: /[\\/]node_modules[\\/]/,
             name(module) {
-              const packageName = module.context.match(
-                /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-              )?.[1]
+              const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1]
               return `npm.${packageName?.replace('@', '')}`
             },
             priority: 10,

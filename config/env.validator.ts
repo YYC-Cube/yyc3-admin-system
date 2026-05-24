@@ -1,10 +1,9 @@
-// 环境变量验证函数
 export function validateEnv(customVars?: string[]) {
   const requiredVars = customVars || ["NODE_ENV"]
   const missingVars: string[] = []
 
   for (const varName of requiredVars) {
-    if (!varName) {
+    if (!process.env[varName]) {
       missingVars.push(varName)
     }
   }
@@ -20,21 +19,34 @@ export function validateEnv(customVars?: string[]) {
 }
 
 export function validateDatabaseConfig() {
-  return { isValid: true, missing: [] }
+  const required = ["YYC3_YY_DB_HOST", "YYC3_YY_DB_USER", "YYC3_YY_DB_PASSWORD", "YYC3_YY_DB_NAME"]
+  const missing = required.filter((v) => !process.env[v])
+  return { isValid: missing.length === 0, missing }
 }
 
 export function validateAIConfig() {
-  return { isValid: true, enabled: true }
+  const enabled = !!process.env.OPENAI_API_KEY || !!process.env.AI_API_KEY
+  return { isValid: true, enabled }
 }
 
 export function validateBigDataConfig() {
-  return { isValid: true, enabled: true }
+  const enabled = !!process.env.BI_HOST && !!process.env.OLAP_HOST
+  return { isValid: true, enabled }
 }
 
 export function validateIoTConfig() {
-  return { isValid: true, enabled: true }
+  const enabled = !!process.env.MQTT_BROKER_URL
+  return { isValid: true, enabled }
 }
 
 export function validateAllConfigs() {
-  return { isValid: true, results: {} }
+  const results = {
+    env: validateEnv(),
+    database: validateDatabaseConfig(),
+    ai: validateAIConfig(),
+    bigdata: validateBigDataConfig(),
+    iot: validateIoTConfig(),
+  }
+  const isValid = results.env.isValid && results.database.isValid
+  return { isValid, results }
 }

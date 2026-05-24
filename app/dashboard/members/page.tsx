@@ -1,21 +1,20 @@
 "use client"
 
-import * as React from "react"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Users, Gift, TrendingUp, UserPlus, Edit, Trash2, DollarSign } from "lucide-react"
-import { StatCard } from "@/components/dashboard/stat-card"
-import { FilterBar } from "@/components/dashboard/filter-bar"
 import { DataTable } from "@/components/dashboard/data-table"
+import { FilterBar } from "@/components/dashboard/filter-bar"
+import { StatCard } from "@/components/dashboard/stat-card"
+import { ConfirmDialog } from "@/components/dialogs/confirm-dialog"
+import { MemberDialog } from "@/components/dialogs/member-dialog"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useToast } from "@/hooks/use-toast"
-import { MemberDialog } from "@/components/dialogs/member-dialog"
-import { ConfirmDialog } from "@/components/dialogs/confirm-dialog"
 import { memberService } from "@/lib/api/services/members"
 import type { Member } from "@/lib/types"
 import type { MemberFormData } from "@/lib/validations/member"
+import { motion } from "framer-motion"
+import { DollarSign, Edit, Gift, Trash2, TrendingUp, UserPlus, Users } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function MembersPage() {
   const [members, setMembers] = useState<Member[]>([])
@@ -39,7 +38,7 @@ export default function MembersPage() {
       setLoading(true)
       const res = await memberService.getMembers()
       if (res.success && res.data) {
-        setMembers(res.data.items)
+        setMembers(res.data.data)
       }
     } catch (error) {
       console.error("[v0] 加载会员数据失败:", error)
@@ -56,7 +55,7 @@ export default function MembersPage() {
   const handleSubmitMember = async (data: MemberFormData) => {
     try {
       if (editingMember) {
-        const res = await memberService.updateMember(editingMember.id, data)
+        const res = await memberService.updateMember(editingMember.id, data as any)
         if (res.success) {
           toast({
             title: "更新成功",
@@ -65,7 +64,7 @@ export default function MembersPage() {
           await loadMembers()
         }
       } else {
-        const res = await memberService.createMember(data)
+        const res = await memberService.createMember(data as any)
         if (res.success) {
           toast({
             title: "创建成功",
@@ -123,7 +122,7 @@ export default function MembersPage() {
     const matchesSearch =
       member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       member.phone.includes(searchTerm) ||
-      member.cardNumber.includes(searchTerm)
+      (member.cardNumber || '').includes(searchTerm)
     const matchesLevel = selectedLevel === "all" || member.level === Number.parseInt(selectedLevel)
     return matchesSearch && matchesLevel
   })
@@ -138,7 +137,7 @@ export default function MembersPage() {
       return createdDate > monthAgo
     }).length,
     totalConsumption: members.reduce((sum, m) => sum + m.totalConsumption, 0),
-    totalPoints: members.reduce((sum, m) => sum + m.points, 0),
+    totalPoints: members.reduce((sum, m) => sum + m.points.available, 0),
   }
 
   const columns = [

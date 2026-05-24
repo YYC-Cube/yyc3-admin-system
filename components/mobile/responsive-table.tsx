@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from 'react'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   Table,
   TableBody,
@@ -9,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Card, CardContent } from '@/components/ui/card'
-import { useMobile } from '@/hooks/use-mobile'
+import { useIsMobile } from '@/hooks/use-mobile'
+import * as React from 'react'
 
 interface Column {
   key: string
@@ -25,7 +25,7 @@ interface ResponsiveTableProps {
 }
 
 export function ResponsiveTable({ columns, data, keyField = 'id' }: ResponsiveTableProps) {
-  const isMobile = useMobile()
+  const isMobile = useIsMobile()
 
   if (isMobile) {
     return (

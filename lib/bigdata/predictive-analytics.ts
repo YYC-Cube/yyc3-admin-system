@@ -276,7 +276,7 @@ export class PredictiveAnalytics {
     return data.sort((a, b) => a.date.getTime() - b.date.getTime())
   }
 
-  // @ts-ignore: 方法预留用于未来功能扩展
+  // @ts-expect-error: 方法预留用于未来功能扩展
   private extractSalesFeatures(data: SalesData[], externalFactors: ExternalFactor[]): Record<string, any>[] {
     return data.map((d) => ({
       dayOfWeek: d.date.getDay(),

@@ -112,6 +112,13 @@ export function RFIDReadersPanel() {
     return `${seconds}秒前`
   }
 
+  const getSignalAccent = (strength: number | undefined) => {
+    if (!strength) return 'accent-red-500'
+    if (strength > 80) return 'accent-green-500'
+    if (strength > 50) return 'accent-orange-500'
+    return 'accent-red-500'
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -165,20 +172,13 @@ export function RFIDReadersPanel() {
                   <TableCell>
                     {reader.status === 'online' ? (
                       <div className="flex items-center gap-2">
-                        <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                          <div
-                            className={`h-full ${
-                              reader.signalStrength! > 80
-                                ? 'bg-green-500'
-                                : reader.signalStrength! > 50
-                                  ? 'bg-orange-500'
-                                  : 'bg-red-500'
-                            }`}
-                            style={{ width: `${reader.signalStrength}%` }}
-                          />
-                        </div>
+                        <progress
+                          value={reader.signalStrength ?? 0}
+                          max={100}
+                          className={`h-2 w-full overflow-hidden rounded-full bg-muted ${getSignalAccent(reader.signalStrength ?? 0)}`}
+                        />
                         <span className="text-sm text-muted-foreground">
-                          {reader.signalStrength}%
+                          {reader.signalStrength ?? 0}%
                         </span>
                       </div>
                     ) : (
